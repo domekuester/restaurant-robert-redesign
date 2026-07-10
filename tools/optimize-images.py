@@ -42,14 +42,13 @@ MAP = {
     "gastraum-stuck-kronleuchter": "P1310654-2.jpg",   # Hero
     "gastraum-ecke-lampe": "P1310870.jpg",
     "kueche-feuer": "P1310993.jpg",
-    "kueche-koeche": "P1310809-2.jpg",
-    "kueche-durchreiche": "P1310880-2.jpg",
     "kueche-schwarzweiss": "P1360767.jpg",
     "teller-jakobsmuscheln": "P1360599.jpg",
     "detail-weinflaschen": "P1310836.jpg",
     "detail-beaujolais-poster": "P1310660.jpg",
-    "detail-espresso": "P1310861.jpg",
-    "detail-gemaelde": "P1360585.jpg",
+    # Aussortierte Motive (Espresso, Durchreiche, Gemälde, Köche farbig)
+    # sind bewusst nicht gemappt – bei Bedarf Zeile wieder ergänzen,
+    # Originale liegen unangetastet in original/. Siehe docs/bildkonzept.md.
     "team-michael-geisner": "P1320294.jpg",
     "team-an-der-bar": "P1320322.jpg",
     "team-yukihiro-takahashi": "yuki.jpg",
