@@ -558,7 +558,8 @@ a { color: inherit; }
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  object-position: 50% 32%;
+  /* Gesichter ins Zentrum, Stuck bleibt als oberer Abschluss im Bild */
+  object-position: 50% 58%;
 }
 .team-gruppenbild figcaption {
   font-style: italic;

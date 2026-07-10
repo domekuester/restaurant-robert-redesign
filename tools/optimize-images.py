@@ -30,6 +30,12 @@ OUT = os.path.join(BASIS, "assets", "photos", "optimized")
 STUFEN = {480: (72, 70), 960: (68, 66)}
 HERO_STUFEN = {1600: (62, 60), 2200: (60, 58)}
 
+# Bilder, die große Flächen füllen (Galerie-Hauptkachel, breite
+# Querformat-Zuschnitte), bekommen zusätzlich eine 1600er-Stufe,
+# damit sie auf Retina-Displays scharf bleiben.
+GROSSE_FLAECHEN = {"teller-jakobsmuscheln", "stadt-promenade", "team-an-der-bar"}
+GROSS_STUFEN = {1600: (62, 60)}
+
 # Semantischer Name -> Original-Datei
 MAP = {
     "gastraum-stuck-kronleuchter": "P1310654-2.jpg",   # Hero
@@ -97,6 +103,8 @@ def main():
         stufen = dict(STUFEN)
         if name == HERO:
             stufen.update(HERO_STUFEN)
+        elif name in GROSSE_FLAECHEN:
+            stufen.update(GROSS_STUFEN)
         # nur neu erzeugen, wenn Original neuer ist als die erste Zielstufe
         erste = os.path.join(OUT, f"{name}-{min(stufen)}.jpg")
         if os.path.exists(erste) and os.path.getmtime(quelle) <= os.path.getmtime(erste):

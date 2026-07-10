@@ -99,7 +99,16 @@ das unruhige Farbbild der beiden Köche.
 
 ## Technik
 
-- Pipeline: `tools/optimize-images.sh` → WebP + JPEG-Fallback, 480/960 px
-  (Hero zusätzlich 1600/2200), eingebunden über `<picture>`.
+- Pipeline: `tools/optimize-images.sh` → WebP + JPEG-Fallback, 480/960 px,
+  eingebunden über `<picture>`. Zusätzliche 1600er-Stufe für den Hero
+  (plus 2200) und die drei Großflächen (`GROSSE_FLAECHEN` im Skript:
+  Galerie-Hauptkachel, Promenade, Team-Gruppenbild) – sonst werden
+  Retina-Displays weich.
+- `sizes` muss die ECHTE Darstellungsbreite nennen (Galerie-Hauptkachel
+  = 63vw, breite Querformate = max 896px), sonst zieht der Browser zu
+  kleine Dateien.
+- Zuschnitte per `aspect-ratio` + `object-position`: Team-Gruppenbild
+  4:3 bei 50% 58% (Gesichter zentriert), Promenade 3:2 bei 50% 42%.
+- Galerie-Regel: nie zwei S/W-Kacheln benachbart (auch vertikal prüfen!).
 - Originale werden nie verändert oder umbenannt; semantische Namen und
   Entwicklungs-Anpassungen existieren nur in `optimized/`.
