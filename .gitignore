@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+
+# Bild-Werkzeuge (wird von tools/optimize-images.sh automatisch angelegt)
+tools/.venv/
+
+# Original-Fotos bleiben lokal (122+ MB – die Website braucht nur optimized/).
+# Backup der Originale separat sichern, sie sind NICHT im Repo!
+assets/photos/original/

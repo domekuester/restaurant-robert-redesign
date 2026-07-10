@@ -1,0 +1,100 @@
+# ROBERT. – Website-Redesign
+
+Neue Website für das Restaurant ROBERT., französische Brasserie am Rathausufer
+in Düsseldorf. Statisch (HTML/CSS/JS), keine Frameworks, keine externen
+Abhängigkeiten – gebaut für GitHub Pages.
+
+## Anleitung
+
+### Lokal öffnen
+
+Im Projektordner:
+
+```bash
+python3 -m http.server 8000
+```
+
+Dann im Browser: <http://localhost:8000>
+
+(Auch ein Doppelklick auf `index.html` funktioniert – der Server ist nur
+näher am echten Hosting.)
+
+### GitHub Pages aktivieren (einmalig)
+
+1. Repository auf GitHub anlegen (z. B. `restaurant-robert-redesign`).
+2. Projekt pushen:
+   ```bash
+   git remote add origin git@github.com:DEIN-NAME/restaurant-robert-redesign.git
+   git push -u origin main
+   ```
+3. Auf GitHub: **Settings → Pages → Source: „Deploy from a branch“ →
+   Branch `main`, Ordner `/ (root)`** → Save.
+4. Nach ~1 Minute ist die Seite unter
+   `https://DEIN-NAME.github.io/restaurant-robert-redesign/` erreichbar.
+   Alle Pfade sind relativ – die Seite funktioniert dort ohne Anpassung,
+   später genauso unter einer eigenen Domain.
+
+### Änderungen veröffentlichen
+
+```bash
+git add -A
+git commit -m "Kurze Beschreibung der Änderung"
+git push
+```
+
+GitHub Pages veröffentlicht automatisch nach jedem Push (kein Build-Schritt).
+
+## Struktur
+
+```
+index.html            Onepage-Website (Hero → Rhein → Küche → Karte →
+                      Galerie → Geschichte → Team → Besuch → Footer)
+404.html              Fehlerseite (nutzt GitHub Pages automatisch)
+impressum.html        Platzhalter, vor Livegang füllen
+datenschutz.html      Platzhalter, vor Livegang füllen
+css/styles.css        Design-Tokens + alle Stile
+js/main.js            Navigation, Karten-Tabs, Aktionsleiste, Lightbox
+assets/fonts/         EB Garamond + Archivo, lokal (kein Google-CDN)
+assets/logo/          leer – finales Logo-SVG hier ablegen
+assets/photos/
+  original/           Original-Fotos – NUR LOKAL, nicht im Repo
+                      (siehe .gitignore; separat sichern!)
+  optimized/          generiert: WebP + JPEG-Fallback in 480/960 px
+                      (Hero zusätzlich 1600/2200) – nicht von Hand anfassen
+tools/optimize-images.sh   Bild-Pipeline (legt einmalig venv mit Pillow an)
+docs/                 Bildkonzept, Foto-Wunschliste
+```
+
+## Neue Fotos einbauen
+
+1. Foto in `assets/photos/original/` legen.
+2. In `tools/optimize-images.py` in der `MAP` eine Zeile ergänzen:
+   `"sprechender-name": "DATEINAME.jpg"`.
+3. Skript laufen lassen: `./tools/optimize-images.sh`
+4. Das Bild in `index.html` referenzieren (Muster von bestehenden
+   `<picture>`-Blöcken übernehmen: WebP-`<source>` + JPEG-`<img>`).
+
+Originale werden nie verändert – auch Anpassungen wie Aufhellen passieren
+nur in den optimierten Kopien. Welches Bild wo eingesetzt ist (und warum),
+steht in `docs/bildkonzept.md`.
+
+## Speisekarte pflegen
+
+Die Gerichte stehen als normales HTML in `index.html` im Abschnitt
+`<!-- SPEISEKARTE -->`. Ein Gericht ist ein `<li class="gericht">`-Block –
+Zeile kopieren, Text und Preis ändern, fertig. Kein Build nötig.
+
+## Vor dem Livegang
+
+- [ ] Speisekarte und Preise gegen die echte Karte prüfen (Stand: Juli 2026,
+      übernommen von restaurantrobert.de)
+- [ ] Impressum und Datenschutzerklärung final einsetzen
+- [ ] Logo-SVG in `assets/logo/` ablegen und den typografischen
+      Schriftzug ersetzen
+- [ ] Porträtfoto für René ergänzen (Platzhalter-Slot im Team-Bereich)
+- [ ] Foto mit Rheinblick/Terrasse nachliefern (siehe
+      `docs/foto-wunschliste.md`)
+- [ ] `og:image`, `og:url` und `canonical` in `index.html` auf die finale
+      Domain prüfen (aktuell: restaurantrobert.de)
+- [ ] Nach Livegang: Social-Vorschau testen (z. B. opengraph.xyz) und
+      Lighthouse über das echte Hosting laufen lassen

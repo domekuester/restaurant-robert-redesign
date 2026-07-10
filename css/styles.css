@@ -1,0 +1,751 @@
+/* ============================================================
+   ROBERT. – Französische Brasserie am Rheinufer, Düsseldorf
+   Ein Abend im Restaurant: dunkler Grund wie der Gastraum,
+   zwei Creme-Inseln (Karte, Besuch) wie Papier auf dem Tisch.
+   Signatur: der Punkt hinter ROBERT. in Bordeaux.
+   ============================================================ */
+
+/* ---------- Schriften (lokal, kein CDN) ---------- */
+@font-face {
+  font-family: "EB Garamond";
+  src: url("../assets/fonts/EBGaramond-400.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "EB Garamond";
+  src: url("../assets/fonts/EBGaramond-400-italic.woff2") format("woff2");
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: "EB Garamond";
+  src: url("../assets/fonts/EBGaramond-500.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "EB Garamond";
+  src: url("../assets/fonts/EBGaramond-600.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Archivo";
+  src: url("../assets/fonts/Archivo-400.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Archivo";
+  src: url("../assets/fonts/Archivo-500.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Archivo";
+  src: url("../assets/fonts/Archivo-600.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+
+/* ---------- Design-Tokens ---------- */
+:root {
+  /* Farben – aus den Fotos abgeleitet */
+  --gruen-950: #121814;      /* Footer, tiefste Stufe */
+  --gruen-900: #1c231f;      /* Grundton, Wandvertäfelung */
+  --gruen-850: #242d27;      /* Panels, Platzhalter-Slots */
+  --creme: #f1e8da;          /* Stuckdecke – helle Abschnitte */
+  --creme-tief: #e6dac6;     /* Linien auf Creme */
+  --bordeaux: #7a2230;       /* der Punkt, auf hellem Grund */
+  --bordeaux-hell: #b25058;  /* der Punkt, auf dunklem Grund */
+  --amber: #d9a45b;          /* Haarlinien, Akzente – sparsam */
+  --text-hell: #ede6da;      /* Text auf dunkel */
+  --text-hell-matt: #b9ae9c; /* Nebentext auf dunkel */
+  --text-dunkel: #26211b;    /* Text auf Creme */
+  --text-dunkel-matt: #6b6155;
+
+  /* Typografie */
+  --serif: "EB Garamond", Georgia, "Times New Roman", serif;
+  --grotesk: "Archivo", "Helvetica Neue", Arial, sans-serif;
+
+  /* Rhythmus */
+  --abschnitt-luft: clamp(6rem, 12vw, 10rem);
+  --rand: clamp(1.25rem, 4vw, 2.5rem);
+  --inhalt-breite: 72rem;
+  --textspalte: 34rem;
+
+  --uebergang: 240ms ease;
+}
+
+/* ---------- Basis ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--gruen-900);
+  color: var(--text-hell);
+  font-family: var(--serif);
+  font-size: 1.1875rem; /* 19px */
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+h1, h2, h3 { font-family: var(--serif); font-weight: 500; line-height: 1.1; margin: 0 0 1rem; }
+
+h2 { font-size: clamp(2.25rem, 5vw, 3.5rem); letter-spacing: 0.01em; }
+
+p { margin: 0 0 1.2em; }
+p:last-child { margin-bottom: 0; }
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+::selection { background: var(--bordeaux); color: var(--creme); }
+
+/* Der Punkt – das Signatur-Motiv */
+.punkt { color: var(--bordeaux-hell); }
+.karte .punkt, .besuch .punkt { color: var(--bordeaux); }
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--creme); color: var(--text-dunkel);
+  padding: 0.6rem 1rem; z-index: 100;
+  font-family: var(--grotesk); font-size: 0.9rem;
+}
+.skip-link:focus { left: 0; }
+
+/* Eyebrow: französisches Etikett über jeder Überschrift */
+.eyebrow {
+  font-family: var(--grotesk);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin: 0 0 1.1rem;
+}
+.karte .eyebrow, .besuch .eyebrow { color: var(--bordeaux); }
+
+.textlink {
+  font-family: var(--grotesk);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid var(--amber);
+  padding-bottom: 0.25rem;
+  transition: border-color var(--uebergang);
+}
+.textlink:hover { border-color: var(--bordeaux-hell); }
+
+/* ---------- Kopf / Navigation ---------- */
+.kopf {
+  position: fixed; inset: 0 0 auto 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem var(--rand);
+  transition: background var(--uebergang), box-shadow var(--uebergang), padding var(--uebergang);
+}
+.kopf.gescrollt {
+  background: rgba(18, 24, 20, 0.92);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 1px 0 rgba(217, 164, 91, 0.28);
+  padding-top: 0.6rem; padding-bottom: 0.6rem;
+}
+
+.kopf-marke {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 1.5rem;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+}
+
+.kopf-nav ul {
+  display: flex; gap: 2.2rem;
+  list-style: none; margin: 0; padding: 0;
+}
+.kopf-nav a {
+  font-family: var(--grotesk);
+  font-size: 0.8rem; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  text-decoration: none;
+  position: relative; padding-bottom: 0.4rem;
+}
+/* aktiver Abschnitt: der Punkt wandert mit */
+.kopf-nav a::after {
+  content: "";
+  position: absolute; left: 50%; bottom: -2px;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--bordeaux-hell);
+  transform: translateX(-50%) scale(0);
+  transition: transform var(--uebergang);
+}
+.kopf-nav a:hover::after, .kopf-nav a.ist-aktiv::after { transform: translateX(-50%) scale(1); }
+
+.nav-knopf {
+  display: none;
+  align-items: center; gap: 0.6rem;
+  background: none; border: 0; color: inherit;
+  font-family: var(--grotesk); font-size: 0.8rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 0.5rem; cursor: pointer;
+}
+.nav-knopf-linien {
+  display: inline-block; width: 22px; height: 2px;
+  background: currentColor; position: relative;
+}
+.nav-knopf-linien::before, .nav-knopf-linien::after {
+  content: ""; position: absolute; left: 0;
+  width: 22px; height: 2px; background: currentColor;
+  transition: transform var(--uebergang);
+}
+.nav-knopf-linien::before { top: -7px; }
+.nav-knopf-linien::after { top: 7px; }
+.nav-knopf[aria-expanded="true"] .nav-knopf-linien { background: transparent; }
+.nav-knopf[aria-expanded="true"] .nav-knopf-linien::before { transform: translateY(7px) rotate(45deg); }
+.nav-knopf[aria-expanded="true"] .nav-knopf-linien::after { transform: translateY(-7px) rotate(-45deg); }
+
+.nav-overlay[hidden] { display: none; }
+.nav-overlay {
+  position: fixed; inset: 0; z-index: 40;
+  background: var(--gruen-950);
+  display: flex; flex-direction: column; justify-content: center;
+  gap: 3rem;
+  padding: 6rem var(--rand) 3rem;
+}
+.nav-overlay ul { list-style: none; margin: 0; padding: 0; }
+.nav-overlay nav a {
+  display: block;
+  font-family: var(--serif); font-size: clamp(2rem, 8vw, 2.8rem);
+  font-weight: 500; text-decoration: none;
+  padding: 0.45rem 0;
+}
+.nav-overlay nav a:hover { color: var(--amber); }
+.nav-overlay-info {
+  font-size: 1rem; color: var(--text-hell-matt);
+  border-top: 1px solid rgba(217, 164, 91, 0.3);
+  padding-top: 1.5rem;
+}
+.nav-overlay-info a { text-decoration: none; color: var(--text-hell); font-size: 1.3rem; }
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(24rem, 44%) 1fr;
+}
+
+.hero-bild { grid-column: 2; position: relative; overflow: hidden; }
+.hero-bild img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: 50% 38%; /* Stuckdecke und Kronleuchter im Bild halten */
+}
+/* weicher Übergang vom Foto in den grünen Grund */
+.hero-bild::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, var(--gruen-900) 0%, rgba(28, 35, 31, 0) 22%);
+}
+
+.hero-text {
+  grid-column: 1; grid-row: 1;
+  align-self: center;
+  padding: 7rem var(--rand) 5rem clamp(1.25rem, 6vw, 5rem);
+  max-width: 36rem;
+}
+.hero-eyebrow {
+  font-family: var(--grotesk); font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 2rem;
+}
+.hero-marke {
+  font-size: clamp(3.25rem, 7.5vw, 5.5rem);
+  font-weight: 600; letter-spacing: 0.04em;
+  margin: 0 0 1.6rem;
+}
+.hero-satz {
+  font-size: clamp(1.3rem, 2.2vw, 1.6rem);
+  line-height: 1.45;
+  margin-bottom: 2.4rem;
+}
+.hero-info {
+  font-family: var(--grotesk); font-size: 0.8rem; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  line-height: 2; color: var(--text-hell-matt);
+}
+
+.hero-weiter {
+  position: absolute; left: 50%; bottom: 1.4rem;
+  transform: translateX(-50%);
+  color: var(--bordeaux-hell); text-decoration: none;
+  font-size: 2.6rem; line-height: 1;
+  animation: pulsieren 2.6s ease-in-out infinite;
+}
+@keyframes pulsieren {
+  0%, 100% { opacity: 0.45; transform: translateX(-50%) translateY(0); }
+  50%       { opacity: 1;    transform: translateX(-50%) translateY(6px); }
+}
+
+/* ---------- Abschnitte, Rhythmus ---------- */
+.abschnitt { padding: var(--abschnitt-luft) var(--rand); scroll-margin-top: 3.2rem; }
+
+.abschnitt-kopf { max-width: var(--inhalt-breite); margin: 0 auto 3.5rem; }
+
+.spalten {
+  max-width: var(--inhalt-breite);
+  margin: 0 auto;
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 5.5rem);
+  align-items: center;
+}
+.spalten--text-links { grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr); }
+.spalten--bild-links { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr); }
+.spalten-text { max-width: var(--textspalte); }
+.spalten-bild img { width: 100%; }
+
+/* ---------- Am Rhein ---------- */
+.rhein { padding-top: calc(var(--abschnitt-luft) * 0.8); }
+.rhein .spalten-bild { max-width: 26rem; justify-self: end; }
+
+/* ---------- Küche ---------- */
+.kueche-bilder {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 38%;
+  gap: 1rem;
+  align-items: end;
+}
+.kueche-bild-gross, .kueche-bild-klein { margin: 0; }
+.kueche-bild-klein { transform: translateY(3.5rem); }
+
+.kueche-klassiker {
+  list-style: none;
+  margin: 2.2rem 0; padding: 0;
+  border-top: 1px solid rgba(217, 164, 91, 0.3);
+}
+.kueche-klassiker li {
+  padding: 0.7rem 0 0.7rem 1.4rem;
+  border-bottom: 1px solid rgba(217, 164, 91, 0.3);
+  position: relative;
+  font-style: italic;
+}
+.kueche-klassiker li::before {
+  content: "·";
+  position: absolute; left: 0.1rem;
+  color: var(--bordeaux-hell);
+  font-weight: 600; font-style: normal;
+}
+
+/* ---------- Speisekarte (Creme-Insel) ---------- */
+.karte {
+  background: var(--creme);
+  color: var(--text-dunkel);
+}
+.karte-innen { max-width: var(--inhalt-breite); margin: 0 auto; }
+.karte-einleitung {
+  font-style: italic;
+  font-size: 1.25rem;
+  max-width: var(--textspalte);
+  color: var(--text-dunkel-matt);
+}
+
+.karte-tabs {
+  display: flex; flex-wrap: wrap;
+  gap: 0.2rem 2rem;
+  margin: 3rem 0 2.5rem;
+  border-bottom: 1px solid var(--creme-tief);
+  position: sticky; top: 3.2rem;
+  background: var(--creme);
+  z-index: 5;
+  padding-top: 0.5rem;
+}
+.karte-tabs button {
+  background: none; border: 0; cursor: pointer;
+  font-family: var(--grotesk); font-size: 0.8rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text-dunkel-matt);
+  padding: 0.7rem 0 0.9rem;
+  position: relative;
+  white-space: nowrap;
+}
+.karte-tabs button::after {
+  content: "";
+  position: absolute; left: 50%; bottom: 0.25rem;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--bordeaux);
+  transform: translateX(-50%) scale(0);
+  transition: transform var(--uebergang);
+}
+.karte-tabs button:hover { color: var(--text-dunkel); }
+.karte-tabs button[aria-expanded="true"] { color: var(--text-dunkel); }
+.karte-tabs button[aria-expanded="true"]::after { transform: translateX(-50%) scale(1); }
+
+/* Ohne JavaScript: keine Tabs, alle Kategorien untereinander lesbar */
+.no-js .karte-tabs { display: none; }
+.js .karte-panel { display: none; }
+.js .karte-panel.ist-aktiv { display: block; }
+.js .karte-panel-titel { position: absolute; left: -9999px; } /* Titel steckt im Tab */
+.no-js .karte-panel { margin-bottom: 3rem; }
+.karte-panel-titel {
+  font-size: 1.6rem; font-weight: 600;
+  border-bottom: 1px solid var(--creme-tief);
+  padding-bottom: 0.6rem; margin-bottom: 1.4rem;
+}
+
+.karte-liste {
+  list-style: none; margin: 0; padding: 0;
+}
+@media (min-width: 56rem) {
+  .karte-liste { columns: 2; column-gap: clamp(3rem, 6vw, 6rem); }
+}
+
+.gericht {
+  break-inside: avoid;
+  padding: 0.85rem 0;
+}
+.gericht-kopf {
+  display: flex; align-items: baseline; gap: 1rem;
+  justify-content: space-between;
+  margin: 0;
+}
+.gericht-name { font-size: 1.15rem; font-weight: 500; }
+.gericht-preis {
+  font-family: var(--grotesk); font-size: 0.9rem; font-weight: 600;
+  color: var(--bordeaux);
+  flex-shrink: 0;
+}
+.gericht-info {
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--text-dunkel-matt);
+  margin: 0.15rem 0 0;
+  max-width: 26rem;
+}
+
+.karte-fussnote {
+  font-style: italic;
+  color: var(--text-dunkel-matt);
+  border-top: 1px solid var(--creme-tief);
+  padding-top: 1.6rem;
+  margin-top: 2.5rem;
+}
+
+/* ---------- Galerie ---------- */
+.galerie-raster {
+  max-width: var(--inhalt-breite);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: minmax(180px, auto);
+  gap: clamp(0.8rem, 2vw, 1.4rem);
+}
+.galerie-bild { margin: 0; overflow: hidden; }
+.galerie-bild.g1 { grid-column: 1 / 3; grid-row: 1 / 3; }
+.galerie-bild.g2 { grid-column: 3; grid-row: 1; }
+.galerie-bild.g3 { grid-column: 3; grid-row: 2; }
+.galerie-bild.g4 { grid-column: 1; grid-row: 3; }
+.galerie-bild.g5 { grid-column: 2; grid-row: 3; }
+.galerie-bild.g6 { grid-column: 3; grid-row: 3; }
+
+.galerie-zoom {
+  display: block; width: 100%; height: 100%;
+  padding: 0; border: 0; background: none; cursor: zoom-in;
+}
+.galerie-zoom img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 600ms ease;
+}
+.galerie-zoom:hover img { transform: scale(1.03); }
+
+/* ---------- Lightbox ---------- */
+.lightbox {
+  border: 0; padding: 0;
+  background: transparent;
+  max-width: 100vw; max-height: 100vh;
+  width: 100vw; height: 100vh;
+  display: none;
+  align-items: center; justify-content: center;
+}
+.lightbox[open] { display: flex; }
+.lightbox::backdrop { background: rgba(18, 24, 20, 0.94); }
+.lightbox img {
+  max-width: min(92vw, 60rem);
+  max-height: 88vh;
+  width: auto; height: auto;
+  object-fit: contain;
+}
+.lightbox button {
+  position: absolute;
+  background: none; border: 0; cursor: pointer;
+  color: var(--creme);
+  font-size: 2.4rem; line-height: 1;
+  padding: 0.8rem;
+  opacity: 0.75;
+  transition: opacity var(--uebergang);
+}
+.lightbox button:hover { opacity: 1; }
+.lightbox-schliessen { top: 1rem; right: 1.2rem; }
+.lightbox-zurueck { left: 0.8rem; top: 50%; transform: translateY(-50%); }
+.lightbox-vor { right: 0.8rem; top: 50%; transform: translateY(-50%); }
+
+/* ---------- Geschichte ---------- */
+.geschichte { background: var(--gruen-950); }
+.geschichte-spalten { align-items: start; }
+.geschichte .spalten-bild { max-width: 28rem; }
+
+.geschichte-zitat {
+  margin: 2.4rem 0;
+  padding-left: 1.6rem;
+  border-left: 2px solid var(--bordeaux-hell);
+}
+.geschichte-zitat p {
+  font-size: clamp(1.5rem, 3vw, 1.9rem);
+  font-style: italic;
+  line-height: 1.35;
+  margin: 0;
+}
+.geschichte-schlusspunkt {
+  color: var(--bordeaux-hell);
+  font-size: 3rem; font-weight: 600;
+  line-height: 0.5;
+  margin-top: 2rem;
+}
+
+/* ---------- Team ---------- */
+.team-gruppenbild {
+  max-width: 56rem;
+  margin: 0 auto 4rem;
+}
+.team-gruppenbild img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: 50% 32%;
+}
+.team-gruppenbild figcaption {
+  font-style: italic;
+  color: var(--text-hell-matt);
+  font-size: 1rem;
+  margin-top: 0.8rem;
+}
+
+.team-raster {
+  max-width: var(--inhalt-breite);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+}
+.team-person h3 { font-size: 1.45rem; margin: 1.2rem 0 0.2rem; }
+.team-rolle {
+  font-family: var(--grotesk); font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 0.8rem;
+}
+.team-person p:not(.team-rolle) { font-size: 1.05rem; color: var(--text-hell-matt); }
+
+.team-foto { margin: 0; }
+.team-foto img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
+
+/* Platzhalter-Slot, bis das Foto in assets/photos/original liegt */
+.team-foto--folgt {
+  aspect-ratio: 3 / 4;
+  background: var(--gruen-850);
+  border: 1px solid rgba(217, 164, 91, 0.25);
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+}
+.team-foto--folgt span {
+  font-family: var(--grotesk); font-size: 0.75rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--text-hell-matt); line-height: 2;
+}
+
+/* ---------- Besuch (Creme-Insel) ---------- */
+.besuch { background: var(--creme); color: var(--text-dunkel); }
+.besuch-innen { max-width: var(--inhalt-breite); margin: 0 auto; }
+.besuch-einleitung { max-width: var(--textspalte); font-size: 1.25rem; }
+
+.besuch-raster {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  margin-bottom: 3.5rem;
+}
+.besuch-block h3, .besuch-hinweise h3 {
+  font-family: var(--grotesk); font-size: 0.78rem; font-weight: 600;
+  letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--bordeaux);
+  margin-bottom: 1.1rem;
+}
+.besuch-block a { color: var(--text-dunkel); }
+.besuch-block .textlink { border-color: var(--bordeaux); }
+
+.zeiten { margin: 0; }
+.zeiten div {
+  display: flex; justify-content: space-between; gap: 1.5rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--creme-tief);
+}
+.zeiten dt { font-weight: 500; }
+.zeiten dd { margin: 0; text-align: right; }
+.zeiten-hinweis { font-style: italic; font-size: 0.9rem; color: var(--text-dunkel-matt); }
+
+.besuch-hinweise ul {
+  list-style: none; margin: 0; padding: 0;
+  max-width: var(--textspalte);
+}
+.besuch-hinweise li {
+  padding: 0.5rem 0 0.5rem 1.4rem;
+  position: relative;
+}
+.besuch-hinweise li::before {
+  content: "·";
+  position: absolute; left: 0.1rem;
+  color: var(--bordeaux);
+  font-weight: 600;
+}
+
+/* ---------- Mobile Aktionsleiste ---------- */
+.aktionsleiste {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  background: var(--gruen-950);
+  box-shadow: 0 -1px 0 rgba(217, 164, 91, 0.35);
+  padding-bottom: env(safe-area-inset-bottom);
+  transform: translateY(100%);
+  transition: transform var(--uebergang);
+}
+.aktionsleiste.sichtbar { transform: translateY(0); }
+.aktionsleiste a {
+  font-family: var(--grotesk); font-size: 0.8rem; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  text-decoration: none; text-align: center;
+  padding: 1.05rem 0.5rem;
+}
+.aktionsleiste a + a { border-left: 1px solid rgba(217, 164, 91, 0.25); }
+
+/* ---------- Footer ---------- */
+.fuss {
+  background: var(--gruen-950);
+  text-align: center;
+  padding: 4.5rem var(--rand) 3.5rem;
+}
+.fuss-marke {
+  font-size: 1.9rem; font-weight: 600; letter-spacing: 0.06em;
+  margin-bottom: 1.6rem;
+}
+.fuss-social, .fuss-rechtliches {
+  font-family: var(--grotesk); font-size: 0.8rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  margin-bottom: 0.9rem;
+}
+.fuss-social a, .fuss-rechtliches a {
+  text-decoration: none;
+  color: var(--text-hell-matt);
+  transition: color var(--uebergang);
+}
+.fuss-social a:hover, .fuss-rechtliches a:hover { color: var(--text-hell); }
+.fuss-social span, .fuss-rechtliches span { color: var(--text-hell-matt); margin: 0 0.6rem; }
+.fuss-zeile {
+  font-style: italic;
+  color: var(--text-hell-matt);
+  margin-top: 1.8rem;
+}
+
+/* ---------- Scroll-Reveal ---------- */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 700ms ease, transform 700ms ease;
+}
+.js [data-reveal].sichtbar { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .hero-weiter { animation: none; }
+  .galerie-zoom img { transition: none; }
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+/* Tablet & Mobil */
+@media (max-width: 56rem) {
+
+  .kopf-nav { display: none; }
+  .nav-knopf { display: inline-flex; }
+
+  /* Hero: Foto füllt den Schirm, Text liegt auf dem Verlauf */
+  .hero { grid-template-columns: 1fr; }
+  .hero-bild { grid-column: 1; grid-row: 1; }
+  .hero-bild::after {
+    background: linear-gradient(180deg,
+      rgba(18, 24, 20, 0.45) 0%,
+      rgba(18, 24, 20, 0.18) 38%,
+      rgba(18, 24, 20, 0.9) 80%,
+      var(--gruen-900) 100%);
+  }
+  .hero-text {
+    grid-column: 1; grid-row: 1;
+    align-self: end;
+    padding: 0 var(--rand) 4.5rem;
+    position: relative; z-index: 1;
+  }
+  .hero-weiter { display: none; }
+
+  .spalten--text-links, .spalten--bild-links { grid-template-columns: 1fr; }
+  .rhein .spalten-bild { justify-self: stretch; max-width: none; }
+
+  .kueche-bilder { grid-template-columns: 1fr 42%; }
+  .kueche-bild-klein { transform: translateY(1.5rem); }
+
+  .karte-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 1.6rem;
+    top: 2.9rem;
+  }
+  /* Touch-Ziele: mindestens ~44 px hoch */
+  .karte-tabs button { padding: 1rem 0 1.15rem; }
+  .fuss-social a, .fuss-rechtliches a { display: inline-block; padding: 0.5rem 0.2rem; }
+  .karte-tabs::-webkit-scrollbar { display: none; }
+
+  .galerie-raster {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: auto;
+  }
+  .galerie-bild.g1 { grid-column: 1 / 3; grid-row: auto; }
+  .galerie-bild.g2, .galerie-bild.g3, .galerie-bild.g4,
+  .galerie-bild.g5, .galerie-bild.g6 { grid-column: auto; grid-row: auto; }
+
+  .team-raster { grid-template-columns: 1fr; max-width: 26rem; }
+  .besuch-raster { grid-template-columns: 1fr; }
+  .zeiten { max-width: 30rem; }
+
+  .aktionsleiste { display: grid; }
+
+  /* Platz für die Aktionsleiste am Seitenende */
+  .fuss { padding-bottom: 7rem; }
+}
+
+/* schmale Handys */
+@media (max-width: 24rem) {
+  body { font-size: 1.0625rem; }
+  .hero-marke { font-size: 3rem; }
+}
