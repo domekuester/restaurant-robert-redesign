@@ -59,6 +59,12 @@ Porträt-Slot 2 (René) wartet weiter auf ein Foto – Platzhalter aktiv.
 | P1310861 | `detail-espresso` | Laufender Espresso – der Moment nach dem Essen. |
 | P1360585 | `detail-gemaelde` | Gemälde + Schild „Für Garderobe keine Haftung" – der Humor des Hauses in einem Bild. |
 
+## Zwischenbild (seit v3)
+
+| Original | Name | Warum |
+|---|---|---|
+| P1360609 | `kueche-fleisch-sw` | S/W, Fleisch überm offenen Feuer, ganz nah – als vollbreiter, stummer Vorhang zwischen Karte (Elfenbein) und Galerie (Wein). Der einzige Full-Bleed-Moment der Seite. |
+
 ## Galerie (kuratierte Strecke, 6 Bilder, seit v2 mit S/W-Rhythmus)
 
 Wechsel Farbe/Schwarzweiß als Editorial-Rhythmus, nie zwei gleiche
@@ -92,7 +98,6 @@ das unruhige Farbbild der beiden Köche.
 | Original | Grund |
 |---|---|
 | P1360582 (Bokeh, gerahmtes Bild) | Zu abstrakt – erklärt nichts. |
-| P1360609 (S/W Fleisch überm Feuer) | Stark, aber das vierte Feuermotiv wäre eins zu viel. Erste Wahl, falls je ein Bild in der Küche-Sektion getauscht wird. |
 | P1360622-3 (Küche farbig, weit) | Unruhig (Zettel, Kisten); die S/W-Variante desselben Moments ist stärker. |
 | kueche-koeche (P1310809-2) | In v2 gewichen – Ringelshirt-Motiv doppelt mit Flambé-Bild. |
 | detail-espresso, kueche-durchreiche, detail-gemaelde | Siehe Galerie-Begründung. |

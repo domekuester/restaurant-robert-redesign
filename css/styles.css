@@ -320,6 +320,13 @@ a { color: inherit; }
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: none; }
 }
+/* Das Foto macht beim Ankommen einen Atemzug: minimal größer,
+   läuft in zwei Sekunden ruhig aus. Einmalig. */
+@keyframes setzen {
+  from { transform: scale(1.035); }
+  to   { transform: none; }
+}
+.js .hero-bild img { animation: setzen 2200ms var(--ease) both; }
 .js .hero-text > * {
   animation: aufblenden 900ms var(--ease) both;
 }
@@ -493,6 +500,16 @@ a { color: inherit; }
   margin-top: 2.5rem;
 }
 
+/* ---------- Vollbreites Zwischenbild (Karte -> Galerie) ---------- */
+.zwischenbild { margin: 0; }
+.zwischenbild img {
+  display: block;
+  width: 100%;
+  height: clamp(320px, 62vh, 640px);
+  object-fit: cover;
+  object-position: 50% 46%;
+}
+
 /* ---------- Galerie ---------- */
 .galerie-raster {
   max-width: var(--inhalt-breite);
@@ -647,6 +664,19 @@ a { color: inherit; }
 .besuch-block a { color: var(--text-dunkel); }
 .besuch-block .textlink { border-color: var(--bordeaux); }
 
+/* Das Telefon ist die wichtigste Handlung des Hauses ohne Reservierung */
+.besuch-tel {
+  display: inline-block;
+  font-size: clamp(1.4rem, 2vw, 1.7rem);
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid var(--bordeaux);
+  padding-bottom: 0.1rem;
+  margin-bottom: 0.7rem;
+  transition: color var(--uebergang);
+}
+.besuch-tel:hover { color: var(--bordeaux); }
+
 .zeiten { margin: 0; }
 .zeiten div {
   display: flex; justify-content: space-between; gap: 1.5rem;
@@ -741,6 +771,7 @@ a { color: inherit; }
   .hero-weiter { animation: none; }
   .galerie-zoom img { transition: none; }
   .js .hero-text > *,
+  .js .hero-bild img,
   .js .karte-panel.ist-aktiv,
   .nav-overlay { animation: none; }
 }

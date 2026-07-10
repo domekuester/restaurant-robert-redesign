@@ -33,7 +33,8 @@ HERO_STUFEN = {1600: (62, 60), 2200: (60, 58)}
 # Bilder, die große Flächen füllen (Galerie-Hauptkachel, breite
 # Querformat-Zuschnitte), bekommen zusätzlich eine 1600er-Stufe,
 # damit sie auf Retina-Displays scharf bleiben.
-GROSSE_FLAECHEN = {"teller-jakobsmuscheln", "stadt-promenade", "team-an-der-bar"}
+GROSSE_FLAECHEN = {"teller-jakobsmuscheln", "stadt-promenade", "team-an-der-bar",
+                   "kueche-fleisch-sw"}
 GROSS_STUFEN = {1600: (62, 60)}
 
 # Semantischer Name -> Original-Datei
@@ -57,6 +58,7 @@ MAP = {
     "gaeste-spiegel-sw": "P1360579.jpg",
     "detail-glaeser-sw": "P1360589.jpg",
     "kueche-flambe-sw": "P1360623.jpg",
+    "kueche-fleisch-sw": "P1360609.jpg",
 }
 
 HERO = "gastraum-stuck-kronleuchter"
