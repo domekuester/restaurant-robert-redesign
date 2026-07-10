@@ -94,7 +94,9 @@ Zeile kopieren, Text und Preis ändern, fertig. Kein Build nötig.
 - [ ] Porträtfoto für René ergänzen (Platzhalter-Slot im Team-Bereich)
 - [ ] Foto mit Rheinblick/Terrasse nachliefern (siehe
       `docs/foto-wunschliste.md`)
-- [ ] `og:image`, `og:url` und `canonical` in `index.html` auf die finale
-      Domain prüfen (aktuell: restaurantrobert.de)
+- [ ] Beim Umzug auf die finale Domain: `og:url` und `og:image` in
+      `index.html` umstellen (zeigen aktuell auf die GitHub-Pages-URL,
+      damit geteilte Links eine Bildvorschau haben; `canonical` zeigt
+      bereits auf restaurantrobert.de)
 - [ ] Nach Livegang: Social-Vorschau testen (z. B. opengraph.xyz) und
       Lighthouse über das echte Hosting laufen lassen
