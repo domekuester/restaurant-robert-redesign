@@ -1,9 +1,10 @@
 /* ============================================================
    ROBERT. – Französische Brasserie am Rheinufer, Düsseldorf
-   Ein Abend im Restaurant: tiefer Bordeaux-Grund wie ein Glas
-   Wein im Lampenlicht, zwei Elfenbein-Inseln (Karte, Besuch)
-   wie Papier auf dem Tisch. Signatur: der Punkt hinter ROBERT.
-   – Rosé auf dunklem Grund, Bordeaux auf hellem.
+   Helle, luftige Grundwelt wie ein Nachmittag am Fenster:
+   warmes Off-White, zwei kaum merkliche Tönungen (Sand, Rosé),
+   Bordeaux nur als Akzent. Dunkel bleibt ein bewusster Moment:
+   die Geschichte, der Footer, das Zwischenbild.
+   Signatur: der Punkt hinter ROBERT.
    ============================================================ */
 
 /* ---------- Schriften (lokal, kein CDN) ---------- */
@@ -45,19 +46,27 @@
 
 /* ---------- Design-Tokens ---------- */
 :root {
-  /* Farben – aus den Fotos abgeleitet */
-  --wein-950: #251214;      /* Footer, tiefste Stufe */
-  --wein-900: #371c1f;      /* Grundton: tiefes Bordeaux, warm */
-  --wein-850: #45252a;      /* Panels, Platzhalter-Slots */
-  --elfenbein: #f3ece0;          /* Elfenbein: Stuckdecke, helle Abschnitte */
-  --elfenbein-tief: #e4d8c5;     /* Linien auf Creme */
-  --bordeaux: #7c2b35;       /* der Punkt, auf hellem Grund */
-  --rose: #cf7178;  /* der Punkt, auf dunklem Grund */
-  --champagner: #d4a76a;          /* Haarlinien, Akzente – sparsam */
+  /* Helle Grundwelt */
+  --grund: #f7f2ea;          /* warmes Off-White, Basis */
+  --sand: #f1e9da;           /* sanfte Tönung: Küche */
+  --blush: #f4e9e4;          /* Hauch Rosé: Besuch */
+  --linie: rgba(43, 36, 33, 0.14);          /* Haarlinien auf hell */
+  --linie-stark: rgba(43, 36, 33, 0.28);
+
+  /* Der dunkle Moment */
+  --kohle: #251e1b;          /* Geschichte, Footer, Leisten */
+  --kohle-linie: rgba(212, 167, 106, 0.22); /* Haarlinien auf dunkel */
+
+  /* Farbe – als Akzent, nicht als Fläche */
+  --bordeaux: #7c2b35;       /* der Punkt, Preise, Etiketten */
+  --rose: #cf7178;           /* der Punkt auf dunklem Grund */
+  --champagner: #c99c60;     /* Akzente auf dunkel – sparsam */
+
+  /* Text */
+  --tinte: #2b2421;          /* Text auf hell */
+  --tinte-matt: #6e6257;
   --text-hell: #f1e7da;      /* Text auf dunkel */
-  --text-hell-matt: #c9b6a8; /* Nebentext auf dunkel */
-  --text-dunkel: #2b2421;    /* Text auf Creme */
-  --text-dunkel-matt: #6e6257;
+  --text-hell-matt: #c9b6a8;
 
   /* Typografie */
   --serif: "EB Garamond", Georgia, "Times New Roman", serif;
@@ -81,8 +90,8 @@ html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  background: var(--wein-900);
-  color: var(--text-hell);
+  background: var(--grund);
+  color: var(--tinte);
   font-family: var(--serif);
   font-size: 1.1875rem; /* 19px */
   line-height: 1.65;
@@ -100,33 +109,31 @@ h1, h2, h3 {
 
 h2 { font-size: clamp(2.4rem, 5vw, 3.75rem); letter-spacing: 0.01em; }
 
-p { text-wrap: pretty; }
-
-p { margin: 0 0 1.2em; }
+p { margin: 0 0 1.2em; text-wrap: pretty; }
 p:last-child { margin-bottom: 0; }
 
 a { color: inherit; }
 
 :focus-visible {
-  outline: 2px solid var(--champagner);
+  outline: 2px solid var(--bordeaux);
   outline-offset: 3px;
   border-radius: 1px;
 }
-/* Auf den hellen Inseln braucht der Fokusring dunkle Tinte,
-   Champagner auf Elfenbein wäre fast unsichtbar (~1,9:1). */
-.karte :focus-visible, .besuch :focus-visible {
-  outline-color: var(--bordeaux);
+/* In den dunklen Momenten braucht der Fokusring helles Licht */
+.geschichte :focus-visible, .fuss :focus-visible,
+.lightbox :focus-visible, .aktionsleiste :focus-visible {
+  outline-color: var(--champagner);
 }
 
-::selection { background: var(--bordeaux); color: var(--elfenbein); }
+::selection { background: var(--bordeaux); color: var(--grund); }
 
 /* Der Punkt – das Signatur-Motiv */
-.punkt { color: var(--rose); }
-.karte .punkt, .besuch .punkt { color: var(--bordeaux); }
+.punkt { color: var(--bordeaux); }
+.geschichte .punkt, .fuss .punkt { color: var(--rose); }
 
 .skip-link {
   position: absolute; left: -9999px; top: 0;
-  background: var(--elfenbein); color: var(--text-dunkel);
+  background: var(--kohle); color: var(--text-hell);
   padding: 0.6rem 1rem; z-index: 100;
   font-family: var(--grotesk); font-size: 0.9rem;
 }
@@ -139,10 +146,10 @@ a { color: inherit; }
   font-weight: 600;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--champagner);
+  color: var(--bordeaux);
   margin: 0 0 1.4rem;
 }
-.karte .eyebrow, .besuch .eyebrow { color: var(--bordeaux); }
+.geschichte .eyebrow { color: var(--champagner); }
 
 .textlink {
   font-family: var(--grotesk);
@@ -151,13 +158,11 @@ a { color: inherit; }
   letter-spacing: 0.16em;
   text-transform: uppercase;
   text-decoration: none;
-  border-bottom: 1px solid var(--champagner);
+  border-bottom: 1px solid var(--bordeaux);
   padding-bottom: 0.25rem;
-  transition: border-color var(--uebergang);
+  transition: border-color var(--uebergang), color var(--uebergang);
 }
-.textlink { transition: border-color var(--uebergang), color var(--uebergang); }
-.textlink:hover { border-color: var(--rose); color: var(--champagner); }
-.karte .textlink:hover, .besuch .textlink:hover { color: var(--bordeaux); }
+.textlink:hover { color: var(--bordeaux); }
 
 /* ---------- Kopf / Navigation ---------- */
 .kopf {
@@ -167,10 +172,10 @@ a { color: inherit; }
   transition: background var(--uebergang), box-shadow var(--uebergang), padding var(--uebergang);
 }
 .kopf.gescrollt {
-  background: rgba(37, 18, 20, 0.92);
+  background: rgba(247, 242, 234, 0.92);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
-  box-shadow: 0 1px 0 rgba(212, 167, 106, 0.22);
+  box-shadow: 0 1px 0 var(--linie);
   padding-top: 0.6rem; padding-bottom: 0.6rem;
 }
 
@@ -198,7 +203,7 @@ a { color: inherit; }
   content: "";
   position: absolute; left: 50%; bottom: -2px;
   width: 5px; height: 5px; border-radius: 50%;
-  background: var(--rose);
+  background: var(--bordeaux);
   transform: translateX(-50%) scale(0);
   transition: transform var(--uebergang);
 }
@@ -230,7 +235,7 @@ a { color: inherit; }
 .nav-overlay[hidden] { display: none; }
 .nav-overlay {
   position: fixed; inset: 0; z-index: 40;
-  background: var(--wein-950);
+  background: var(--grund);
   display: flex; flex-direction: column; justify-content: center;
   gap: 3rem;
   padding: 6rem var(--rand) 3rem;
@@ -243,97 +248,65 @@ a { color: inherit; }
   font-weight: 500; text-decoration: none;
   padding: 0.45rem 0;
 }
-.nav-overlay nav a:hover { color: var(--champagner); }
+.nav-overlay nav a:hover { color: var(--bordeaux); }
 .nav-overlay-info {
-  font-size: 1rem; color: var(--text-hell-matt);
-  border-top: 1px solid rgba(212, 167, 106, 0.3);
+  font-size: 1rem; color: var(--tinte-matt);
+  border-top: 1px solid var(--linie);
   padding-top: 1.5rem;
 }
-.nav-overlay-info a { text-decoration: none; color: var(--text-hell); font-size: 1.3rem; }
+.nav-overlay-info a { text-decoration: none; color: var(--tinte); font-size: 1.3rem; }
 
-/* ---------- Hero ---------- */
+/* ---------- Hero: Masthead wie ein Titelblatt ---------- */
 .hero {
-  position: relative;
-  min-height: 100svh;
-  display: grid;
-  grid-template-columns: minmax(24rem, 44%) 1fr;
-}
-
-.hero-bild { grid-column: 2; position: relative; overflow: hidden; }
-.hero-bild img {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: 50% 38%; /* Stuckdecke und Kronleuchter im Bild halten */
-}
-/* weicher Übergang vom Foto in den grünen Grund */
-.hero-bild::after {
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(90deg, var(--wein-900) 0%, rgba(55, 28, 31, 0) 22%);
-}
-
-.hero-text {
-  grid-column: 1; grid-row: 1;
-  align-self: center;
-  padding: 7rem var(--rand) 5rem clamp(1.25rem, 6vw, 5rem);
-  max-width: 36rem;
+  padding: calc(4.5rem + var(--rand)) var(--rand) var(--abschnitt-luft);
+  text-align: center;
 }
 .hero-eyebrow {
-  font-family: var(--grotesk); font-size: 0.75rem; font-weight: 500;
-  letter-spacing: 0.3em; text-transform: uppercase;
-  color: var(--champagner); margin-bottom: 2rem;
+  font-family: var(--grotesk); font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.32em; text-transform: uppercase;
+  color: var(--bordeaux); margin: 0 0 1rem;
 }
 .hero-marke {
-  font-size: clamp(3.25rem, 7.5vw, 5.5rem);
-  font-weight: 600; letter-spacing: 0.04em;
-  margin: 0 0 1.6rem;
+  font-size: clamp(3.6rem, 11vw, 6rem);
+  font-weight: 600; letter-spacing: 0.05em;
+  margin: 0 0 -0.42em;
+  position: relative; z-index: 2;
+}
+.hero-bild {
+  max-width: var(--inhalt-breite);
+  margin: 0 auto;
+}
+.hero-bild img {
+  width: 100%;
+  height: clamp(320px, 47vh, 520px);
+  object-fit: cover;
+  object-position: 50% 24%; /* Kronleuchter und Stuck im Band halten */
 }
 .hero-satz {
-  font-size: clamp(1.35rem, 2.3vw, 1.7rem);
+  font-size: clamp(1.3rem, 2.2vw, 1.6rem);
   line-height: 1.45;
-  margin-bottom: 2.4rem;
+  margin: 2.4rem auto 1.4rem;
+  max-width: 40rem;
 }
-.hero-satz em {
-  font-style: italic;
-  color: var(--text-hell-matt);
-}
+.hero-satz em { font-style: italic; color: var(--tinte-matt); }
 .hero-info {
-  font-family: var(--grotesk); font-size: 0.8rem; font-weight: 500;
+  font-family: var(--grotesk); font-size: 0.78rem; font-weight: 500;
   letter-spacing: 0.2em; text-transform: uppercase;
-  line-height: 2; color: var(--text-hell-matt);
+  line-height: 2; color: var(--tinte-matt);
+  margin: 0;
 }
 
-.hero-weiter {
-  position: absolute; left: 50%; bottom: 1.4rem;
-  transform: translateX(-50%);
-  color: var(--rose); text-decoration: none;
-  font-size: 2.6rem; line-height: 1;
-  animation: pulsieren 3.4s ease-in-out infinite;
-}
-@keyframes pulsieren {
-  0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
-  50%       { opacity: 0.9; transform: translateX(-50%) translateY(4px); }
-}
-
-/* Einmaliger, ruhiger Auftritt des Heros beim Laden */
+/* Einmaliger, ruhiger Auftritt beim Laden */
 @keyframes aufblenden {
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: none; }
 }
-/* Das Foto macht beim Ankommen einen Atemzug: minimal größer,
-   läuft in zwei Sekunden ruhig aus. Einmalig. */
-@keyframes setzen {
-  from { transform: scale(1.035); }
-  to   { transform: none; }
-}
-.js .hero-bild img { animation: setzen 2200ms var(--ease) both; }
-.js .hero-text > * {
-  animation: aufblenden 900ms var(--ease) both;
-}
-.js .hero-eyebrow { animation-delay: 120ms; }
-.js .hero-marke   { animation-delay: 240ms; }
-.js .hero-satz    { animation-delay: 400ms; }
-.js .hero-info    { animation-delay: 560ms; }
+.js .hero > * { animation: aufblenden 900ms var(--ease) both; }
+.js .hero-eyebrow { animation-delay: 100ms; }
+.js .hero-marke   { animation-delay: 220ms; }
+.js .hero-bild    { animation-delay: 360ms; }
+.js .hero-satz    { animation-delay: 540ms; }
+.js .hero-info    { animation-delay: 680ms; }
 
 /* ---------- Abschnitte, Rhythmus ---------- */
 .abschnitt { padding: var(--abschnitt-luft) var(--rand); scroll-margin-top: 3.2rem; }
@@ -353,7 +326,7 @@ a { color: inherit; }
 .spalten-bild img { width: 100%; }
 
 /* ---------- Am Rhein ---------- */
-.rhein { padding-top: calc(var(--abschnitt-luft) * 0.8); }
+.rhein { padding-top: 0; }
 .rhein .spalten-bild { max-width: 26rem; justify-self: end; }
 
 /* Die Stadt vor der Tür: breites Bild unterhalb des Intro-Duos */
@@ -363,18 +336,21 @@ a { color: inherit; }
 }
 .rhein-breit img {
   width: 100%;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
-  object-position: 50% 42%;
+  /* oben verankert: die Lambertus-Spitze gehört ins Bild */
+  object-position: 50% 0%;
 }
 .rhein-breit figcaption {
   font-style: italic;
-  color: var(--text-hell-matt);
+  color: var(--tinte-matt);
   font-size: 1rem;
   margin-top: 0.8rem;
 }
 
-/* ---------- Küche ---------- */
+/* ---------- Küche (sanfte Sand-Tönung) ---------- */
+.kueche { background: var(--sand); }
+
 .kueche-bilder {
   position: relative;
   display: grid;
@@ -388,41 +364,38 @@ a { color: inherit; }
 .kueche-klassiker {
   list-style: none;
   margin: 2.2rem 0; padding: 0;
-  border-top: 1px solid rgba(212, 167, 106, 0.3);
+  border-top: 1px solid var(--linie);
 }
 .kueche-klassiker li {
   padding: 0.7rem 0 0.7rem 1.4rem;
-  border-bottom: 1px solid rgba(212, 167, 106, 0.3);
+  border-bottom: 1px solid var(--linie);
   position: relative;
   font-style: italic;
 }
 .kueche-klassiker li::before {
   content: "·";
   position: absolute; left: 0.1rem;
-  color: var(--rose);
+  color: var(--bordeaux);
   font-weight: 600; font-style: normal;
 }
 
-/* ---------- Speisekarte (Creme-Insel) ---------- */
-.karte {
-  background: var(--elfenbein);
-  color: var(--text-dunkel);
-}
+/* ---------- Speisekarte ---------- */
+.karte { background: var(--grund); }
 .karte-innen { max-width: var(--inhalt-breite); margin: 0 auto; }
 .karte-einleitung {
   font-style: italic;
   font-size: 1.25rem;
   max-width: var(--textspalte);
-  color: var(--text-dunkel-matt);
+  color: var(--tinte-matt);
 }
 
 .karte-tabs {
   display: flex; flex-wrap: wrap;
   gap: 0.2rem 2rem;
   margin: 3rem 0 2.5rem;
-  border-bottom: 1px solid var(--elfenbein-tief);
+  border-bottom: 1px solid var(--linie);
   position: sticky; top: 3.2rem;
-  background: var(--elfenbein);
+  background: var(--grund);
   z-index: 5;
   padding-top: 0.5rem;
 }
@@ -430,7 +403,7 @@ a { color: inherit; }
   background: none; border: 0; cursor: pointer;
   font-family: var(--grotesk); font-size: 0.8rem; font-weight: 600;
   letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--text-dunkel-matt);
+  color: var(--tinte-matt);
   padding: 0.7rem 0 0.9rem;
   position: relative;
   white-space: nowrap;
@@ -443,8 +416,8 @@ a { color: inherit; }
   transform: translateX(-50%) scale(0);
   transition: transform var(--uebergang);
 }
-.karte-tabs button:hover { color: var(--text-dunkel); }
-.karte-tabs button[aria-expanded="true"] { color: var(--text-dunkel); }
+.karte-tabs button:hover { color: var(--tinte); }
+.karte-tabs button[aria-expanded="true"] { color: var(--tinte); }
 .karte-tabs button[aria-expanded="true"]::after { transform: translateX(-50%) scale(1); }
 
 /* Ohne JavaScript: keine Tabs, alle Kategorien untereinander lesbar */
@@ -458,7 +431,7 @@ a { color: inherit; }
 .no-js .karte-panel { margin-bottom: 3rem; }
 .karte-panel-titel {
   font-size: 1.6rem; font-weight: 600;
-  border-bottom: 1px solid var(--elfenbein-tief);
+  border-bottom: 1px solid var(--linie);
   padding-bottom: 0.6rem; margin-bottom: 1.4rem;
 }
 
@@ -487,15 +460,15 @@ a { color: inherit; }
 .gericht-info {
   font-style: italic;
   font-size: 1rem;
-  color: var(--text-dunkel-matt);
+  color: var(--tinte-matt);
   margin: 0.15rem 0 0;
   max-width: 26rem;
 }
 
 .karte-fussnote {
   font-style: italic;
-  color: var(--text-dunkel-matt);
-  border-top: 1px solid var(--elfenbein-tief);
+  color: var(--tinte-matt);
+  border-top: 1px solid var(--linie);
   padding-top: 1.6rem;
   margin-top: 2.5rem;
 }
@@ -505,9 +478,10 @@ a { color: inherit; }
 .zwischenbild img {
   display: block;
   width: 100%;
-  height: clamp(320px, 62vh, 640px);
+  height: clamp(380px, 70vh, 720px);
   object-fit: cover;
-  object-position: 50% 46%;
+  /* tiefer gesetzt: die ganze Pfanne gehört ins Bild */
+  object-position: 50% 58%;
 }
 
 /* ---------- Galerie ---------- */
@@ -548,7 +522,7 @@ a { color: inherit; }
   align-items: center; justify-content: center;
 }
 .lightbox[open] { display: flex; }
-.lightbox::backdrop { background: rgba(37, 18, 20, 0.94); }
+.lightbox::backdrop { background: rgba(37, 30, 27, 0.94); }
 .lightbox img {
   max-width: min(92vw, 60rem);
   max-height: 88vh;
@@ -558,7 +532,7 @@ a { color: inherit; }
 .lightbox button {
   position: absolute;
   background: none; border: 0; cursor: pointer;
-  color: var(--elfenbein);
+  color: var(--text-hell);
   font-size: 2.4rem; line-height: 1;
   padding: 0.8rem;
   opacity: 0.75;
@@ -569,8 +543,11 @@ a { color: inherit; }
 .lightbox-zurueck { left: 0.8rem; top: 50%; transform: translateY(-50%); }
 .lightbox-vor { right: 0.8rem; top: 50%; transform: translateY(-50%); }
 
-/* ---------- Geschichte ---------- */
-.geschichte { background: var(--wein-950); }
+/* ---------- Geschichte: der eine dunkle Moment ---------- */
+.geschichte {
+  background: var(--kohle);
+  color: var(--text-hell);
+}
 .geschichte-spalten { align-items: start; }
 .geschichte .spalten-bild { max-width: 28rem; }
 
@@ -606,7 +583,7 @@ a { color: inherit; }
 }
 .team-gruppenbild figcaption {
   font-style: italic;
-  color: var(--text-hell-matt);
+  color: var(--tinte-matt);
   font-size: 1rem;
   margin-top: 0.8rem;
 }
@@ -622,10 +599,10 @@ a { color: inherit; }
 .team-rolle {
   font-family: var(--grotesk); font-size: 0.75rem; font-weight: 600;
   letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--champagner);
+  color: var(--bordeaux);
   margin-bottom: 0.8rem;
 }
-.team-person p:not(.team-rolle) { font-size: 1.05rem; color: var(--text-hell-matt); }
+.team-person p:not(.team-rolle) { font-size: 1.05rem; color: var(--tinte-matt); }
 
 .team-foto { margin: 0; }
 .team-foto img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
@@ -633,19 +610,19 @@ a { color: inherit; }
 /* Platzhalter-Slot, bis das Foto in assets/photos/original liegt */
 .team-foto--folgt {
   aspect-ratio: 3 / 4;
-  background: var(--wein-850);
-  border: 1px solid rgba(212, 167, 106, 0.25);
+  background: var(--sand);
+  border: 1px solid var(--linie);
   display: flex; align-items: center; justify-content: center;
   text-align: center;
 }
 .team-foto--folgt span {
   font-family: var(--grotesk); font-size: 0.75rem;
   letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--text-hell-matt); line-height: 2;
+  color: var(--tinte-matt); line-height: 2;
 }
 
-/* ---------- Besuch (Creme-Insel) ---------- */
-.besuch { background: var(--elfenbein); color: var(--text-dunkel); }
+/* ---------- Besuch (Hauch Rosé) ---------- */
+.besuch { background: var(--blush); }
 .besuch-innen { max-width: var(--inhalt-breite); margin: 0 auto; }
 .besuch-einleitung { max-width: var(--textspalte); font-size: 1.25rem; }
 
@@ -661,8 +638,7 @@ a { color: inherit; }
   color: var(--bordeaux);
   margin-bottom: 1.1rem;
 }
-.besuch-block a { color: var(--text-dunkel); }
-.besuch-block .textlink { border-color: var(--bordeaux); }
+.besuch-block a { color: var(--tinte); }
 
 /* Das Telefon ist die wichtigste Handlung des Hauses ohne Reservierung */
 .besuch-tel {
@@ -681,11 +657,11 @@ a { color: inherit; }
 .zeiten div {
   display: flex; justify-content: space-between; gap: 1.5rem;
   padding: 0.55rem 0;
-  border-bottom: 1px solid var(--elfenbein-tief);
+  border-bottom: 1px solid var(--linie);
 }
 .zeiten dt { font-weight: 500; }
 .zeiten dd { margin: 0; text-align: right; }
-.zeiten-hinweis { font-style: italic; font-size: 0.9rem; color: var(--text-dunkel-matt); }
+.zeiten-hinweis { font-style: italic; font-size: 0.9rem; color: var(--tinte-matt); }
 
 .besuch-hinweise ul {
   list-style: none; margin: 0; padding: 0;
@@ -707,8 +683,9 @@ a { color: inherit; }
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
   display: none;
   grid-template-columns: 1fr 1fr;
-  background: var(--wein-950);
-  box-shadow: 0 -1px 0 rgba(212, 167, 106, 0.35);
+  background: var(--kohle);
+  color: var(--text-hell);
+  box-shadow: 0 -1px 0 var(--kohle-linie);
   padding-bottom: env(safe-area-inset-bottom);
   transform: translateY(100%);
   transition: transform var(--uebergang);
@@ -721,15 +698,15 @@ a { color: inherit; }
   padding: 1.05rem 0.5rem;
   transition: background var(--uebergang);
 }
+.aktionsleiste a + a { border-left: 1px solid var(--kohle-linie); }
 .aktionsleiste a:active { background: rgba(212, 167, 106, 0.12); }
-.aktionsleiste a + a { border-left: 1px solid rgba(212, 167, 106, 0.25); }
 
-/* ---------- Footer ---------- */
+/* ---------- Footer: der Abend als Abschluss ---------- */
 .fuss {
-  background: var(--wein-950);
+  background: var(--kohle);
+  color: var(--text-hell);
   text-align: center;
   padding: 5rem var(--rand) 3.5rem;
-  box-shadow: inset 0 1px 0 rgba(212, 167, 106, 0.16);
 }
 .fuss-marke {
   font-size: 1.9rem; font-weight: 600; letter-spacing: 0.08em;
@@ -768,10 +745,8 @@ a { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .js [data-reveal] { opacity: 1; transform: none; transition: none; }
-  .hero-weiter { animation: none; }
   .galerie-zoom img { transition: none; }
-  .js .hero-text > *,
-  .js .hero-bild img,
+  .js .hero > *,
   .js .karte-panel.ist-aktiv,
   .nav-overlay { animation: none; }
 }
@@ -786,23 +761,9 @@ a { color: inherit; }
   .kopf-nav { display: none; }
   .nav-knopf { display: inline-flex; }
 
-  /* Hero: Foto füllt den Schirm, Text liegt auf dem Verlauf */
-  .hero { grid-template-columns: 1fr; }
-  .hero-bild { grid-column: 1; grid-row: 1; }
-  .hero-bild::after {
-    background: linear-gradient(180deg,
-      rgba(37, 18, 20, 0.45) 0%,
-      rgba(37, 18, 20, 0.18) 38%,
-      rgba(37, 18, 20, 0.9) 80%,
-      var(--wein-900) 100%);
-  }
-  .hero-text {
-    grid-column: 1; grid-row: 1;
-    align-self: end;
-    padding: 0 var(--rand) 4.5rem;
-    position: relative; z-index: 1;
-  }
-  .hero-weiter { display: none; }
+  .hero { padding-top: calc(4rem + var(--rand)); }
+  .hero-marke { margin-bottom: -0.38em; }
+  .hero-bild img { height: clamp(300px, 46vh, 480px); }
 
   .spalten--text-links, .spalten--bild-links { grid-template-columns: 1fr; }
   .rhein .spalten-bild { justify-self: stretch; max-width: none; }
@@ -818,10 +779,12 @@ a { color: inherit; }
     gap: 1.6rem;
     top: 2.9rem;
   }
+  .karte-tabs::-webkit-scrollbar { display: none; }
   /* Touch-Ziele: mindestens ~44 px hoch */
   .karte-tabs button { padding: 1rem 0 1.15rem; }
   .fuss-social a, .fuss-rechtliches a { display: inline-block; padding: 0.5rem 0.2rem; }
-  .karte-tabs::-webkit-scrollbar { display: none; }
+
+  .zwischenbild img { height: clamp(300px, 52vh, 480px); }
 
   .galerie-raster {
     grid-template-columns: 1fr 1fr;
@@ -844,5 +807,5 @@ a { color: inherit; }
 /* schmale Handys */
 @media (max-width: 24rem) {
   body { font-size: 1.0625rem; }
-  .hero-marke { font-size: 3rem; }
+  .hero-marke { font-size: 3.1rem; }
 }

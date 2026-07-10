@@ -113,7 +113,9 @@ das unruhige Farbbild der beiden Köche.
   = 63vw, breite Querformate = max 896px), sonst zieht der Browser zu
   kleine Dateien.
 - Zuschnitte per `aspect-ratio` + `object-position`: Team-Gruppenbild
-  4:3 bei 50% 58% (Gesichter zentriert), Promenade 3:2 bei 50% 42%.
+  4:3 bei 50% 58% (Gesichter zentriert), Promenade 4:3 oben verankert
+  (Lambertus-Spitze muss ins Bild), Zwischenbild-Pfanne bei 50% 58%
+  (kompletter Pfannenrand), Hero-Band bei 50% 24% (Kronleuchter).
 - Galerie-Regel: nie zwei S/W-Kacheln benachbart (auch vertikal prüfen!).
 - Originale werden nie verändert oder umbenannt; semantische Namen und
   Entwicklungs-Anpassungen existieren nur in `optimized/`.
