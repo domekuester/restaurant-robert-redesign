@@ -46,6 +46,11 @@ MAP = {
     "team-michael-geisner": "P1320294.jpg",
     "team-an-der-bar": "P1320322.jpg",
     "team-yukihiro-takahashi": "yuki.jpg",
+    "stadt-rheinturm": "P1310689.jpg",
+    "stadt-promenade": "P1310729.jpg",
+    "gaeste-spiegel-sw": "P1360579.jpg",
+    "detail-glaeser-sw": "P1360589.jpg",
+    "kueche-flambe-sw": "P1360623.jpg",
 }
 
 HERO = "gastraum-stuck-kronleuchter"

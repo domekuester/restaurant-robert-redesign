@@ -1,6 +1,7 @@
 # Bildkonzept ROBERT. – Sortierung & Einsatz
 
-Stand: Juli 2026 · 15 Fotos in `assets/photos/original/`, alle Hochformat.
+Stand: Juli 2026 (v2, Bordeaux-Ära) · 22 Fotos in `assets/photos/original/`,
+alle Hochformat.
 Grundsatz: Lieber wenige Bilder groß und mit Absicht als alle irgendwo.
 Die Website erzählt einen Abend im Restaurant – jedes Bild hat eine Rolle,
 oder es bleibt (vorerst) draußen.
@@ -30,12 +31,14 @@ oder es bleibt (vorerst) draußen.
 |---|---|---|
 | P1310870 | `gastraum-ecke-lampe` | Ecke mit Bildern, Kugellampe, bemalten Tischen – der intime Gegenschuss zum Hero, steht im Intro „Am Rhein". |
 
-## Terrasse / Rhein
+## Stadt / Rhein (seit v2 vorhanden!)
 
-**Noch kein Material.** Die Lage ist das stärkste Argument des Hauses und
-existiert bisher nur im Text. Siehe `foto-wunschliste.md`, Punkt 1.
-Der Intro-Abschnitt ist so gebaut, dass ein Rheinblick-Bild dort später
-das Ecken-Bild ergänzen oder ersetzen kann.
+| Original | Name | Warum |
+|---|---|---|
+| P1310689 | `stadt-rheinturm` | Rheinturm im Abendlicht, gerahmt von Dachsilhouetten – DAS Ortsbild. Steht im Intro „Am Rhein" neben dem Text. |
+| P1310729 | `stadt-promenade` | Promenade mit Schlossturm, Lambertus und Riesenrad durch die Platanen – breit beschnitten (3:2) unterhalb des Intro-Duos, mit Bildunterschrift. |
+
+Ein Foto der eigenen Terrasse/Fassade fehlt weiterhin (Wunschliste).
 
 ## Team
 
@@ -56,17 +59,21 @@ Porträt-Slot 2 (René) wartet weiter auf ein Foto – Platzhalter aktiv.
 | P1310861 | `detail-espresso` | Laufender Espresso – der Moment nach dem Essen. |
 | P1360585 | `detail-gemaelde` | Gemälde + Schild „Für Garderobe keine Haftung" – der Humor des Hauses in einem Bild. |
 
-## Galerie (kuratierte Strecke, 6 Bilder)
+## Galerie (kuratierte Strecke, 6 Bilder, seit v2 mit S/W-Rhythmus)
 
-Reihenfolge: Teller → Wein → Poster → Mensch → Espresso → Gemälde.
-Nie zwei gleiche Motivtypen nebeneinander.
+Wechsel Farbe/Schwarzweiß als Editorial-Rhythmus, nie zwei gleiche
+Motivtypen nebeneinander:
 
-1. `teller-jakobsmuscheln` (groß, 2×2)
-2. `detail-weinflaschen`
-3. `detail-beaujolais-poster`
-4. `kueche-durchreiche` (P1310880-2 – Michael schaut durch den Pass)
-5. `detail-espresso`
-6. `detail-gemaelde`
+1. `teller-jakobsmuscheln` (groß, 2×2) – Farbe, Food
+2. `detail-weinflaschen` – Farbe, Detail
+3. `gaeste-spiegel-sw` (P1360579) – S/W, Menschen/Stammgäste
+4. `detail-beaujolais-poster` – Farbe, Wand
+5. `gastraum-ecke-lampe` – Farbe, Raum (in v2 aus dem Intro hierher gezogen)
+6. `detail-glaeser-sw` (P1360589) – S/W, abstraktes Detail
+
+**In v2 aus der Galerie entfernt:** `detail-espresso` (Fremdmarke „COSTA“
+prominent im Bild), `kueche-durchreiche` (Michael ist bereits 3× auf der
+Seite), `detail-gemaelde` (bei Kachelgröße zu unruhig).
 
 ## Geschichte
 
@@ -74,11 +81,21 @@ Nie zwei gleiche Motivtypen nebeneinander.
 |---|---|---|
 | P1360767 | `kueche-schwarzweiss` | Das einzige S/W-Bild – zwei Köche am Feuer. Erinnerung braucht kein Farbfoto. Exklusiv für die Robert-Sektion. |
 
-## Bewusst nicht eingesetzt
+## Küche (v2)
+
+Hauptbild bleibt `kueche-feuer` (Farbe). Das Zweitbild ist jetzt
+`kueche-flambe-sw` (P1360623, S/W-Flambé) – der Farbe/S/W-Kontrast ersetzt
+das unruhige Farbbild der beiden Köche.
+
+## Bewusst nicht eingesetzt (Reserve)
 
 | Original | Grund |
 |---|---|
-| P1360582 (Bokeh, gerahmtes Bild) | Zu abstrakt – schön als Einzelbild, erklärt aber nichts. Reserve für später (z. B. Datenschutz-/Impressum-Seiten oder Social). |
+| P1360582 (Bokeh, gerahmtes Bild) | Zu abstrakt – erklärt nichts. |
+| P1360609 (S/W Fleisch überm Feuer) | Stark, aber das vierte Feuermotiv wäre eins zu viel. Erste Wahl, falls je ein Bild in der Küche-Sektion getauscht wird. |
+| P1360622-3 (Küche farbig, weit) | Unruhig (Zettel, Kisten); die S/W-Variante desselben Moments ist stärker. |
+| kueche-koeche (P1310809-2) | In v2 gewichen – Ringelshirt-Motiv doppelt mit Flambé-Bild. |
+| detail-espresso, kueche-durchreiche, detail-gemaelde | Siehe Galerie-Begründung. |
 
 ## Technik
 

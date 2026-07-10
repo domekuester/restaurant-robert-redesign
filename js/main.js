@@ -114,6 +114,9 @@
 
   /* ---------- Sanftes Erscheinen beim Scrollen ---------- */
   var reveals = document.querySelectorAll("[data-reveal]");
+  function allesZeigen() {
+    reveals.forEach(function (el) { el.classList.add("sichtbar"); });
+  }
   if (!reduzierteBewegung && "IntersectionObserver" in window && reveals.length) {
     var revealBeobachter = new IntersectionObserver(function (eintraege) {
       eintraege.forEach(function (eintrag) {
@@ -124,8 +127,12 @@
       });
     }, { rootMargin: "0px 0px -8% 0px" });
     reveals.forEach(function (el) { revealBeobachter.observe(el); });
+    /* Sicherheitsnetz: Inhalte dürfen nie hinter der Animation gefangen
+       bleiben (Druck, Headless-Rendering, Observer-Ausfall). */
+    window.addEventListener("beforeprint", allesZeigen);
+    setTimeout(allesZeigen, 4000);
   } else {
-    reveals.forEach(function (el) { el.classList.add("sichtbar"); });
+    allesZeigen();
   }
 
   /* ---------- Galerie-Lightbox ---------- */
