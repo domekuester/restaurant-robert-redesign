@@ -69,7 +69,9 @@
   --inhalt-breite: 72rem;
   --textspalte: 34rem;
 
-  --uebergang: 240ms ease;
+  /* Ein Haus, eine Handschrift: alle Übergänge laufen ruhig aus */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --uebergang: 280ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 /* ---------- Basis ---------- */
@@ -110,6 +112,11 @@ a { color: inherit; }
   outline-offset: 3px;
   border-radius: 1px;
 }
+/* Auf den hellen Inseln braucht der Fokusring dunkle Tinte,
+   Champagner auf Elfenbein wäre fast unsichtbar (~1,9:1). */
+.karte :focus-visible, .besuch :focus-visible {
+  outline-color: var(--bordeaux);
+}
 
 ::selection { background: var(--bordeaux); color: var(--elfenbein); }
 
@@ -148,7 +155,9 @@ a { color: inherit; }
   padding-bottom: 0.25rem;
   transition: border-color var(--uebergang);
 }
-.textlink:hover { border-color: var(--rose); }
+.textlink { transition: border-color var(--uebergang), color var(--uebergang); }
+.textlink:hover { border-color: var(--rose); color: var(--champagner); }
+.karte .textlink:hover, .besuch .textlink:hover { color: var(--bordeaux); }
 
 /* ---------- Kopf / Navigation ---------- */
 .kopf {
@@ -161,7 +170,7 @@ a { color: inherit; }
   background: rgba(37, 18, 20, 0.92);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
-  box-shadow: 0 1px 0 rgba(212, 167, 106, 0.28);
+  box-shadow: 0 1px 0 rgba(212, 167, 106, 0.22);
   padding-top: 0.6rem; padding-bottom: 0.6rem;
 }
 
@@ -225,6 +234,7 @@ a { color: inherit; }
   display: flex; flex-direction: column; justify-content: center;
   gap: 3rem;
   padding: 6rem var(--rand) 3rem;
+  animation: aufblenden 360ms var(--ease) both;
 }
 .nav-overlay ul { list-style: none; margin: 0; padding: 0; }
 .nav-overlay nav a {
@@ -298,12 +308,25 @@ a { color: inherit; }
   transform: translateX(-50%);
   color: var(--rose); text-decoration: none;
   font-size: 2.6rem; line-height: 1;
-  animation: pulsieren 2.6s ease-in-out infinite;
+  animation: pulsieren 3.4s ease-in-out infinite;
 }
 @keyframes pulsieren {
-  0%, 100% { opacity: 0.45; transform: translateX(-50%) translateY(0); }
-  50%       { opacity: 1;    transform: translateX(-50%) translateY(6px); }
+  0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+  50%       { opacity: 0.9; transform: translateX(-50%) translateY(4px); }
 }
+
+/* Einmaliger, ruhiger Auftritt des Heros beim Laden */
+@keyframes aufblenden {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+.js .hero-text > * {
+  animation: aufblenden 900ms var(--ease) both;
+}
+.js .hero-eyebrow { animation-delay: 120ms; }
+.js .hero-marke   { animation-delay: 240ms; }
+.js .hero-satz    { animation-delay: 400ms; }
+.js .hero-info    { animation-delay: 560ms; }
 
 /* ---------- Abschnitte, Rhythmus ---------- */
 .abschnitt { padding: var(--abschnitt-luft) var(--rand); scroll-margin-top: 3.2rem; }
@@ -420,7 +443,10 @@ a { color: inherit; }
 /* Ohne JavaScript: keine Tabs, alle Kategorien untereinander lesbar */
 .no-js .karte-tabs { display: none; }
 .js .karte-panel { display: none; }
-.js .karte-panel.ist-aktiv { display: block; }
+.js .karte-panel.ist-aktiv {
+  display: block;
+  animation: aufblenden 320ms var(--ease) both;
+}
 .js .karte-panel-titel { position: absolute; left: -9999px; } /* Titel steckt im Tab */
 .no-js .karte-panel { margin-bottom: 3rem; }
 .karte-panel-titel {
@@ -491,9 +517,9 @@ a { color: inherit; }
 .galerie-zoom img {
   width: 100%; height: 100%;
   object-fit: cover;
-  transition: transform 600ms ease;
+  transition: transform 900ms var(--ease);
 }
-.galerie-zoom:hover img { transform: scale(1.03); }
+.galerie-zoom:hover img, .galerie-zoom:focus-visible img { transform: scale(1.025); }
 
 /* ---------- Lightbox ---------- */
 .lightbox {
@@ -663,18 +689,21 @@ a { color: inherit; }
   letter-spacing: 0.16em; text-transform: uppercase;
   text-decoration: none; text-align: center;
   padding: 1.05rem 0.5rem;
+  transition: background var(--uebergang);
 }
+.aktionsleiste a:active { background: rgba(212, 167, 106, 0.12); }
 .aktionsleiste a + a { border-left: 1px solid rgba(212, 167, 106, 0.25); }
 
 /* ---------- Footer ---------- */
 .fuss {
   background: var(--wein-950);
   text-align: center;
-  padding: 4.5rem var(--rand) 3.5rem;
+  padding: 5rem var(--rand) 3.5rem;
+  box-shadow: inset 0 1px 0 rgba(212, 167, 106, 0.16);
 }
 .fuss-marke {
-  font-size: 1.9rem; font-weight: 600; letter-spacing: 0.06em;
-  margin-bottom: 1.6rem;
+  font-size: 1.9rem; font-weight: 600; letter-spacing: 0.08em;
+  margin-bottom: 1.8rem;
 }
 .fuss-social, .fuss-rechtliches {
   font-family: var(--grotesk); font-size: 0.8rem;
@@ -697,8 +726,8 @@ a { color: inherit; }
 /* ---------- Scroll-Reveal ---------- */
 .js [data-reveal] {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 700ms ease, transform 700ms ease;
+  transform: translateY(18px);
+  transition: opacity 850ms var(--ease), transform 850ms var(--ease);
 }
 .js [data-reveal].sichtbar { opacity: 1; transform: none; }
 
@@ -711,6 +740,9 @@ a { color: inherit; }
   .js [data-reveal] { opacity: 1; transform: none; transition: none; }
   .hero-weiter { animation: none; }
   .galerie-zoom img { transition: none; }
+  .js .hero-text > *,
+  .js .karte-panel.ist-aktiv,
+  .nav-overlay { animation: none; }
 }
 
 /* ============================================================
