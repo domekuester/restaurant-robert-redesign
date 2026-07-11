@@ -1,10 +1,11 @@
 /* ============================================================
    ROBERT. – Französische Brasserie am Rheinufer, Düsseldorf
-   Helle, luftige Grundwelt wie ein Nachmittag am Fenster:
-   warmes Off-White, zwei kaum merkliche Tönungen (Sand, Rosé),
-   Bordeaux nur als Akzent. Dunkel bleibt ein bewusster Moment:
-   die Geschichte, der Footer, das Zwischenbild.
-   Signatur: der Punkt hinter ROBERT.
+   „Transparentes Brasserie-Glas am Rhein": warmes Elfenbein als
+   Basis, Tönungen wie durch Glas – blasses Rheinblau (Am Rhein),
+   Apricot (Küche), altes Papier (Karte), Hauch Rosé (Besuch) –
+   mit weichen Übergängen statt harter Kanten. Akzent: gedämpftes
+   Aperitif-Rot. Dunkel bleibt ein bewusster Moment (Geschichte,
+   Footer, Zwischenbild). Signatur: der Punkt hinter ROBERT.
    ============================================================ */
 
 /* ---------- Schriften (lokal, kein CDN) ---------- */
@@ -47,19 +48,22 @@
 /* ---------- Design-Tokens ---------- */
 :root {
   /* Helle Grundwelt */
-  --grund: #f7f2ea;          /* warmes Off-White, Basis */
-  --sand: #f1e9da;           /* sanfte Tönung: Küche */
-  --blush: #f4e9e4;          /* Hauch Rosé: Besuch */
+  --grund: #f9f4ec;          /* warmes Off-White, Basis */
+  --apricot: #f7eadd;        /* sanfte Tönung: Küche */
+  --blush: #f7eae6;        /* Hauch Rosé: Besuch */
+  --rheinblau: #e8edee;  /* sehr blasses Rheinblau: Am Rhein */
+  --papier: #f4edde;     /* altes Papier: die Karte */
+  --radius: 10px;        /* weiche Kanten für gefasste Bilder */
   --linie: rgba(43, 36, 33, 0.14);          /* Haarlinien auf hell */
   --linie-stark: rgba(43, 36, 33, 0.28);
 
   /* Der dunkle Moment */
-  --kohle: #251e1b;          /* Geschichte, Footer, Leisten */
+  --kohle: #2c2522;          /* Geschichte, Footer, Leisten */
   --kohle-linie: rgba(212, 167, 106, 0.22); /* Haarlinien auf dunkel */
 
   /* Farbe – als Akzent, nicht als Fläche */
-  --bordeaux: #7c2b35;       /* der Punkt, Preise, Etiketten */
-  --rose: #cf7178;           /* der Punkt auf dunklem Grund */
+  --koralle: #a84740;        /* gedämpftes Aperitif-Rot: Punkt, Preise, Etiketten */
+  --koralle-hell: #e08a80;        /* der Punkt auf dunklem Grund */
   --champagner: #c99c60;     /* Akzente auf dunkel – sparsam */
 
   /* Text */
@@ -115,7 +119,7 @@ p:last-child { margin-bottom: 0; }
 a { color: inherit; }
 
 :focus-visible {
-  outline: 2px solid var(--bordeaux);
+  outline: 2px solid var(--koralle);
   outline-offset: 3px;
   border-radius: 1px;
 }
@@ -125,11 +129,11 @@ a { color: inherit; }
   outline-color: var(--champagner);
 }
 
-::selection { background: var(--bordeaux); color: var(--grund); }
+::selection { background: var(--koralle); color: var(--grund); }
 
 /* Der Punkt – das Signatur-Motiv */
-.punkt { color: var(--bordeaux); }
-.geschichte .punkt, .fuss .punkt { color: var(--rose); }
+.punkt { color: var(--koralle); }
+.geschichte .punkt, .fuss .punkt { color: var(--koralle-hell); }
 
 .skip-link {
   position: absolute; left: -9999px; top: 0;
@@ -146,7 +150,7 @@ a { color: inherit; }
   font-weight: 600;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--bordeaux);
+  color: var(--koralle);
   margin: 0 0 1.4rem;
 }
 .geschichte .eyebrow { color: var(--champagner); }
@@ -158,11 +162,11 @@ a { color: inherit; }
   letter-spacing: 0.16em;
   text-transform: uppercase;
   text-decoration: none;
-  border-bottom: 1px solid var(--bordeaux);
+  border-bottom: 1px solid var(--koralle);
   padding-bottom: 0.25rem;
   transition: border-color var(--uebergang), color var(--uebergang);
 }
-.textlink:hover { color: var(--bordeaux); }
+.textlink:hover { color: var(--koralle); }
 
 /* ---------- Kopf / Navigation ---------- */
 .kopf {
@@ -203,7 +207,7 @@ a { color: inherit; }
   content: "";
   position: absolute; left: 50%; bottom: -2px;
   width: 5px; height: 5px; border-radius: 50%;
-  background: var(--bordeaux);
+  background: var(--koralle);
   transform: translateX(-50%) scale(0);
   transition: transform var(--uebergang);
 }
@@ -248,7 +252,7 @@ a { color: inherit; }
   font-weight: 500; text-decoration: none;
   padding: 0.45rem 0;
 }
-.nav-overlay nav a:hover { color: var(--bordeaux); }
+.nav-overlay nav a:hover { color: var(--koralle); }
 .nav-overlay-info {
   font-size: 1rem; color: var(--tinte-matt);
   border-top: 1px solid var(--linie);
@@ -264,23 +268,28 @@ a { color: inherit; }
 .hero-eyebrow {
   font-family: var(--grotesk); font-size: 0.75rem; font-weight: 600;
   letter-spacing: 0.32em; text-transform: uppercase;
-  color: var(--bordeaux); margin: 0 0 1rem;
+  color: var(--koralle); margin: 0 0 1rem;
 }
 .hero-marke {
   font-size: clamp(3.6rem, 11vw, 6rem);
   font-weight: 600; letter-spacing: 0.05em;
-  margin: 0 0 -0.42em;
-  position: relative; z-index: 2;
+  margin: 0 0 -0.4em;
+  position: relative; /* kein z-index: die Buchstaben bleiben hinter dem Band … */
+}
+.hero-marke .punkt {
+  position: relative; z-index: 3; /* … aber der Punkt schwimmt auf dem Bild */
 }
 .hero-bild {
   max-width: var(--inhalt-breite);
   margin: 0 auto;
+  position: relative; z-index: 2; /* das Band schneidet die Buchstaben an – Plakat-Tiefe */
 }
 .hero-bild img {
   width: 100%;
   height: clamp(320px, 47vh, 520px);
   object-fit: cover;
   object-position: 50% 24%; /* Kronleuchter und Stuck im Band halten */
+  border-radius: var(--radius);
 }
 .hero-satz {
   font-size: clamp(1.3rem, 2.2vw, 1.6rem);
@@ -301,7 +310,9 @@ a { color: inherit; }
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: none; }
 }
-.js .hero > * { animation: aufblenden 900ms var(--ease) both; }
+/* "backwards" statt "both": nach dem Ende gibt die Animation das Element
+   frei – sonst sperrt der Stacking-Context den Punkt hinter das Bild. */
+.js .hero > * { animation: aufblenden 900ms var(--ease) backwards; }
 .js .hero-eyebrow { animation-delay: 100ms; }
 .js .hero-marke   { animation-delay: 220ms; }
 .js .hero-bild    { animation-delay: 360ms; }
@@ -323,10 +334,15 @@ a { color: inherit; }
 .spalten--text-links { grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr); }
 .spalten--bild-links { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr); }
 .spalten-text { max-width: var(--textspalte); }
-.spalten-bild img { width: 100%; }
+.spalten-bild img { width: 100%; border-radius: var(--radius); }
 
 /* ---------- Am Rhein ---------- */
-.rhein { padding-top: 0; }
+.rhein {
+  padding-top: calc(var(--abschnitt-luft) * 0.6);
+  background: linear-gradient(180deg,
+    var(--grund) 0, var(--rheinblau) 160px,
+    var(--rheinblau) calc(100% - 160px), var(--grund) 100%);
+}
 .rhein .spalten-bild { max-width: 26rem; justify-self: end; }
 
 /* Die Stadt vor der Tür: breites Bild unterhalb des Intro-Duos */
@@ -336,20 +352,33 @@ a { color: inherit; }
 }
 .rhein-breit img {
   width: 100%;
+  border-radius: var(--radius);
   aspect-ratio: 4 / 3;
   object-fit: cover;
   /* oben verankert: die Lambertus-Spitze gehört ins Bild */
   object-position: 50% 0%;
 }
-.rhein-breit figcaption {
+.rhein-breit figcaption,
+.team-gruppenbild figcaption {
+  display: inline-block;
   font-style: italic;
-  color: var(--tinte-matt);
+  color: var(--tinte);
   font-size: 1rem;
-  margin-top: 0.8rem;
+  background: rgba(249, 244, 236, 0.82);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border-radius: calc(var(--radius) - 4px);
+  padding: 0.5rem 1rem;
+  margin: -1.9rem 0 0 1rem;
+  position: relative;
 }
 
 /* ---------- Küche (sanfte Sand-Tönung) ---------- */
-.kueche { background: var(--sand); }
+.kueche {
+  background: linear-gradient(180deg,
+    var(--grund) 0, var(--apricot) 140px,
+    var(--apricot) calc(100% - 140px), var(--grund) 100%);
+}
 
 .kueche-bilder {
   position: relative;
@@ -359,6 +388,7 @@ a { color: inherit; }
   align-items: end;
 }
 .kueche-bild-gross, .kueche-bild-klein { margin: 0; }
+.kueche-bild-gross img, .kueche-bild-klein img { border-radius: var(--radius); }
 .kueche-bild-klein { transform: translateY(3.5rem); }
 
 .kueche-klassiker {
@@ -375,12 +405,16 @@ a { color: inherit; }
 .kueche-klassiker li::before {
   content: "·";
   position: absolute; left: 0.1rem;
-  color: var(--bordeaux);
+  color: var(--koralle);
   font-weight: 600; font-style: normal;
 }
 
 /* ---------- Speisekarte ---------- */
-.karte { background: var(--grund); }
+.karte {
+  background: linear-gradient(180deg,
+    var(--grund) 0, var(--papier) 140px,
+    var(--papier) calc(100% - 140px), var(--grund) 100%);
+}
 .karte-innen { max-width: var(--inhalt-breite); margin: 0 auto; }
 .karte-einleitung {
   font-style: italic;
@@ -395,7 +429,7 @@ a { color: inherit; }
   margin: 3rem 0 2.5rem;
   border-bottom: 1px solid var(--linie);
   position: sticky; top: 3.2rem;
-  background: var(--grund);
+  background: var(--papier);
   z-index: 5;
   padding-top: 0.5rem;
 }
@@ -412,7 +446,7 @@ a { color: inherit; }
   content: "";
   position: absolute; left: 50%; bottom: 0.25rem;
   width: 5px; height: 5px; border-radius: 50%;
-  background: var(--bordeaux);
+  background: var(--koralle);
   transform: translateX(-50%) scale(0);
   transition: transform var(--uebergang);
 }
@@ -454,7 +488,7 @@ a { color: inherit; }
 .gericht-name { font-size: 1.2rem; font-weight: 500; }
 .gericht-preis {
   font-family: var(--grotesk); font-size: 0.9rem; font-weight: 600;
-  color: var(--bordeaux);
+  color: var(--koralle);
   flex-shrink: 0;
 }
 .gericht-info {
@@ -493,7 +527,7 @@ a { color: inherit; }
   grid-auto-rows: minmax(180px, auto);
   gap: clamp(0.8rem, 2vw, 1.4rem);
 }
-.galerie-bild { margin: 0; overflow: hidden; }
+.galerie-bild { margin: 0; overflow: hidden; border-radius: var(--radius); }
 .galerie-bild.g1 { grid-column: 1 / 3; grid-row: 1 / 3; }
 .galerie-bild.g2 { grid-column: 3; grid-row: 1; }
 .galerie-bild.g3 { grid-column: 3; grid-row: 2; }
@@ -511,6 +545,15 @@ a { color: inherit; }
   transition: transform 900ms var(--ease);
 }
 .galerie-zoom:hover img, .galerie-zoom:focus-visible img { transform: scale(1.025); }
+.galerie-bild { transition: box-shadow var(--uebergang); }
+.galerie-bild:hover { box-shadow: 0 6px 24px rgba(44, 37, 34, 0.14); }
+
+/* Kacheln erscheinen leicht versetzt – ein Rhythmus, keine Show */
+.galerie-raster [data-reveal]:nth-child(2) { transition-delay: 90ms; }
+.galerie-raster [data-reveal]:nth-child(3) { transition-delay: 180ms; }
+.galerie-raster [data-reveal]:nth-child(4) { transition-delay: 90ms; }
+.galerie-raster [data-reveal]:nth-child(5) { transition-delay: 180ms; }
+.galerie-raster [data-reveal]:nth-child(6) { transition-delay: 270ms; }
 
 /* ---------- Lightbox ---------- */
 .lightbox {
@@ -524,6 +567,7 @@ a { color: inherit; }
 .lightbox[open] { display: flex; }
 .lightbox::backdrop { background: rgba(37, 30, 27, 0.94); }
 .lightbox img {
+  border-radius: var(--radius);
   max-width: min(92vw, 60rem);
   max-height: 88vh;
   width: auto; height: auto;
@@ -563,7 +607,7 @@ a { color: inherit; }
   color: var(--champagner);
 }
 .geschichte-schlusspunkt {
-  color: var(--rose);
+  color: var(--koralle-hell);
   font-size: 3rem; font-weight: 600;
   line-height: 0.5;
   margin-top: 2rem;
@@ -576,17 +620,13 @@ a { color: inherit; }
 }
 .team-gruppenbild img {
   width: 100%;
+  border-radius: var(--radius);
   aspect-ratio: 4 / 3;
   object-fit: cover;
   /* Gesichter ins Zentrum, Stuck bleibt als oberer Abschluss im Bild */
   object-position: 50% 58%;
 }
-.team-gruppenbild figcaption {
-  font-style: italic;
-  color: var(--tinte-matt);
-  font-size: 1rem;
-  margin-top: 0.8rem;
-}
+
 
 .team-raster {
   max-width: var(--inhalt-breite);
@@ -599,18 +639,19 @@ a { color: inherit; }
 .team-rolle {
   font-family: var(--grotesk); font-size: 0.75rem; font-weight: 600;
   letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--bordeaux);
+  color: var(--koralle);
   margin-bottom: 0.8rem;
 }
 .team-person p:not(.team-rolle) { font-size: 1.05rem; color: var(--tinte-matt); }
 
 .team-foto { margin: 0; }
-.team-foto img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
+.team-foto img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: var(--radius); }
 
 /* Platzhalter-Slot, bis das Foto in assets/photos/original liegt */
 .team-foto--folgt {
   aspect-ratio: 3 / 4;
-  background: var(--sand);
+  border-radius: var(--radius);
+  background: var(--apricot);
   border: 1px solid var(--linie);
   display: flex; align-items: center; justify-content: center;
   text-align: center;
@@ -622,7 +663,11 @@ a { color: inherit; }
 }
 
 /* ---------- Besuch (Hauch Rosé) ---------- */
-.besuch { background: var(--blush); }
+.besuch {
+  background: linear-gradient(180deg,
+    var(--grund) 0, var(--blush) 140px,
+    var(--blush) calc(100% - 140px), var(--grund) 100%);
+}
 .besuch-innen { max-width: var(--inhalt-breite); margin: 0 auto; }
 .besuch-einleitung { max-width: var(--textspalte); font-size: 1.25rem; }
 
@@ -635,7 +680,7 @@ a { color: inherit; }
 .besuch-block h3, .besuch-hinweise h3 {
   font-family: var(--grotesk); font-size: 0.78rem; font-weight: 600;
   letter-spacing: 0.24em; text-transform: uppercase;
-  color: var(--bordeaux);
+  color: var(--koralle);
   margin-bottom: 1.1rem;
 }
 .besuch-block a { color: var(--tinte); }
@@ -646,12 +691,12 @@ a { color: inherit; }
   font-size: clamp(1.4rem, 2vw, 1.7rem);
   font-weight: 500;
   text-decoration: none;
-  border-bottom: 1px solid var(--bordeaux);
+  border-bottom: 1px solid var(--koralle);
   padding-bottom: 0.1rem;
   margin-bottom: 0.7rem;
   transition: color var(--uebergang);
 }
-.besuch-tel:hover { color: var(--bordeaux); }
+.besuch-tel:hover { color: var(--koralle); }
 
 .zeiten { margin: 0; }
 .zeiten div {
@@ -674,7 +719,7 @@ a { color: inherit; }
 .besuch-hinweise li::before {
   content: "·";
   position: absolute; left: 0.1rem;
-  color: var(--bordeaux);
+  color: var(--koralle);
   font-weight: 600;
 }
 
@@ -762,7 +807,7 @@ a { color: inherit; }
   .nav-knopf { display: inline-flex; }
 
   .hero { padding-top: calc(4rem + var(--rand)); }
-  .hero-marke { margin-bottom: -0.38em; }
+  .hero-marke { margin-bottom: -0.32em; }
   .hero-bild img { height: clamp(300px, 46vh, 480px); }
 
   .spalten--text-links, .spalten--bild-links { grid-template-columns: 1fr; }
