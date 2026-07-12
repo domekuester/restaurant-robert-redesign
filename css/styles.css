@@ -273,16 +273,12 @@ a { color: inherit; }
 .hero-marke {
   font-size: clamp(3.6rem, 11vw, 6rem);
   font-weight: 600; letter-spacing: 0.05em;
-  margin: 0 0 -0.4em;
-  position: relative; /* kein z-index: die Buchstaben bleiben hinter dem Band … */
-}
-.hero-marke .punkt {
-  position: relative; z-index: 3; /* … aber der Punkt schwimmt auf dem Bild */
+  line-height: 1;
+  margin: 0 0 clamp(1.8rem, 4vw, 2.8rem);
 }
 .hero-bild {
   max-width: var(--inhalt-breite);
   margin: 0 auto;
-  position: relative; z-index: 2; /* das Band schneidet die Buchstaben an – Plakat-Tiefe */
 }
 .hero-bild img {
   width: 100%;
@@ -310,8 +306,6 @@ a { color: inherit; }
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: none; }
 }
-/* "backwards" statt "both": nach dem Ende gibt die Animation das Element
-   frei – sonst sperrt der Stacking-Context den Punkt hinter das Bild. */
 .js .hero > * { animation: aufblenden 900ms var(--ease) backwards; }
 .js .hero-eyebrow { animation-delay: 100ms; }
 .js .hero-marke   { animation-delay: 220ms; }
@@ -807,7 +801,6 @@ a { color: inherit; }
   .nav-knopf { display: inline-flex; }
 
   .hero { padding-top: calc(4rem + var(--rand)); }
-  .hero-marke { margin-bottom: -0.32em; }
   .hero-bild img { height: clamp(300px, 46vh, 480px); }
 
   .spalten--text-links, .spalten--bild-links { grid-template-columns: 1fr; }
