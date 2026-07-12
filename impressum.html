@@ -11,11 +11,13 @@
   <link rel="stylesheet" href="css/styles.css">
   <style>
     .unterseite { max-width: 44rem; margin: 0 auto; padding: 9rem var(--rand) 6rem; }
-    .unterseite h1 { font-size: clamp(2.2rem, 5vw, 3rem); }
-    .unterseite .hinweisbox {
-      border: 1px solid var(--linie-stark);
-      padding: 1.2rem 1.5rem; font-style: italic; color: var(--tinte-matt);
+    .unterseite h1 { font-size: clamp(2.2rem, 5vw, 3rem); margin-bottom: 2rem; }
+    .unterseite h2 {
+      font-family: var(--serif); font-weight: 500;
+      font-size: 1.45rem; letter-spacing: 0;
+      margin: 2.6rem 0 0.8rem;
     }
+    .unterseite address { font-style: normal; }
   </style>
 </head>
 <body>
@@ -24,18 +26,76 @@
 </header>
 <main class="unterseite">
   <h1>Impressum<span class="punkt">.</span></h1>
-  <p class="hinweisbox">
-    Platzhalter – die vollständigen Impressumsangaben (Betreiber, Rechtsform,
-    Vertretungsberechtigte, USt-ID, Aufsichtsbehörde) werden vor dem Livegang
-    von der alten Website bzw. vom Betreiber übernommen.
-  </p>
+
+  <h2>Angaben gemäß § 5 DDG</h2>
+  <address>
+    <p>
+      ROBERT.<br>
+      Inhaber &amp; Geschäftsführer: Michael Geisner<br>
+      Rathausufer 10<br>
+      40213 Düsseldorf
+    </p>
+    <p>
+      Telefon: <a href="tel:+4921115207834">+49&nbsp;(0)211&nbsp;152&nbsp;078&nbsp;34</a><br>
+      E-Mail: <a href="mailto:info@restaurantrobert.de">info@restaurantrobert.de</a>
+    </p>
+  </address>
+
+  <!-- TODO vor Livegang (rechtlich klären, nichts davon erfinden):
+       – Umsatzsteuer-Identifikationsnummer: Auf der alten Website stand nur der
+         Platzhalter „Musterustid.“ – echte USt-IdNr. beim Betreiber erfragen und
+         hier als eigener Abschnitt ergänzen („Umsatzsteuer-Identifikationsnummer
+         gemäß § 27a UStG: …“). Falls keine USt-IdNr. existiert, Abschnitt weglassen.
+       – Rechtsform prüfen: Die alte Datenschutzerklärung nannte „Robert GbR“,
+         das alte Impressum nur „ROBERT.“ – korrekte Firmierung klären
+         (bei einer GbR alle Gesellschafter nennen). -->
+
+  <h2>Haftung für Inhalte</h2>
   <p>
-    Restaurant ROBERT.<br>
-    Rathausufer 10<br>
-    40213 Düsseldorf<br>
-    Telefon: <a href="tel:+4921115207834">0211&nbsp;152&nbsp;078&nbsp;34</a><br>
-    E-Mail: <a href="mailto:info@restaurantrobert.de">info@restaurantrobert.de</a>
+    Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die
+    Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch
+    keine Gewähr übernehmen. Als Diensteanbieter sind wir für eigene Inhalte
+    auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Als
+    Diensteanbieter sind wir jedoch nicht verpflichtet, übermittelte oder
+    gespeicherte fremde Informationen zu überwachen oder nach Umständen zu
+    forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen
+    zur Entfernung oder Sperrung der Nutzung von Informationen nach den
+    allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche
+    Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten
+    Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden
+    Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
   </p>
+
+  <h2>Haftung für Links</h2>
+  <p>
+    Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren
+    Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden
+    Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten
+    Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten
+    verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung
+    auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum
+    Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente inhaltliche
+    Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte
+    einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von
+    Rechtsverletzungen werden wir derartige Links umgehend entfernen.
+  </p>
+
+  <h2>Urheberrecht</h2>
+  <p>
+    Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen
+    Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung,
+    Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der
+    Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des
+    jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite
+    sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.
+    Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden,
+    werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte
+    Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine
+    Urheberrechtsverletzung aufmerksam werden, bitten wir um einen
+    entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden
+    wir derartige Inhalte umgehend entfernen.
+  </p>
+
   <p><a class="textlink" href="index.html">Zurück zur Seite<span class="punkt">.</span></a></p>
 </main>
 </body>

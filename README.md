@@ -50,8 +50,10 @@ GitHub Pages veröffentlicht automatisch nach jedem Push (kein Build-Schritt).
 index.html            Onepage-Website (Hero → Rhein → Küche → Karte →
                       Galerie → Geschichte → Team → Presse → Besuch → Footer)
 404.html              Fehlerseite (nutzt GitHub Pages automatisch)
-impressum.html        Platzhalter, vor Livegang füllen
-datenschutz.html      Platzhalter, vor Livegang füllen
+impressum.html        Inhalt von der alten Website übernommen (§ 5 DDG);
+                      offene Rechts-TODOs als HTML-Kommentare markiert
+datenschutz.html      An den Funktionsumfang der neuen Website angepasst
+                      (keine Cookies/Tracker/Formulare); Hoster-TODO im Quelltext
 css/styles.css        Design-Tokens + alle Stile
 js/main.js            Navigation, Karten-Tabs, Aktionsleiste, Lightbox
 assets/fonts/         Bodoni Moda (Headlines) + Spectral (Text) + Archivo
@@ -104,7 +106,11 @@ Neue Artikel nach demselben Muster ergänzen; Links öffnen extern.
 
 - [ ] Speisekarte und Preise gegen die echte Karte prüfen (Stand: Juli 2026,
       übernommen von restaurantrobert.de)
-- [ ] Impressum und Datenschutzerklärung final einsetzen
+- [ ] Impressum/Datenschutz juristisch final prüfen lassen. Offene Punkte
+      (als TODO-Kommentare im Quelltext markiert): USt-IdNr. (auf der alten
+      Website stand nur „Musterustid.“), Rechtsform („Robert GbR“ vs.
+      „ROBERT.“ – bei GbR alle Gesellschafter nennen), Hosting-Abschnitt
+      mit finalem Hoster + Drittlandübermittlung (aktuell GitHub Pages, USA)
 - [ ] Logo-SVG in `assets/logo/` ablegen und den typografischen
       Schriftzug ersetzen
 - [ ] Foto mit Rheinblick/Terrasse nachliefern (siehe
