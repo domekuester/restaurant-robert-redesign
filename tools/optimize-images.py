@@ -33,34 +33,44 @@ HERO_STUFEN = {1600: (62, 60), 2200: (60, 58)}
 # Bilder, die große Flächen füllen (Galerie-Hauptkachel, breite
 # Querformat-Zuschnitte), bekommen zusätzlich eine 1600er-Stufe,
 # damit sie auf Retina-Displays scharf bleiben.
-GROSSE_FLAECHEN = {"teller-jakobsmuscheln", "stadt-promenade", "team-an-der-bar",
+GROSSE_FLAECHEN = {"teller-jakobsmuscheln", "team-an-der-bar",
                    "kueche-fleisch-sw"}
 GROSS_STUFEN = {1600: (62, 60)}
 
 # Semantischer Name -> Original-Datei
 MAP = {
-    "gastraum-stuck-kronleuchter": "P1310654-2.jpg",   # Hero
+    "tisch-bemalt": "Tisch .jpg",                      # Hero (Achtung: Leerzeichen im Dateinamen)
+    "gastraum-stuck-kronleuchter": "P1310654-2.jpg",
     "gastraum-ecke-lampe": "P1310870.jpg",
     "kueche-feuer": "P1310993.jpg",
     "kueche-schwarzweiss": "P1360767.jpg",
+    "kueche-spaetzle": "Spätzle.jpg",
+    "kueche-sauce": "Sauce.jpg",
     "teller-jakobsmuscheln": "P1360599.jpg",
     "detail-weinflaschen": "P1310836.jpg",
-    "detail-beaujolais-poster": "P1310660.jpg",
-    # Aussortierte Motive (Espresso, Durchreiche, Gemälde, Köche farbig)
-    # sind bewusst nicht gemappt – bei Bedarf Zeile wieder ergänzen,
-    # Originale liegen unangetastet in original/. Siehe docs/bildkonzept.md.
+    "gastraum-bar": "Bar.jpg",
+    # Aussortierte Motive (Espresso, Durchreiche, Gemälde, Köche farbig,
+    # Beaujolais-Poster, Café-de-Flore-Schild – das Schild steckt im
+    # Bar-Bild mit drin) sind bewusst nicht gemappt – bei Bedarf Zeile
+    # wieder ergänzen, Originale liegen unangetastet in original/.
+    # Siehe docs/bildkonzept.md. Stadtbilder, Spiegel- und Gläser-S/W:
+    # Originale im Juli 2026 aus dem Bestand genommen.
     "team-michael-geisner": "P1320294.jpg",
     "team-an-der-bar": "P1320322.jpg",
+    "team-rene-lindemann": "Rene.jpg",
     "team-yukihiro-takahashi": "yuki.jpg",
-    "stadt-rheinturm": "P1310689.jpg",
-    "stadt-promenade": "P1310729.jpg",
-    "gaeste-spiegel-sw": "P1360579.jpg",
-    "detail-glaeser-sw": "P1360589.jpg",
     "kueche-flambe-sw": "P1360623.jpg",
     "kueche-fleisch-sw": "P1360609.jpg",
 }
 
-HERO = "gastraum-stuck-kronleuchter"
+HERO = "tisch-bemalt"
+
+# Zuschnitte (nur in den Kopien): Anteile von links/oben/rechts/unten.
+# Der bemalte Tisch ist von oben fotografiert – unterhalb der Tischkante
+# stehen Pflaster und die Beine des Fotografen, die kommen weg.
+CROPS = {
+    "tisch-bemalt": (0.0, 0.0, 1.0, 0.68),
+}
 
 # Sanfte "Entwicklung" einzelner Bilder (nur in den Kopien).
 # Yukis Porträt ist im Original sehr dunkel – fürs Team-Raster
@@ -71,6 +81,11 @@ ANPASSUNGEN = {
 
 
 def entwickle(im, name):
+    box = CROPS.get(name)
+    if box:
+        l, o, r, u = box
+        im = im.crop((int(im.width * l), int(im.height * o),
+                      int(im.width * r), int(im.height * u)))
     werte = ANPASSUNGEN.get(name)
     if not werte:
         return im

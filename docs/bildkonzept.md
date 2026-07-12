@@ -6,11 +6,15 @@ Grundsatz: Lieber wenige Bilder groß und mit Absicht als alle irgendwo.
 Die Website erzählt einen Abend im Restaurant – jedes Bild hat eine Rolle,
 oder es bleibt (vorerst) draußen.
 
-## Hero
+## Hero (seit v6, Juli 2026)
 
 | Original | Semantischer Name | Warum |
 |---|---|---|
-| P1310654-2 | `gastraum-stuck-kronleuchter` | Das eine Bild, das den Ort erklärt: Jugendstil-Stuck, Kronleuchter, gedeckte Tische, Lampenlicht. Hochformat zeigt die ganze Decke – deshalb der Split-Hero. |
+| Tisch .jpg | `tisch-bemalt` | Der bemalte Tisch von oben – bunte Gesichter, Weinglas, gemalter ROBERT-Schriftzug. Querformat, wie gemacht fürs Masthead-Band. Die Pipeline schneidet die unteren 32 % weg (Pflaster + Beine des Fotografen), Crop nur in optimized/. |
+
+Der bisherige Hero `gastraum-stuck-kronleuchter` ist ins Intro „Am Rhein"
+gewandert (Slot des entfernten Rheinturm-Bilds) – der Innenraum bleibt
+damit prominent sichtbar.
 
 ## Küche (Sektion „Die Küche")
 
@@ -31,14 +35,13 @@ oder es bleibt (vorerst) draußen.
 |---|---|---|
 | P1310870 | `gastraum-ecke-lampe` | Ecke mit Bildern, Kugellampe, bemalten Tischen – der intime Gegenschuss zum Hero, steht im Intro „Am Rhein". |
 
-## Stadt / Rhein (seit v2 vorhanden!)
+## Stadt / Rhein (seit v6 entfallen)
 
-| Original | Name | Warum |
-|---|---|---|
-| P1310689 | `stadt-rheinturm` | Rheinturm im Abendlicht, gerahmt von Dachsilhouetten – DAS Ortsbild. Steht im Intro „Am Rhein" neben dem Text. |
-| P1310729 | `stadt-promenade` | Promenade mit Schlossturm, Lambertus und Riesenrad durch die Platanen – breit beschnitten (3:2) unterhalb des Intro-Duos, mit Bildunterschrift. |
-
-Ein Foto der eigenen Terrasse/Fassade fehlt weiterhin (Wunschliste).
+Die Originale von `stadt-rheinturm` und `stadt-promenade` wurden im
+Juli 2026 aus dem Bestand genommen. „Am Rhein" zeigt jetzt den
+Kronleuchter-Gastraum; die breite Promenade-Fläche ist ersatzlos
+entfallen. Ein Foto der eigenen Terrasse/Fassade fehlt weiterhin
+(Wunschliste).
 
 ## Team
 
@@ -46,9 +49,8 @@ Ein Foto der eigenen Terrasse/Fassade fehlt weiterhin (Wunschliste).
 |---|---|---|
 | P1320322 | `team-an-der-bar` | Das ganze Team hinter der geschwungenen Bar unterm Stuck – Gruppenbild der Sektion, beschnitten auf 4:3. |
 | P1320294 | `team-michael-geisner` | Michael, entspannt an der Bar, Ringelshirt – Porträt-Slot 1. |
+| Rene.jpg | `team-rene-lindemann` | René in der Küche, Geschirrtuch über der Schulter, Blick über die Brille – seit v6 im Porträt-Slot 2 (Platzhalter ersetzt). |
 | yuki | `team-yukihiro-takahashi` | Yuki durch das Küchenregal, konzentriert. Im Original sehr dunkel; die Pipeline hellt die Kopie um +35 % auf (Original bleibt unangetastet). Porträt-Slot 3. |
-
-Porträt-Slot 2 (René) wartet weiter auf ein Foto – Platzhalter aktiv.
 
 ## Details
 
@@ -65,18 +67,23 @@ Porträt-Slot 2 (René) wartet weiter auf ein Foto – Platzhalter aktiv.
 |---|---|---|
 | P1360609 | `kueche-fleisch-sw` | S/W, Fleisch überm offenen Feuer, ganz nah – als vollbreiter, stummer Vorhang zwischen Karte (Elfenbein) und Galerie (Wein). Der einzige Full-Bleed-Moment der Seite. |
 
-## Galerie (kuratierte Strecke, 6 Bilder, seit v2 mit S/W-Rhythmus)
+## Galerie (kuratierte Strecke, 6 Bilder, seit v6 neu sortiert)
 
-Wechsel Farbe/Schwarzweiß als Editorial-Rhythmus, nie zwei gleiche
-Motivtypen nebeneinander:
+Nie zwei gleiche Motivtypen nebeneinander; der S/W-Rhythmus ist mit dem
+Wegfall der S/W-Originale (Spiegel, Gläser) entfallen:
 
-1. `teller-jakobsmuscheln` (groß, 2×2) – Farbe, Food
-2. `detail-weinflaschen` – Farbe, Detail
-3. `gaeste-spiegel-sw` (P1360579) – S/W, Menschen/Stammgäste
-4. `detail-beaujolais-poster` – Farbe, Wand
-5. `gastraum-ecke-lampe` – Farbe, Raum (in v2 aus dem Intro hierher gezogen)
-6. `detail-glaeser-sw` (P1360589) – S/W, abstraktes Detail
+1. `teller-jakobsmuscheln` (groß, 2×2) – Food
+2. `detail-weinflaschen` – Detail, Goldlicht
+3. `kueche-spaetzle` (Spätzle.jpg) – Handwerk, Dampf
+4. `gastraum-bar` (Bar.jpg) – die Bar unter der geschwungenen Stuckdecke, mit Café-de-Flore-Schild, Palme und Kronleuchter
+5. `gastraum-ecke-lampe` – Raum
+6. `kueche-sauce` (Sauce.jpg) – köchelnde Sauce, fast abstrakt
 
+**In v6 ersetzt:** `gaeste-spiegel-sw` und `detail-glaeser-sw` (Originale
+aus dem Bestand genommen), `detail-beaujolais-poster` (Original bleibt
+als Reserve). Das Café-de-Flore-Schild (Schild.jpg) war kurz als eigene
+Detail-Kachel drin, wurde aber vom Bar-Bild abgelöst – das Schild ist
+dort im Kontext zu sehen, die Nahaufnahme bleibt Reserve.
 **In v2 aus der Galerie entfernt:** `detail-espresso` (Fremdmarke „COSTA“
 prominent im Bild), `kueche-durchreiche` (Michael ist bereits 3× auf der
 Seite), `detail-gemaelde` (bei Kachelgröße zu unruhig).
