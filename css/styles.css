@@ -9,24 +9,31 @@
    ============================================================ */
 
 /* ---------- Schriften (lokal, kein CDN) ---------- */
+/* Spectral (Production Type, Paris): Lesetext mit Editorial-Charakter.
+   Bodoni Moda: Didone für die großen Zeilen – Vogue, nicht Word. */
 @font-face {
-  font-family: "EB Garamond";
-  src: url("../assets/fonts/EBGaramond-400.woff2") format("woff2");
+  font-family: "Spectral";
+  src: url("../assets/fonts/Spectral-400.woff2") format("woff2");
   font-weight: 400; font-style: normal; font-display: swap;
 }
 @font-face {
-  font-family: "EB Garamond";
-  src: url("../assets/fonts/EBGaramond-400-italic.woff2") format("woff2");
+  font-family: "Spectral";
+  src: url("../assets/fonts/Spectral-400-italic.woff2") format("woff2");
   font-weight: 400; font-style: italic; font-display: swap;
 }
 @font-face {
-  font-family: "EB Garamond";
-  src: url("../assets/fonts/EBGaramond-500.woff2") format("woff2");
+  font-family: "Spectral";
+  src: url("../assets/fonts/Spectral-500.woff2") format("woff2");
   font-weight: 500; font-style: normal; font-display: swap;
 }
 @font-face {
-  font-family: "EB Garamond";
-  src: url("../assets/fonts/EBGaramond-600.woff2") format("woff2");
+  font-family: "Bodoni Moda";
+  src: url("../assets/fonts/BodoniModa-500.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Bodoni Moda";
+  src: url("../assets/fonts/BodoniModa-600.woff2") format("woff2");
   font-weight: 600; font-style: normal; font-display: swap;
 }
 @font-face {
@@ -73,7 +80,8 @@
   --text-hell-matt: #c9b6a8;
 
   /* Typografie */
-  --serif: "EB Garamond", Georgia, "Times New Roman", serif;
+  --serif: "Spectral", Georgia, "Times New Roman", serif;
+  --display: "Bodoni Moda", "Bodoni 72", Didot, Georgia, serif;
   --grotesk: "Archivo", "Helvetica Neue", Arial, sans-serif;
 
   /* Rhythmus */
@@ -97,17 +105,22 @@ body {
   background: var(--grund);
   color: var(--tinte);
   font-family: var(--serif);
-  font-size: 1.1875rem; /* 19px */
-  line-height: 1.65;
+  font-size: 1.125rem; /* 18px – Spectral hat eine größere x-Höhe als Garamond */
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 img { max-width: 100%; height: auto; display: block; }
 
-h1, h2, h3 {
+h1, h2 {
+  font-family: var(--display); font-weight: 500;
+  line-height: 1.06; margin: 0 0 1.1rem;
+  text-wrap: balance;
+}
+h3 {
   font-family: var(--serif); font-weight: 500;
-  line-height: 1.08; margin: 0 0 1.1rem;
+  line-height: 1.2; margin: 0 0 1.1rem;
   text-wrap: balance;
 }
 
@@ -184,9 +197,9 @@ a { color: inherit; }
 }
 
 .kopf-marke {
-  font-family: var(--serif);
+  font-family: var(--display);
   font-weight: 600;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   letter-spacing: 0.06em;
   text-decoration: none;
 }
@@ -282,9 +295,9 @@ a { color: inherit; }
 }
 .hero-bild img {
   width: 100%;
-  height: clamp(320px, 47vh, 520px);
-  object-fit: cover;
-  object-position: 50% 50%; /* bemalter Tisch: die Gesichter mittig im Band */
+  /* natürliches Seitenverhältnis: der bemalte Tisch komplett,
+     inkl. Weinglas links und gemaltem ROBERT-Schriftzug rechts */
+  height: auto;
   border-radius: var(--radius);
 }
 .hero-satz {
@@ -487,8 +500,10 @@ a { color: inherit; }
   margin-top: 2.5rem;
 }
 
-/* ---------- Vollbreites Zwischenbild (Karte -> Galerie) ---------- */
-.zwischenbild { margin: 0; }
+/* ---------- Breites Zwischenbild (Karte -> Galerie) ----------
+   Seit v6 mit seitlicher Luft und Rundung: dieselbe Bild-Logik wie
+   überall (gefasst, --radius) – bleibt trotzdem der größte Moment. */
+.zwischenbild { margin: 0; padding: 0 var(--rand); }
 .zwischenbild img {
   display: block;
   width: 100%;
@@ -496,6 +511,7 @@ a { color: inherit; }
   object-fit: cover;
   /* tiefer gesetzt: die ganze Pfanne gehört ins Bild */
   object-position: 50% 58%;
+  border-radius: var(--radius);
 }
 
 /* ---------- Galerie ---------- */
@@ -627,6 +643,54 @@ a { color: inherit; }
 .team-foto { margin: 0; }
 .team-foto img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: var(--radius); }
 
+/* ---------- Presse / Stadtgespräch: ruhige Editorial-Liste ---------- */
+/* Team und Presse teilen den Elfenbein-Grund – ohne Angleich entsteht
+   doppelte Sektionsluft und ein Loch im Scroll-Rhythmus. */
+.presse { padding-top: calc(var(--abschnitt-luft) * 0.5); }
+.presse-innen { max-width: 46rem; margin: 0 auto; }
+.presse .abschnitt-kopf { margin-bottom: 2.2rem; }
+.presse-satz {
+  max-width: 36rem;
+  color: var(--tinte-matt);
+  margin-top: 1.1rem;
+}
+.presse-liste {
+  list-style: none;
+  margin: 0; padding: 0;
+  border-top: 1px solid var(--linie);
+}
+.presse-liste li { border-bottom: 1px solid var(--linie); }
+.presse-liste a {
+  display: grid;
+  grid-template-columns: 11rem 1fr auto;
+  align-items: baseline;
+  gap: 1.2rem;
+  padding: 1.05rem 0.2rem;
+  text-decoration: none;
+  color: var(--tinte);
+}
+.presse-quelle {
+  font-family: var(--grotesk); font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--tinte-matt);
+}
+.presse-titel {
+  font-style: italic;
+  font-size: 1.12rem;
+  transition: color var(--uebergang);
+}
+.presse-pfeil {
+  color: var(--tinte-matt);
+  transition: transform var(--uebergang), color var(--uebergang);
+}
+.presse-liste a:hover .presse-titel,
+.presse-liste a:focus-visible .presse-titel { color: var(--koralle); }
+.presse-liste a:hover .presse-pfeil,
+.presse-liste a:focus-visible .presse-pfeil {
+  color: var(--koralle);
+  transform: translate(2px, -2px);
+}
+
 /* ---------- Besuch (Hauch Rosé) ---------- */
 .besuch {
   background: linear-gradient(180deg,
@@ -716,9 +780,10 @@ a { color: inherit; }
   background: var(--kohle);
   color: var(--text-hell);
   text-align: center;
-  padding: 5rem var(--rand) 3.5rem;
+  padding: 4rem var(--rand) calc(2.8rem + env(safe-area-inset-bottom));
 }
 .fuss-marke {
+  font-family: var(--display);
   font-size: 1.9rem; font-weight: 600; letter-spacing: 0.08em;
   margin-bottom: 1.8rem;
 }
@@ -727,13 +792,32 @@ a { color: inherit; }
   letter-spacing: 0.14em; text-transform: uppercase;
   margin-bottom: 0.9rem;
 }
-.fuss-social a, .fuss-rechtliches a {
+.fuss-rechtliches a {
   text-decoration: none;
   color: var(--text-hell-matt);
   transition: color var(--uebergang);
 }
-.fuss-social a:hover, .fuss-rechtliches a:hover { color: var(--text-hell); }
-.fuss-social span, .fuss-rechtliches span { color: var(--text-hell-matt); margin: 0 0.6rem; }
+.fuss-rechtliches a:hover { color: var(--text-hell); }
+.fuss-rechtliches span { color: var(--text-hell-matt); margin: 0 0.6rem; }
+
+/* Echte Social-Icons: Marken-SVGs inline, kein Icon-Font.
+   Der Link ist 44px groß (Touch-Ziel), das Icon selbst bleibt dezent. */
+.fuss-social {
+  display: flex; justify-content: center; gap: 0.5rem;
+  margin-bottom: 0.7rem;
+}
+.social-knopf {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  transition: transform var(--uebergang), filter var(--uebergang);
+}
+.social-knopf svg { width: 27px; height: 27px; display: block; }
+.social-knopf:hover, .social-knopf:focus-visible {
+  transform: translateY(-2px);
+  filter: brightness(1.12);
+}
+.social-knopf:focus-visible { outline: 2px solid var(--text-hell); outline-offset: 2px; }
 .fuss-zeile {
   font-style: italic;
   color: var(--text-hell-matt);
@@ -772,7 +856,12 @@ a { color: inherit; }
   .nav-knopf { display: inline-flex; }
 
   .hero { padding-top: calc(4rem + var(--rand)); }
-  .hero-bild img { height: clamp(300px, 46vh, 480px); }
+  .hero-bild img {
+    height: clamp(280px, 40vh, 420px);
+    object-fit: cover;
+    /* rechts geankert: der gemalte ROBERT-Schriftzug bleibt komplett im Bild */
+    object-position: 100% 50%;
+  }
 
   .spalten--text-links, .spalten--bild-links { grid-template-columns: 1fr; }
   .rhein .spalten-bild { justify-self: stretch; max-width: none; }
@@ -791,7 +880,7 @@ a { color: inherit; }
   .karte-tabs::-webkit-scrollbar { display: none; }
   /* Touch-Ziele: mindestens ~44 px hoch */
   .karte-tabs button { padding: 1rem 0 1.15rem; }
-  .fuss-social a, .fuss-rechtliches a { display: inline-block; padding: 0.5rem 0.2rem; }
+  .fuss-rechtliches a { display: inline-block; padding: 0.5rem 0.2rem; }
 
   .zwischenbild img { height: clamp(300px, 52vh, 480px); }
 
@@ -803,14 +892,17 @@ a { color: inherit; }
   .galerie-bild.g2, .galerie-bild.g3, .galerie-bild.g4,
   .galerie-bild.g5, .galerie-bild.g6 { grid-column: auto; grid-row: auto; }
 
+  .presse-liste a { grid-template-columns: 1fr auto; row-gap: 0.3rem; }
+  .presse-quelle { grid-column: 1 / -1; }
+
   .team-raster { grid-template-columns: 1fr; max-width: 26rem; }
   .besuch-raster { grid-template-columns: 1fr; }
   .zeiten { max-width: 30rem; }
 
   .aktionsleiste { display: grid; }
 
-  /* Platz für die Aktionsleiste am Seitenende */
-  .fuss { padding-bottom: 7rem; }
+  /* Platz für die Aktionsleiste + iOS-Home-Indicator am Seitenende */
+  .fuss { padding-bottom: calc(6.5rem + env(safe-area-inset-bottom)); }
 }
 
 /* schmale Handys */

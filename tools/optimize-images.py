@@ -68,8 +68,10 @@ HERO = "tisch-bemalt"
 # Zuschnitte (nur in den Kopien): Anteile von links/oben/rechts/unten.
 # Der bemalte Tisch ist von oben fotografiert – unterhalb der Tischkante
 # stehen Pflaster und die Beine des Fotografen, die kommen weg.
+# 0.70 statt 0.68: das unterste "R" des gemalten ROBERT-Schriftzugs
+# reicht bis an die schwarze Tischkante – die bleibt als Abschluss drin.
 CROPS = {
-    "tisch-bemalt": (0.0, 0.0, 1.0, 0.68),
+    "tisch-bemalt": (0.0, 0.0, 1.0, 0.70),
 }
 
 # Sanfte "Entwicklung" einzelner Bilder (nur in den Kopien).

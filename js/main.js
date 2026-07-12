@@ -94,9 +94,18 @@
 
     aktionsleiste.hidden = false;
 
-    function leisteAktualisieren() {
-      aktionsleiste.classList.toggle("sichtbar", !heroSichtbar && !endeSichtbar);
+    /* Sicherheitsnetz: nahe am Seitenende immer verstecken – Observer
+       feuern auf iOS (dynamische Browser-UI, schnelles Scrollen) nicht
+       zuverlässig, und die Leiste darf den Footer nie verdecken. */
+    function naheEnde() {
+      return window.scrollY + window.innerHeight >
+        document.body.scrollHeight - fuss.offsetHeight - 80;
     }
+    function leisteAktualisieren() {
+      aktionsleiste.classList.toggle("sichtbar",
+        !heroSichtbar && !endeSichtbar && !naheEnde());
+    }
+    window.addEventListener("scroll", leisteAktualisieren, { passive: true });
     new IntersectionObserver(function (e) {
       heroSichtbar = e[0].isIntersecting;
       leisteAktualisieren();

@@ -48,13 +48,15 @@ GitHub Pages veröffentlicht automatisch nach jedem Push (kein Build-Schritt).
 
 ```
 index.html            Onepage-Website (Hero → Rhein → Küche → Karte →
-                      Galerie → Geschichte → Team → Besuch → Footer)
+                      Galerie → Geschichte → Team → Presse → Besuch → Footer)
 404.html              Fehlerseite (nutzt GitHub Pages automatisch)
 impressum.html        Platzhalter, vor Livegang füllen
 datenschutz.html      Platzhalter, vor Livegang füllen
 css/styles.css        Design-Tokens + alle Stile
 js/main.js            Navigation, Karten-Tabs, Aktionsleiste, Lightbox
-assets/fonts/         EB Garamond + Archivo, lokal (kein Google-CDN)
+assets/fonts/         Bodoni Moda (Headlines) + Spectral (Text) + Archivo
+                      (Labels/Nav) – alle lokal als woff2, kein Google-CDN,
+                      alle unter SIL Open Font License
 assets/logo/          leer – finales Logo-SVG hier ablegen
 assets/photos/
   original/           Original-Fotos – NUR LOKAL, nicht im Repo
@@ -78,11 +80,25 @@ Originale werden nie verändert – auch Anpassungen wie Aufhellen passieren
 nur in den optimierten Kopien. Welches Bild wo eingesetzt ist (und warum),
 steht in `docs/bildkonzept.md`.
 
+## Texte ändern
+
+Alle Texte stehen als normales HTML in `index.html` – Abschnitt suchen
+(die Kommentare `<!-- ===== ... ===== -->` markieren jede Sektion),
+Text ändern, speichern. Kein Build nötig. Der Ton der Seite ist bewusst
+warm und direkt („Ohne Reservierung, ohne Getue.") – bitte beim
+Ergänzen keine Werbefloskeln einschleusen.
+
 ## Speisekarte pflegen
 
 Die Gerichte stehen als normales HTML in `index.html` im Abschnitt
 `<!-- SPEISEKARTE -->`. Ein Gericht ist ein `<li class="gericht">`-Block –
 Zeile kopieren, Text und Preis ändern, fertig. Kein Build nötig.
+
+## Presse-Links pflegen
+
+Der Abschnitt „Stadtgespräch" (`<!-- PRESSE -->` in `index.html`) ist
+eine einfache Linkliste: ein `<li>` pro Artikel mit Quelle, Titel und URL.
+Neue Artikel nach demselben Muster ergänzen; Links öffnen extern.
 
 ## Vor dem Livegang
 
@@ -91,9 +107,10 @@ Zeile kopieren, Text und Preis ändern, fertig. Kein Build nötig.
 - [ ] Impressum und Datenschutzerklärung final einsetzen
 - [ ] Logo-SVG in `assets/logo/` ablegen und den typografischen
       Schriftzug ersetzen
-- [ ] Porträtfoto für René ergänzen (Platzhalter-Slot im Team-Bereich)
 - [ ] Foto mit Rheinblick/Terrasse nachliefern (siehe
       `docs/foto-wunschliste.md`)
+- [ ] Presse-Formulierungen gegenlesen (Abschnitt „Stadtgespräch" –
+      bewusst vorsichtig gehalten: „laut Medienberichten")
 - [ ] Beim Umzug auf die finale Domain: `og:url` und `og:image` in
       `index.html` umstellen (zeigen aktuell auf die GitHub-Pages-URL,
       damit geteilte Links eine Bildvorschau haben; `canonical` zeigt

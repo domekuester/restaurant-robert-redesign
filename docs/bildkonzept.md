@@ -65,7 +65,7 @@ entfallen. Ein Foto der eigenen Terrasse/Fassade fehlt weiterhin
 
 | Original | Name | Warum |
 |---|---|---|
-| P1360609 | `kueche-fleisch-sw` | S/W, Fleisch überm offenen Feuer, ganz nah – als vollbreiter, stummer Vorhang zwischen Karte (Elfenbein) und Galerie (Wein). Der einzige Full-Bleed-Moment der Seite. |
+| P1360609 | `kueche-fleisch-sw` | S/W, Fleisch überm offenen Feuer, ganz nah – als breiter, stummer Vorhang zwischen Karte und Galerie. Seit v6 mit seitlicher Luft und Rundung wie alle Bilder (kein Full-Bleed mehr – einheitliche Bildkanten). |
 
 ## Galerie (kuratierte Strecke, 6 Bilder, seit v6 neu sortiert)
 
