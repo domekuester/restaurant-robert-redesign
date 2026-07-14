@@ -725,6 +725,60 @@ a { color: inherit; }
   transform: translate(2px, -2px);
 }
 
+/* ---------- Instagram-Teaser: vier stille Quadrate ----------
+   Bewusst statisch (kein Embed, kein Tracking): eigene Fotos als
+   Fenster zum Profil. Bildsprache wie die Galerie – gefasst, --radius,
+   randlos gefüllt. Presse und Instagram teilen den Elfenbein-Grund,
+   deshalb die verkürzte Sektionsluft (wie Team → Presse). */
+.instagram { padding-top: calc(var(--abschnitt-luft) * 0.5); }
+.instagram-innen { max-width: var(--inhalt-breite); margin: 0 auto; }
+.instagram .abschnitt-kopf { margin-bottom: 2.6rem; }
+.instagram-satz {
+  max-width: var(--textspalte);
+  color: var(--tinte-matt);
+  margin-top: 1.1rem;
+}
+.instagram-raster {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(0.8rem, 2vw, 1.4rem);
+}
+.instagram-raster li { margin: 0; }
+.instagram-raster a {
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--apricot);
+  transition: box-shadow var(--uebergang);
+}
+.instagram-raster img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  transition: transform 900ms var(--ease);
+}
+/* Ausschnitte je Motiv (Hochformate im Quadrat) */
+.instagram-raster li:nth-child(1) img { object-position: 50% 72%; } /* Espresso-Strahl läuft ein */
+.instagram-raster li:nth-child(2) img { object-position: 50% 32%; } /* Michaels Blick */
+.instagram-raster li:nth-child(3) img { object-position: 50% 28%; } /* Schild-Schriftzug */
+.instagram-raster li:nth-child(4) img { object-position: 50% 100%; } /* Gemälde komplett */
+.instagram-raster a:hover img,
+.instagram-raster a:focus-visible img { transform: scale(1.025); }
+.instagram-raster a:hover { box-shadow: 0 6px 24px rgba(44, 37, 34, 0.14); }
+
+.instagram-fuss {
+  margin-top: 2.4rem;
+  display: flex; align-items: baseline; gap: 1.6rem;
+  flex-wrap: wrap;
+}
+.instagram-hinweis {
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--tinte-matt);
+}
+
 /* ---------- Besuch (Hauch Rosé) ---------- */
 .besuch {
   background: linear-gradient(180deg,
@@ -873,7 +927,7 @@ a { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .js [data-reveal] { opacity: 1; transform: none; transition: none; }
-  .galerie-zoom img { transition: none; }
+  .galerie-zoom img, .instagram-raster img { transition: none; }
   .js .hero > *,
   .js .karte-panel.ist-aktiv,
   .nav-overlay { animation: none; }
@@ -934,6 +988,9 @@ a { color: inherit; }
 
   .presse-liste a { grid-template-columns: 1fr auto; row-gap: 0.3rem; }
   .presse-quelle { grid-column: 1 / -1; }
+
+  /* Instagram: 2×2 auf Tablet und Handy, Kacheln bleiben Quadrate */
+  .instagram-raster { grid-template-columns: 1fr 1fr; }
 
   .team-raster { grid-template-columns: 1fr; max-width: 26rem; }
   .besuch-raster { grid-template-columns: 1fr; }

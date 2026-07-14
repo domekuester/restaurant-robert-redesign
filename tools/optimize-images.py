@@ -52,10 +52,14 @@ MAP = {
     # Seit v7 zurück im Einsatz (Galerie auf 8 Kacheln erweitert):
     "detail-beaujolais-poster": "P1310660.jpg",
     "kueche-koeche": "P1310809-2.jpg",
-    # Aussortierte Motive (Espresso, Durchreiche, Gemälde,
-    # Café-de-Flore-Schild – das Schild steckt im Bar-Bild mit drin)
-    # sind bewusst nicht gemappt – bei Bedarf Zeile wieder ergänzen,
-    # Originale liegen unangetastet in original/.
+    # Seit v8 im Instagram-Teaser (kleine quadratische Kacheln):
+    "detail-cafe-de-flore": "Schild.jpg",
+    "kueche-durchreiche": "P1310880-2.jpg",
+    # Espresso war wegen des COSTA-Logos aussortiert – der Crop unten
+    # schneidet beide Logos weg, übrig bleibt der goldene Moment.
+    "detail-espresso": "P1310861.jpg",
+    # Gemälde + Garderoben-Schild, eng beschnitten für die kleine Kachel.
+    "detail-gemaelde": "P1360585.jpg",
     # Siehe docs/bildkonzept.md. Stadtbilder, Spiegel- und Gläser-S/W:
     # Originale im Juli 2026 aus dem Bestand genommen.
     "team-michael-geisner": "P1320294.jpg",
@@ -75,6 +79,11 @@ HERO = "tisch-bemalt"
 # reicht bis an die schwarze Tischkante – die bleibt als Abschluss drin.
 CROPS = {
     "tisch-bemalt": (0.0, 0.0, 1.0, 0.70),
+    # Espresso: unten die COSTA-Tasse weg, rechts die zweite Logo-Tasse –
+    # bleibt Siebträger + laufender Espresso im Goldlicht.
+    "detail-espresso": (0.0, 0.0, 0.72, 0.55),
+    # Gemälde: eng auf Bild + Garderoben-Schild, das Bokeh-Umfeld weg.
+    "detail-gemaelde": (0.15, 0.0, 0.78, 0.58),
 }
 
 # Sanfte "Entwicklung" einzelner Bilder (nur in den Kopien).

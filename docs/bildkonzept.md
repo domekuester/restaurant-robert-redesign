@@ -105,14 +105,30 @@ Hauptbild bleibt `kueche-feuer` (Farbe). Das Zweitbild ist jetzt
 `kueche-flambe-sw` (P1360623, S/W-Flambé) – der Farbe/S/W-Kontrast ersetzt
 das unruhige Farbbild der beiden Köche.
 
+## Instagram-Teaser (v8, vor „Besuch")
+
+Vier quadratische Kacheln als statisches Fenster zum Profil. Regel:
+kein Motiv, das schon anderswo auf der Seite steht – der Teaser zeigt
+nur Exklusives (sonst wirkt er wie Resteverwertung). Alle vier kommen
+deshalb aus der Reserve, zwei davon per Pipeline-Crop gerettet:
+
+1. `detail-espresso` (P1310861) – laufender Espresso im Goldlicht.
+   War wegen des COSTA-Logos aussortiert; der Pipeline-Crop
+   (rechts/unten beschnitten) entfernt beide Logo-Tassen komplett.
+2. `kueche-durchreiche` (P1310880-2) – Michael schaut durch die
+   Durchreiche; das menschlichste, feed-artigste Bild im Bestand.
+3. `detail-cafe-de-flore` (Schild.jpg) – die Nahaufnahme des Schilds;
+   hinter Palmwedeln, goldene Schrift.
+4. `detail-gemaelde` (P1360585) – das Gemälde an der Holzwand. War als
+   Galerie-Kachel „zu unruhig"; der enge Pipeline-Crop nimmt das
+   Bokeh-Umfeld weg, die Kachel ankert unten (Gemälde komplett).
+
 ## Bewusst nicht eingesetzt (Reserve)
 
 | Original | Grund |
 |---|---|
 | P1360582 (Bokeh, gerahmtes Bild) | Zu abstrakt – erklärt nichts. |
-| P1360622-3 (Küche farbig, weit) | Unruhig (Zettel, Kisten); die S/W-Variante desselben Moments ist stärker. |
-| kueche-koeche (P1310809-2) | In v2 gewichen – Ringelshirt-Motiv doppelt mit Flambé-Bild. |
-| detail-espresso, kueche-durchreiche, detail-gemaelde | Siehe Galerie-Begründung. |
+| P1360622-3 (Küche farbig, weit) | Unruhig (Zettel, Kisten); die S/W-Variante desselben Moments ist stärker – und noch ein Ringelshirt-Michael neben der Durchreiche-Kachel wäre doppelt. |
 
 ## Technik
 

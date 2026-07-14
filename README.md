@@ -102,6 +102,29 @@ Der Abschnitt „Stadtgespräch" (`<!-- PRESSE -->` in `index.html`) ist
 eine einfache Linkliste: ein `<li>` pro Artikel mit Quelle, Titel und URL.
 Neue Artikel nach demselben Muster ergänzen; Links öffnen extern.
 
+## Instagram automatisch aktualisieren (spätere Option)
+
+Der Abschnitt „Aktuell bei ROBERT." (`<!-- INSTAGRAM -->` in `index.html`)
+ist bewusst statisch: eigene Fotos, die aufs Profil verlinken – kein Embed,
+kein Tracking, keine Cookies, keine Drittanbieter-Skripte, keine Tokens im
+Frontend. Kacheln tauschen geht wie überall: Bild über die Pipeline
+optimieren, `<picture>`-Block anpassen.
+
+Falls die Kacheln später echte aktuelle Posts zeigen sollen:
+
+- Möglich über die **Instagram Graph API** – benötigt ein
+  Instagram-**Business- oder Creator-Konto**, eine **Meta-App** und einen
+  **Access Token**.
+- Der Token darf **niemals im Frontend** (HTML/JS/Repo) liegen.
+- Mit GitHub Pages: eine **GitHub Action** ruft z. B. täglich die API ab
+  (Token als Repository-Secret) und schreibt eine lokale JSON/HTML-Datei
+  ins Repo, die die Kacheln speist – die Seite bleibt statisch.
+- Alternativ: Serverless-Funktion (Netlify/Vercel/Cloudflare), die die
+  API-Antwort cached und ausliefert.
+- Vorher **Datenschutzerklärung und Impressum prüfen** (API-Abrufe,
+  ggf. geänderte Datenflüsse) – die aktuelle Datenschutzerklärung
+  verspricht ausdrücklich „keine externen Dienste".
+
 ## Vor dem Livegang
 
 - [ ] Speisekarte und Preise gegen die echte Karte prüfen (Stand: Juli 2026,
