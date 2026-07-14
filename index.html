@@ -237,12 +237,12 @@
       </header>
 
       <nav class="karte-tabs" aria-label="Kategorien der Speisekarte">
-        <button aria-expanded="true" data-panel="suppen">Suppen</button>
-        <button aria-expanded="false" data-panel="meer">Austern &amp; Meer</button>
-        <button aria-expanded="false" data-panel="vorspeisen">Vorspeisen</button>
-        <button aria-expanded="false" data-panel="taglierini">Taglierini &amp; Flammkuchen</button>
-        <button aria-expanded="false" data-panel="hauptgerichte">Hauptgerichte</button>
-        <button aria-expanded="false" data-panel="dessert">Dessert</button>
+        <button aria-expanded="true" aria-controls="panel-suppen" data-panel="suppen">Suppen</button>
+        <button aria-expanded="false" aria-controls="panel-meer" data-panel="meer">Austern &amp; Meer</button>
+        <button aria-expanded="false" aria-controls="panel-vorspeisen" data-panel="vorspeisen">Vorspeisen</button>
+        <button aria-expanded="false" aria-controls="panel-taglierini" data-panel="taglierini">Taglierini &amp; Flammkuchen</button>
+        <button aria-expanded="false" aria-controls="panel-hauptgerichte" data-panel="hauptgerichte">Hauptgerichte</button>
+        <button aria-expanded="false" aria-controls="panel-dessert" data-panel="dessert">Dessert</button>
       </nav>
 
       <div class="karte-panels">
@@ -643,7 +643,39 @@
           </picture>
         </button>
       </figure>
+      <figure data-reveal class="galerie-bild g5">
+        <button class="galerie-zoom" aria-label="Bild vergrößern: Beaujolais-Plakat hinter Gläsern">
+          <picture>
+          <source type="image/webp"
+                  srcset="assets/photos/optimized/detail-beaujolais-poster-480.webp 480w,
+                          assets/photos/optimized/detail-beaujolais-poster-960.webp 960w"
+                  sizes="(min-width: 900px) 28vw, 50vw">
+          <img src="assets/photos/optimized/detail-beaujolais-poster-480.jpg"
+               srcset="assets/photos/optimized/detail-beaujolais-poster-480.jpg 480w,
+                       assets/photos/optimized/detail-beaujolais-poster-960.jpg 960w"
+               sizes="(min-width: 900px) 28vw, 50vw"
+               width="2672" height="4000" loading="lazy"
+               alt="„Le Beaujolais nouveau est arrivé!“ – das Plakat hinter aufgereihten Gläsern im warmen Licht">
+          </picture>
+        </button>
+      </figure>
       <figure data-reveal class="galerie-bild g6">
+        <button class="galerie-zoom" aria-label="Bild vergrößern: Sauce im Topf">
+          <picture>
+          <source type="image/webp"
+                  srcset="assets/photos/optimized/kueche-sauce-480.webp 480w,
+                          assets/photos/optimized/kueche-sauce-960.webp 960w"
+                  sizes="(min-width: 900px) 28vw, 50vw">
+          <img src="assets/photos/optimized/kueche-sauce-480.jpg"
+               srcset="assets/photos/optimized/kueche-sauce-480.jpg 480w,
+                       assets/photos/optimized/kueche-sauce-960.jpg 960w"
+               sizes="(min-width: 900px) 28vw, 50vw"
+               width="2672" height="4000" loading="lazy"
+               alt="Goldene Sauce köchelt im Topf, ganz nah – nur Blasen und warmes Licht">
+          </picture>
+        </button>
+      </figure>
+      <figure data-reveal class="galerie-bild g7">
         <button class="galerie-zoom" aria-label="Bild vergrößern: Ecke im Gastraum mit Kugellampe">
           <picture>
           <source type="image/webp"
@@ -659,19 +691,21 @@
           </picture>
         </button>
       </figure>
-      <figure data-reveal class="galerie-bild g5">
-        <button class="galerie-zoom" aria-label="Bild vergrößern: Sauce im Topf">
+      <figure data-reveal class="galerie-bild g8">
+        <button class="galerie-zoom" aria-label="Bild vergrößern: zwei Köche im Service">
           <picture>
           <source type="image/webp"
-                  srcset="assets/photos/optimized/kueche-sauce-480.webp 480w,
-                          assets/photos/optimized/kueche-sauce-960.webp 960w"
-                  sizes="(min-width: 900px) 28vw, 50vw">
-          <img src="assets/photos/optimized/kueche-sauce-480.jpg"
-               srcset="assets/photos/optimized/kueche-sauce-480.jpg 480w,
-                       assets/photos/optimized/kueche-sauce-960.jpg 960w"
-               sizes="(min-width: 900px) 28vw, 50vw"
+                  srcset="assets/photos/optimized/kueche-koeche-480.webp 480w,
+                          assets/photos/optimized/kueche-koeche-960.webp 960w,
+                          assets/photos/optimized/kueche-koeche-1600.webp 1600w"
+                  sizes="(min-width: 900px) 63vw, 100vw">
+          <img src="assets/photos/optimized/kueche-koeche-960.jpg"
+               srcset="assets/photos/optimized/kueche-koeche-480.jpg 480w,
+                       assets/photos/optimized/kueche-koeche-960.jpg 960w,
+                       assets/photos/optimized/kueche-koeche-1600.jpg 1600w"
+               sizes="(min-width: 900px) 63vw, 100vw"
                width="2672" height="4000" loading="lazy"
-               alt="Goldene Sauce köchelt im Topf, ganz nah – nur Blasen und warmes Licht">
+               alt="Zwei Köche mitten im Service – einer blickt über die Schulter zur Kamera">
           </picture>
         </button>
       </figure>

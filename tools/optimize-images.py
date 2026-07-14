@@ -34,7 +34,7 @@ HERO_STUFEN = {1600: (62, 60), 2200: (60, 58)}
 # Querformat-Zuschnitte), bekommen zusätzlich eine 1600er-Stufe,
 # damit sie auf Retina-Displays scharf bleiben.
 GROSSE_FLAECHEN = {"teller-jakobsmuscheln", "team-an-der-bar",
-                   "kueche-fleisch-sw"}
+                   "kueche-fleisch-sw", "kueche-koeche"}
 GROSS_STUFEN = {1600: (62, 60)}
 
 # Semantischer Name -> Original-Datei
@@ -49,10 +49,13 @@ MAP = {
     "teller-jakobsmuscheln": "P1360599.jpg",
     "detail-weinflaschen": "P1310836.jpg",
     "gastraum-bar": "Bar.jpg",
-    # Aussortierte Motive (Espresso, Durchreiche, Gemälde, Köche farbig,
-    # Beaujolais-Poster, Café-de-Flore-Schild – das Schild steckt im
-    # Bar-Bild mit drin) sind bewusst nicht gemappt – bei Bedarf Zeile
-    # wieder ergänzen, Originale liegen unangetastet in original/.
+    # Seit v7 zurück im Einsatz (Galerie auf 8 Kacheln erweitert):
+    "detail-beaujolais-poster": "P1310660.jpg",
+    "kueche-koeche": "P1310809-2.jpg",
+    # Aussortierte Motive (Espresso, Durchreiche, Gemälde,
+    # Café-de-Flore-Schild – das Schild steckt im Bar-Bild mit drin)
+    # sind bewusst nicht gemappt – bei Bedarf Zeile wieder ergänzen,
+    # Originale liegen unangetastet in original/.
     # Siehe docs/bildkonzept.md. Stadtbilder, Spiegel- und Gläser-S/W:
     # Originale im Juli 2026 aus dem Bestand genommen.
     "team-michael-geisner": "P1320294.jpg",

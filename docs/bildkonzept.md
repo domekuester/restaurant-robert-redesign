@@ -67,17 +67,22 @@ entfallen. Ein Foto der eigenen Terrasse/Fassade fehlt weiterhin
 |---|---|---|
 | P1360609 | `kueche-fleisch-sw` | S/W, Fleisch überm offenen Feuer, ganz nah – als breiter, stummer Vorhang zwischen Karte und Galerie. Seit v6 mit seitlicher Luft und Rundung wie alle Bilder (kein Full-Bleed mehr – einheitliche Bildkanten). |
 
-## Galerie (kuratierte Strecke, 6 Bilder, seit v6 neu sortiert)
+## Galerie (kuratierte Strecke, 8 Bilder, seit v7 mit festen Zeilenhöhen)
 
-Nie zwei gleiche Motivtypen nebeneinander; der S/W-Rhythmus ist mit dem
-Wegfall der S/W-Originale (Spiegel, Gläser) entfallen:
+Nie zwei gleiche Motivtypen nebeneinander (auch vertikal prüfen); der
+S/W-Rhythmus ist mit dem Wegfall der S/W-Originale (Spiegel, Gläser)
+entfallen. Seit v7 füllen feste Zeilenhöhen (Desktop) bzw. feste
+Seitenverhältnisse (Mobile) jede Kachel randlos – keine halbleeren
+Rahmen mehr; Ausschnitte je Motiv per `object-position`:
 
 1. `teller-jakobsmuscheln` (groß, 2×2) – Food
 2. `detail-weinflaschen` – Detail, Goldlicht
 3. `kueche-spaetzle` (Spätzle.jpg) – Handwerk, Dampf
 4. `gastraum-bar` (Bar.jpg) – die Bar unter der geschwungenen Stuckdecke, mit Café-de-Flore-Schild, Palme und Kronleuchter
-5. `gastraum-ecke-lampe` – Raum
+5. `detail-beaujolais-poster` – Frankreich an der Wand, zurück aus der Reserve (v7)
 6. `kueche-sauce` (Sauce.jpg) – köchelnde Sauce, fast abstrakt
+7. `gastraum-ecke-lampe` – Raum
+8. `kueche-koeche` (P1310809-2) – breite Schlusskachel (2×1), die Menschen hinter der Karte; in der Galerie weit genug vom Flambé-Bild entfernt (v7, zurück aus der Reserve)
 
 **In v6 ersetzt:** `gaeste-spiegel-sw` und `detail-glaeser-sw` (Originale
 aus dem Bestand genommen), `detail-beaujolais-poster` (Original bleibt
