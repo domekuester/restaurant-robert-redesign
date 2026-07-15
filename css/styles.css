@@ -239,28 +239,28 @@ a { color: inherit; }
 
 .nav-knopf {
   display: none;
-  align-items: center; gap: 0.6rem;
+  align-items: center; gap: 0.55rem;
   background: none; border: 0; color: inherit;
-  font-family: var(--grotesk); font-size: 0.8rem;
-  letter-spacing: 0.18em; text-transform: uppercase;
+  font-family: var(--grotesk); font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.16em; text-transform: uppercase;
   /* großes Touch-Ziel, der negative Rand hält den Kopf optisch schlank */
   padding: 0.85rem 0.5rem; margin: -0.35rem 0;
   cursor: pointer;
 }
 .nav-knopf-linien {
-  display: inline-block; width: 22px; height: 2px;
+  display: inline-block; width: 19px; height: 1.5px;
   background: currentColor; position: relative;
 }
 .nav-knopf-linien::before, .nav-knopf-linien::after {
   content: ""; position: absolute; left: 0;
-  width: 22px; height: 2px; background: currentColor;
+  width: 19px; height: 1.5px; background: currentColor;
   transition: transform var(--uebergang);
 }
-.nav-knopf-linien::before { top: -7px; }
-.nav-knopf-linien::after { top: 7px; }
+.nav-knopf-linien::before { top: -6px; }
+.nav-knopf-linien::after { top: 6px; }
 .nav-knopf[aria-expanded="true"] .nav-knopf-linien { background: transparent; }
-.nav-knopf[aria-expanded="true"] .nav-knopf-linien::before { transform: translateY(7px) rotate(45deg); }
-.nav-knopf[aria-expanded="true"] .nav-knopf-linien::after { transform: translateY(-7px) rotate(-45deg); }
+.nav-knopf[aria-expanded="true"] .nav-knopf-linien::before { transform: translateY(6px) rotate(45deg); }
+.nav-knopf[aria-expanded="true"] .nav-knopf-linien::after { transform: translateY(-6px) rotate(-45deg); }
 
 .nav-overlay[hidden] { display: none; }
 .nav-overlay {
@@ -326,6 +326,24 @@ a { color: inherit; }
   line-height: 2; color: var(--tinte-matt);
   margin: 0;
 }
+
+/* Die feine Service-Stimme: Küchenzeiten sprechen kursiv wie alle
+   Nebenbemerkungen des Hauses – nie in Versalien, nie gesperrt. */
+.service-fein {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--tinte-matt);
+}
+.hero-info .service-fein {
+  display: block;
+  margin-top: 0.4rem;
+  line-height: 1.6;
+}
+.hero-info-zeile { white-space: nowrap; }
 
 /* Einmaliger, ruhiger Auftritt beim Laden */
 @keyframes aufblenden {
@@ -823,7 +841,7 @@ a { color: inherit; }
 }
 .zeiten dt { font-weight: 500; }
 .zeiten dd { margin: 0; text-align: right; }
-.zeiten-hinweis { font-style: italic; font-size: 0.9rem; color: var(--tinte-matt); }
+.zeiten-hinweis { font-style: italic; font-size: 0.9rem; color: var(--tinte-matt); white-space: nowrap; }
 
 .besuch-hinweise ul {
   list-style: none; margin: 0; padding: 0;
@@ -944,11 +962,15 @@ a { color: inherit; }
   .nav-knopf { display: inline-flex; }
 
   .hero { padding-top: calc(4rem + var(--rand)); }
+  /* Zeiten und Adresse als zwei ruhige Zeilen – kein hängender Punkt */
+  .hero-info-trenner { display: none; }
+  .hero-info-zeile { display: block; }
   .hero-bild img {
     height: clamp(280px, 40vh, 420px);
     object-fit: cover;
-    /* rechts geankert: der gemalte ROBERT-Schriftzug bleibt komplett im Bild */
-    object-position: 100% 50%;
+    /* leicht aus der rechten Kante gelöst: beide Augen des Gesichts
+       bleiben im Bild, der gemalte ROBERT-Schriftzug rechts erkennbar */
+    object-position: 90% 50%;
   }
 
   .spalten--text-links, .spalten--bild-links { grid-template-columns: 1fr; }
@@ -1006,4 +1028,6 @@ a { color: inherit; }
 @media (max-width: 24rem) {
   body { font-size: 1.0625rem; }
   .hero-marke { font-size: 3.1rem; }
+  /* Eyebrow bleibt eine Zeile – etwas kleiner statt umgebrochen */
+  .hero-eyebrow { font-size: 0.66rem; letter-spacing: 0.26em; }
 }
