@@ -47,8 +47,10 @@ GitHub Pages veröffentlicht automatisch nach jedem Push (kein Build-Schritt).
 ## Struktur
 
 ```
-index.html            Onepage-Website (Hero → Rhein → Küche → Karte →
+index.html            Onepage-Website, DEUTSCH (Hero → Rhein → Küche → Karte →
                       Galerie → Geschichte → Team → Presse → Besuch → Footer)
+en.html               Englische Version (gleiche Struktur, lokalisierte Texte)
+fr.html               Französische Version (gleiche Struktur, lokalisierte Texte)
 404.html              Fehlerseite (nutzt GitHub Pages automatisch)
 impressum.html        Inhalt von der alten Website übernommen (§ 5 DDG);
                       offene Rechts-TODOs als HTML-Kommentare markiert
@@ -90,11 +92,59 @@ Text ändern, speichern. Kein Build nötig. Der Ton der Seite ist bewusst
 warm und direkt („Ohne Reservierung, ohne Getue.") – bitte beim
 Ergänzen keine Werbefloskeln einschleusen.
 
+## Drei Sprachversionen pflegen (DE/EN/FR)
+
+Die Website gibt es dreimal, als eigenständige statische Seiten mit
+identischer Struktur:
+
+- `index.html` – Deutsch (Hauptsprache)
+- `en.html` – Englisch
+- `fr.html` – Französisch
+
+**Wichtig: Es gibt keinen automatischen Abgleich.** Wer einen Text, ein
+Gericht, einen Preis oder ein Bild ändert, muss dieselbe Stelle in **allen
+drei Dateien** ändern. Die Sektions-Kommentare (`<!-- ===== KÜCHE ===== -->`
+usw.) und die CSS-Klassen sind in allen drei Dateien gleich – dieselbe
+Stelle ist also leicht zu finden. Preise stehen in allen Sprachen im
+gleichen Format (z. B. `27,50`).
+
+Grundsätze für neue Übersetzungen:
+
+- **Nicht wörtlich übersetzen.** Jede Sprache soll klingen, als hätte sie
+  ein Gastgeber geschrieben: kurz, warm, direkt. Englisch nicht steif,
+  Französisch nicht überkandidelt. Referenz ist der Claim:
+  DE „Ohne Reservierung, ohne Getue." / EN "No reservations, no fuss." /
+  FR « Sans réservation, sans chichi. »
+- **Keine Werbefloskeln** („unforgettable experience", „culinary
+  excellence" …) – in keiner Sprache.
+- Die französischen Eyebrow-Etiketten (La Maison, La Cuisine, L'Histoire …)
+  bleiben in **allen** Sprachversionen französisch – sie sind Teil der Marke.
+- Presse-Schlagzeilen bleiben im deutschen Original (es sind Zitate);
+  EN/FR weisen im Einleitungstext darauf hin.
+- Auch `alt`-Texte, `aria-label` und die Meta-Tags (`title`, `description`,
+  Open Graph) sind pro Sprache lokalisiert – bei Änderungen mitziehen.
+- Der Sprachumschalter (DE · EN · FR) steckt zweimal pro Seite: im Kopf
+  (Desktop) und im Menü-Overlay (Mobile). Die aktive Sprache trägt
+  `aria-current="page"`.
+- `hreflang`-Links im `<head>` aller drei Seiten zeigen auf die finale
+  Domain (restaurantrobert.de) – beim Domain-Umzug prüfen.
+
+**Rechtliches:** `impressum.html` und `datenschutz.html` existieren bewusst
+nur auf Deutsch; EN/FR verlinken sie als "Legal notice" / "Privacy policy"
+bzw. « Mentions légales » / « Politique de confidentialité ». Rechtliche
+Texte nicht frei übersetzen – falls fremdsprachige Fassungen gewünscht sind,
+juristisch erstellen bzw. prüfen lassen.
+
+**Vor jedem Livegang alle drei Sprachseiten testen** (Desktop + Mobile:
+Navigation, Sprachumschalter, Karte-Tabs, Galerie/Lightbox, Links).
+
 ## Speisekarte pflegen
 
 Die Gerichte stehen als normales HTML in `index.html` im Abschnitt
 `<!-- SPEISEKARTE -->`. Ein Gericht ist ein `<li class="gericht">`-Block –
 Zeile kopieren, Text und Preis ändern, fertig. Kein Build nötig.
+**Dieselbe Änderung auch in `en.html` und `fr.html` machen** (gleiche
+Stelle, lokalisierter Text, identischer Preis).
 
 ## Presse-Links pflegen
 
@@ -128,7 +178,12 @@ Falls die Kacheln später echte aktuelle Posts zeigen sollen:
 ## Vor dem Livegang
 
 - [ ] Speisekarte und Preise gegen die echte Karte prüfen (Stand: Juli 2026,
-      übernommen von restaurantrobert.de)
+      übernommen von restaurantrobert.de) – in allen drei Sprachdateien
+- [ ] Alle drei Sprachseiten (index/en/fr) auf Desktop und Mobile testen;
+      EN/FR-Übersetzungen vom Betreiber gegenlesen lassen
+- [ ] Rechtliche Texte bleiben deutsch; falls EN/FR-Fassungen von
+      Impressum/Datenschutz gewünscht: juristisch erstellen/prüfen lassen,
+      nicht frei übersetzen
 - [ ] Impressum/Datenschutz juristisch final prüfen lassen. Offene Punkte
       (als TODO-Kommentare im Quelltext markiert): USt-IdNr. (auf der alten
       Website stand nur „Musterustid.“), Rechtsform („Robert GbR“ vs.

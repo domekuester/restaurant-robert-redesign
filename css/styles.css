@@ -215,6 +215,8 @@ a { color: inherit; }
   text-decoration: none;
 }
 
+.kopf-rechts { display: flex; align-items: center; gap: 2.4rem; }
+
 .kopf-nav ul {
   display: flex; gap: 2.2rem;
   list-style: none; margin: 0; padding: 0;
@@ -236,6 +238,46 @@ a { color: inherit; }
   transition: transform var(--uebergang);
 }
 .kopf-nav a:hover::after, .kopf-nav a.ist-aktiv::after { transform: translateX(-50%) scale(1); }
+
+/* Sprachwahl: drei stille Etiketten, der Punkt markiert die aktive Sprache */
+.sprachen { display: flex; align-items: center; gap: 0.55rem; }
+.sprachen span {
+  color: var(--tinte-matt); opacity: 0.6;
+  font-family: var(--grotesk); font-size: 0.72rem;
+}
+.sprachen a {
+  font-family: var(--grotesk); font-size: 0.72rem; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  text-decoration: none; color: var(--tinte-matt);
+  position: relative; padding: 0.4rem 0.15rem;
+  transition: color var(--uebergang);
+}
+/* unsichtbar vergrößerte Trefferfläche wie bei den Textlinks */
+.sprachen a::before {
+  content: ""; position: absolute; inset: -0.55rem -0.3rem;
+}
+.sprachen a:hover, .sprachen a:focus-visible { color: var(--tinte); }
+.sprachen a[aria-current="page"] { color: var(--tinte); }
+.sprachen a[aria-current="page"]::after {
+  content: ""; position: absolute; left: 50%; bottom: -0.1rem;
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--koralle); transform: translateX(-50%);
+}
+/* Im Menü-Overlay: etwas größer, bequem tippbar.
+   Höhere Spezifität nötig – .nav-overlay nav a setzt sonst die große
+   Serif-Stimme der Menüpunkte auch auf die Sprachwahl. */
+.nav-overlay .sprachen { gap: 1.1rem; }
+.nav-overlay .sprachen a {
+  display: inline-block;
+  font-family: var(--grotesk); font-size: 0.85rem; font-weight: 500;
+  letter-spacing: 0.14em;
+  padding: 0.7rem 0.3rem;
+  color: var(--tinte-matt);
+}
+.nav-overlay .sprachen a:hover,
+.nav-overlay .sprachen a[aria-current="page"] { color: var(--tinte); }
+.nav-overlay .sprachen span { font-size: 0.85rem; }
+.nav-overlay .sprachen a[aria-current="page"]::after { bottom: 0.15rem; }
 
 .nav-knopf {
   display: none;
@@ -295,6 +337,7 @@ a { color: inherit; }
   font-family: var(--grotesk); font-size: 0.75rem; font-weight: 600;
   letter-spacing: 0.32em; text-transform: uppercase;
   color: var(--koralle); margin: 0 0 1rem;
+  text-wrap: balance; /* EN/FR-Fassungen sind länger: wenn es bricht, dann ausgewogen */
 }
 .hero-marke {
   font-size: clamp(3.6rem, 11vw, 6rem);
@@ -959,6 +1002,9 @@ a { color: inherit; }
 @media (max-width: 56rem) {
 
   .kopf-nav { display: none; }
+  /* Sprachwahl wandert ins Menü-Overlay – der Kopf bleibt ruhig */
+  .kopf .sprachen { display: none; }
+  .kopf-rechts { gap: 0; }
   .nav-knopf { display: inline-flex; }
 
   .hero { padding-top: calc(4rem + var(--rand)); }
@@ -1030,4 +1076,7 @@ a { color: inherit; }
   .hero-marke { font-size: 3.1rem; }
   /* Eyebrow bleibt eine Zeile – etwas kleiner statt umgebrochen */
   .hero-eyebrow { font-size: 0.66rem; letter-spacing: 0.26em; }
+  /* Die nowrap-Infozeilen (EN ist die längste) brauchen auf schmalen
+     Handys etwas weniger Sperrung, sonst stoßen sie an den Rand */
+  .hero-info { font-size: 0.72rem; letter-spacing: 0.15em; }
 }
