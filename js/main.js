@@ -80,8 +80,29 @@
       panels.forEach(function (p) {
         p.classList.toggle("ist-aktiv", p.id === "panel-" + tab.dataset.panel);
       });
+      /* Gewählte Kategorie in die Mitte rücken: zeigt die Nachbarn
+         und damit ganz nebenbei, dass die Leiste schiebbar ist. */
+      tab.scrollIntoView({
+        behavior: reduzierteBewegung ? "auto" : "smooth",
+        inline: "center",
+        block: "nearest"
+      });
     });
   });
+
+  /* Wisch-Andeutung der Tab-Leiste: Rand-Verläufe nur dort zeigen,
+     wo tatsächlich noch Kategorien verborgen sind. */
+  var tabLeiste = document.querySelector(".karte-tabs");
+  if (tabLeiste) {
+    var tabRaender = function () {
+      var maxScroll = tabLeiste.scrollWidth - tabLeiste.clientWidth;
+      tabLeiste.classList.toggle("am-anfang", tabLeiste.scrollLeft < 8);
+      tabLeiste.classList.toggle("am-ende", tabLeiste.scrollLeft > maxScroll - 8);
+    };
+    tabLeiste.addEventListener("scroll", tabRaender, { passive: true });
+    window.addEventListener("resize", tabRaender);
+    tabRaender();
+  }
 
   /* ---------- Mobile Aktionsleiste ---------- */
   /* Erscheint nach dem Hero, verschwindet bei Besuch & Footer

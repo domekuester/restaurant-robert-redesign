@@ -1032,10 +1032,37 @@ a { color: inherit; }
     scrollbar-width: none;
     gap: 1.6rem;
     top: 2.9rem;
+    scroll-snap-type: x proximity;
+    scroll-padding: 0 1.6rem;
   }
   .karte-tabs::-webkit-scrollbar { display: none; }
-  /* Touch-Ziele: mindestens ~44 px hoch */
-  .karte-tabs button { padding: 1rem 0 1.15rem; }
+  /* Touch-Ziele: mindestens ~44 px hoch, etwas seitliche Trefferfläche */
+  .karte-tabs button { padding: 1rem 0.1rem 1.15rem; scroll-snap-align: center; }
+
+  /* Wisch-Andeutung: weiche Papier-Verläufe an den Rändern der Leiste.
+     Sie kleben per position:sticky an den sichtbaren Kanten und zeigen
+     nur dorthin, wo es wirklich weitergeht (Klassen setzt main.js). */
+  .karte-tabs::before, .karte-tabs::after {
+    content: "";
+    position: sticky;
+    z-index: 1;
+    flex: 0 0 28px;
+    align-self: stretch;
+    pointer-events: none;
+    transition: opacity var(--uebergang);
+  }
+  .karte-tabs::before {
+    left: 0;
+    margin-right: -28px;
+    background: linear-gradient(to right, var(--papier) 15%, rgba(244, 237, 222, 0));
+  }
+  .karte-tabs::after {
+    right: 0;
+    margin-left: -28px;
+    background: linear-gradient(to left, var(--papier) 15%, rgba(244, 237, 222, 0));
+  }
+  .karte-tabs.am-anfang::before { opacity: 0; }
+  .karte-tabs.am-ende::after { opacity: 0; }
   .fuss-rechtliches a { display: inline-block; padding: 0.5rem 0.2rem; }
 
   .zwischenbild img { height: clamp(300px, 52vh, 480px); }
