@@ -482,6 +482,9 @@ a { color: inherit; }
     var(--grund) 0, var(--papier) 140px,
     var(--papier) calc(100% - 140px), var(--grund) 100%);
 }
+/* „Zur Karte" soll bei der Überschrift landen, nicht in der Sektionsluft:
+   der negative Anteil zieht den Anker um die eigene Polsterung tiefer. */
+.karte { scroll-margin-top: calc(5.8rem - var(--abschnitt-luft)); }
 .karte-innen { max-width: var(--inhalt-breite); margin: 0 auto; }
 .karte-einleitung {
   font-style: italic;
@@ -1021,6 +1024,9 @@ a { color: inherit; }
 
   .spalten--text-links, .spalten--bild-links { grid-template-columns: 1fr; }
   .rhein .spalten-bild { justify-self: stretch; max-width: none; }
+  /* Frühe Bildwirkung: auf dem Handy kommt der Gastraum direkt nach dem
+     Hero, der erklärende Text folgt – Atmosphäre vor Absätzen. */
+  .rhein .spalten-bild { order: -1; }
 
   .kueche-bilder { grid-template-columns: 1fr 42%; }
   .kueche-bild-klein { transform: translateY(1.5rem); }
