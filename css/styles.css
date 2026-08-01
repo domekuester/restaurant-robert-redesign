@@ -332,20 +332,40 @@ a { color: inherit; }
   padding: 0.85rem 0.5rem; margin: -0.35rem 0;
   cursor: pointer;
 }
-.nav-knopf-linien {
-  display: inline-block; width: 19px; height: 1.5px;
-  background: currentColor; position: relative;
+/* Das Menüzeichen: drei Kochlöffel statt drei Striche.
+   In erster Lesart bleibt es die vertraute Leiste – die Schale ist nur
+   eine lang gezogene Verdickung am Stielende, kaum höher als der Strich
+   selbst. Erst auf den zweiten Blick sind es Löffel. Verwandt mit dem
+   Punkt hinter ROBERT: ein Strich, der in einer Rundung endet.
+   Zwei Löffel liegen nach rechts, einer nach links – so, wie Besteck
+   auf der Durchreiche liegt. Und nur so kreuzen sie sich beim Öffnen
+   mit beiden Schalen nach oben statt beide zur selben Seite.
+   Geöffnet: die äußeren beiden drehen ins Kreuz, der mittlere geht
+   still weg. Ein Bild, ein Übergang, keine Verwandlungsschau. */
+.nav-loeffel {
+  display: block;
+  width: 24px; height: 17px;
+  /* Beim Drehen ragen die Löffel knapp über die Zeichenfläche hinaus;
+     die Polsterung des Knopfes gibt ihnen den Platz dafür. */
+  overflow: visible;
+  flex-shrink: 0;
+  transition: transform var(--uebergang-kurz);
 }
-.nav-knopf-linien::before, .nav-knopf-linien::after {
-  content: ""; position: absolute; left: 0;
-  width: 19px; height: 1.5px; background: currentColor;
-  transition: transform var(--uebergang);
+.nav-loeffel line { stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
+.nav-loeffel ellipse { fill: currentColor; }
+.nav-loeffel g {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  transition: transform var(--uebergang), opacity var(--uebergang-kurz);
 }
-.nav-knopf-linien::before { top: -6px; }
-.nav-knopf-linien::after { top: 6px; }
-.nav-knopf[aria-expanded="true"] .nav-knopf-linien { background: transparent; }
-.nav-knopf[aria-expanded="true"] .nav-knopf-linien::before { transform: translateY(6px) rotate(45deg); }
-.nav-knopf[aria-expanded="true"] .nav-knopf-linien::after { transform: translateY(-6px) rotate(-45deg); }
+.nav-knopf[aria-expanded="true"] .nav-loeffel-a { transform: translateY(6px) rotate(45deg); }
+.nav-knopf[aria-expanded="true"] .nav-loeffel-b { opacity: 0; transform: scale(0.7); }
+.nav-knopf[aria-expanded="true"] .nav-loeffel-c { transform: translateY(-6px) rotate(-45deg); }
+
+/* Kleine Rückmeldung beim Tippen – spürbar, nicht sichtbar laut. */
+.nav-knopf:active .nav-loeffel { transform: scale(0.94); }
+/* Der Fokusring legt sich sauber um den Knopf statt scharfkantig. */
+.nav-knopf:focus-visible { border-radius: 3px; }
 
 .nav-overlay[hidden] { display: none; }
 .nav-overlay {
@@ -1125,6 +1145,9 @@ a { color: inherit; }
   /* Der Punkt wechselt die Kategorie sofort, statt zu gleiten;
      das Lightbox-Bild springt ohne Blende um. */
   .karte-punkt, .lightbox img { transition: none; }
+  /* Die Kochlöffel wechseln direkt in die Kreuzstellung. */
+  .nav-loeffel, .nav-loeffel g { transition: none; }
+  .nav-knopf:active .nav-loeffel { transform: none; }
 }
 
 /* ============================================================
