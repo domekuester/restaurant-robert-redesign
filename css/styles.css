@@ -90,9 +90,23 @@
   --inhalt-breite: 72rem;
   --textspalte: 34rem;
 
-  /* Ein Haus, eine Handschrift: alle Übergänge laufen ruhig aus */
+  /* Kopfleiste im gescrollten Zustand – Bezugsmaß für alles, was unter
+     ihr liegen muss: Ankersprünge und die klebende Kategorienleiste.
+     Gemessen: 57,3 px in allen drei Sprachen, Desktop wie Handy. */
+  --kopf-hoehe: 3.6rem;
+  /* Luft zwischen Kopfleiste und der ersten Marke eines Abschnitts.
+     Jeder Navigationsklick soll gleich landen – vorher waren es je nach
+     Abschnitt 36, 88, 181 oder 267 px. */
+  --anker-luft: 4.25rem;
+
+  /* Ein Haus, eine Handschrift: alle Übergänge laufen ruhig aus.
+     Drei Dauern, mehr braucht das Haus nicht:
+     kurz = Farbe/Deckkraft, mittel = Zustände, lang = Auftritte. */
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --zeit-kurz: 180ms;
+  --zeit-lang: 850ms;
   --uebergang: 280ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  --uebergang-kurz: var(--zeit-kurz) cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 /* ---------- Basis ---------- */
@@ -203,15 +217,38 @@ a { color: inherit; }
   position: fixed; inset: 0 0 auto 0; z-index: 50;
   display: flex; align-items: center; justify-content: space-between;
   padding: 1rem var(--rand);
-  transition: background var(--uebergang), box-shadow var(--uebergang), padding var(--uebergang);
+  transition: background var(--uebergang), color var(--uebergang),
+              box-shadow var(--uebergang), padding var(--uebergang);
 }
+/* „Brasserie-Glas": die Leiste nimmt die Tönung des Abschnitts an, über
+   dem sie gerade liegt – Apricot in der Küche, altes Papier bei der
+   Karte. Vorher war sie mit 0,92 fast deckend und lag als fremdes
+   Cremeband über den getönten Abschnitten. */
 .kopf.gescrollt {
-  background: rgba(247, 242, 234, 0.92);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  background: rgba(249, 244, 236, 0.78);
+  -webkit-backdrop-filter: blur(14px) saturate(1.08);
+  backdrop-filter: blur(14px) saturate(1.08);
   box-shadow: 0 1px 0 var(--linie);
   padding-top: 0.6rem; padding-bottom: 0.6rem;
 }
+
+/* Über den dunklen Momenten (Zwischenbild, Geschichte, Footer) dreht die
+   Leiste ins Dunkle, statt als heller Balken darüber zu liegen. Klasse
+   setzt main.js; ohne JavaScript bleibt es beim hellen Zustand. */
+.kopf.gescrollt.ueber-dunkel {
+  background: rgba(34, 28, 25, 0.82);
+  box-shadow: 0 1px 0 var(--kohle-linie);
+  color: var(--text-hell);
+}
+.kopf.ueber-dunkel .punkt { color: var(--koralle-hell); }
+.kopf.ueber-dunkel .sprachen span,
+.kopf.ueber-dunkel .sprachen a { color: var(--text-hell-matt); }
+.kopf.ueber-dunkel .sprachen a:hover,
+.kopf.ueber-dunkel .sprachen a:focus-visible,
+.kopf.ueber-dunkel .sprachen a[aria-current="page"] { color: var(--text-hell); }
+.kopf.ueber-dunkel .sprachen a[aria-current="page"]::after,
+.kopf.ueber-dunkel .kopf-nav a::after { background: var(--koralle-hell); }
+.kopf.ueber-dunkel :focus-visible { outline-color: var(--champagner); }
 
 .kopf-marke {
   font-family: var(--display);
@@ -325,8 +362,9 @@ a { color: inherit; }
   font-family: var(--serif); font-size: clamp(2rem, 8vw, 2.8rem);
   font-weight: 500; text-decoration: none;
   padding: 0.45rem 0;
+  transition: color var(--uebergang-kurz);
 }
-.nav-overlay nav a:hover { color: var(--koralle); }
+.nav-overlay nav a:hover, .nav-overlay nav a:focus-visible { color: var(--koralle); }
 .nav-overlay-info {
   font-size: 1rem; color: var(--tinte-matt);
   border-top: 1px solid var(--linie);
@@ -396,6 +434,17 @@ a { color: inherit; }
   line-height: 1.6;
 }
 .hero-info-zeile { white-space: nowrap; }
+/* Die Telefonnummer steht in gesperrten Versalien – die Standardlinie des
+   Browsers läuft dabei auch durch die Sperrung und wirkt grob. Stattdessen
+   eine feine Linie in Aperitif-Rot, tief genug abgesetzt. */
+.hero-info a {
+  text-decoration-line: underline;
+  text-decoration-color: var(--koralle);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.4em;
+  transition: text-decoration-color var(--uebergang-kurz), color var(--uebergang-kurz);
+}
+.hero-info a:hover { color: var(--koralle); }
 
 /* Einmaliger, ruhiger Auftritt beim Laden */
 @keyframes aufblenden {
@@ -410,7 +459,14 @@ a { color: inherit; }
 .js .hero-info    { animation-delay: 680ms; }
 
 /* ---------- Abschnitte, Rhythmus ---------- */
-.abschnitt { padding: var(--abschnitt-luft) var(--rand); scroll-margin-top: 3.2rem; }
+/* Der Ankersprung zieht den Abschnitt um seine eigene Polsterung höher,
+   damit nicht die Polsterung im Bild landet, sondern die Marke darüber.
+   Abschnitte mit verkürzter Luft (Rhein, Presse, Instagram) rechnen mit
+   ihrem eigenen Faktor – so landen alle auf derselben Höhe. */
+.abschnitt {
+  padding: var(--abschnitt-luft) var(--rand);
+  scroll-margin-top: calc(var(--kopf-hoehe) + var(--anker-luft) - var(--abschnitt-luft));
+}
 
 .abschnitt-kopf { max-width: var(--inhalt-breite); margin: 0 auto 3.5rem; }
 
@@ -429,24 +485,32 @@ a { color: inherit; }
 /* ---------- Am Rhein ---------- */
 .rhein {
   padding-top: calc(var(--abschnitt-luft) * 0.6);
+  scroll-margin-top: calc(var(--kopf-hoehe) + var(--anker-luft) - var(--abschnitt-luft) * 0.6);
   background: linear-gradient(180deg,
     var(--grund) 0, var(--rheinblau) 160px,
     var(--rheinblau) calc(100% - 160px), var(--grund) 100%);
 }
 .rhein .spalten-bild { max-width: 26rem; justify-self: end; }
 
+/* Die Bildunterschrift sitzt als mattiertes Schildchen im Bild, unten
+   links. Vorher zog ein negativer Rand sie nur zur Hälfte hinein – die
+   Textzeile hing unter der Bildkante. Jetzt absolut gesetzt: das Schild
+   liegt immer vollständig im Bild, unabhängig von der Textlänge in
+   DE/EN/FR. */
+.team-gruppenbild { position: relative; }
 .team-gruppenbild figcaption {
-  display: inline-block;
+  position: absolute;
+  left: 1rem; bottom: 1rem;
+  max-width: calc(100% - 2rem);
   font-style: italic;
   color: var(--tinte);
   font-size: 1rem;
+  line-height: 1.4;
   background: rgba(249, 244, 236, 0.82);
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   border-radius: calc(var(--radius) - 4px);
   padding: 0.5rem 1rem;
-  margin: -1.9rem 0 0 1rem;
-  position: relative;
 }
 
 /* ---------- Küche (sanfte Sand-Tönung) ---------- */
@@ -491,9 +555,6 @@ a { color: inherit; }
     var(--grund) 0, var(--papier) 140px,
     var(--papier) calc(100% - 140px), var(--grund) 100%);
 }
-/* „Zur Karte" soll bei der Überschrift landen, nicht in der Sektionsluft:
-   der negative Anteil zieht den Anker um die eigene Polsterung tiefer. */
-.karte { scroll-margin-top: calc(5.8rem - var(--abschnitt-luft)); }
 .karte-innen { max-width: var(--inhalt-breite); margin: 0 auto; }
 .karte-einleitung {
   font-style: italic;
@@ -507,10 +568,16 @@ a { color: inherit; }
   gap: 0.2rem 2rem;
   margin: 3rem 0 2.5rem;
   border-bottom: 1px solid var(--linie);
-  position: sticky; top: 3.2rem;
+  /* Genau unter der Kopfleiste, nicht dahinter: vorher lagen die obersten
+     11 px der Leiste (samt Polsterung) hinter dem Kopf. */
+  position: sticky; top: var(--kopf-hoehe);
   background: var(--papier);
   z-index: 5;
+  /* Die Polsterung unten hält die durchlaufende Liste auf Abstand:
+     Text verschwindet mit etwas Luft unter der Leiste, statt genau an
+     ihrer Trennlinie halbiert zu werden. */
   padding-top: 0.5rem;
+  padding-bottom: 0.35rem;
 }
 .karte-tabs button {
   background: none; border: 0; cursor: pointer;
@@ -520,18 +587,31 @@ a { color: inherit; }
   padding: 0.7rem 0 0.9rem;
   position: relative;
   white-space: nowrap;
-}
-.karte-tabs button::after {
-  content: "";
-  position: absolute; left: 50%; bottom: 0.25rem;
-  width: 5px; height: 5px; border-radius: 50%;
-  background: var(--koralle);
-  transform: translateX(-50%) scale(0);
-  transition: transform var(--uebergang);
+  transition: color var(--uebergang-kurz);
 }
 .karte-tabs button:hover { color: var(--tinte); }
 .karte-tabs button[aria-expanded="true"] { color: var(--tinte); }
-.karte-tabs button[aria-expanded="true"]::after { transform: translateX(-50%) scale(1); }
+
+/* Der Punkt der Marke markiert die aktive Kategorie – und gleitet zur
+   nächsten, statt an einer Stelle zu verschwinden und an der anderen
+   aufzuploppen. Ein Punkt für die ganze Leiste, main.js setzt --punkt-x
+   (Mitte des aktiven Knopfes) und --punkt-b (dessen Breite). */
+.karte-punkt {
+  position: absolute;
+  left: 0; bottom: 0.25rem;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--koralle);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(calc(var(--punkt-x, 0px) - 50%)) scale(0.4);
+  transition: transform var(--uebergang), opacity var(--uebergang-kurz);
+}
+.karte-punkt.gesetzt {
+  opacity: 1;
+  transform: translateX(calc(var(--punkt-x, 0px) - 50%)) scale(1);
+}
+/* Ohne JavaScript gibt es keine Kategorien – und damit auch keinen Punkt. */
+.no-js .karte-punkt { display: none; }
 
 /* Ohne JavaScript: keine Tabs, alle Kategorien untereinander lesbar */
 .no-js .karte-tabs { display: none; }
@@ -555,9 +635,15 @@ a { color: inherit; }
   .karte-liste { columns: 2; column-gap: clamp(3rem, 6vw, 6rem); }
 }
 
+/* Eine Haarlinie je Gericht. Auf dem Desktop liegen bis zu 430 px
+   Leerraum zwischen Name und Preis – zwei Spalten nebeneinander, und das
+   Auge greift schnell den Preis der Nachbarspalte ab. Die Linie bindet
+   Name und Preis zu einer Zeile. Es ist dieselbe Haarlinie, die im Haus
+   ohnehin überall liegt: Klassikerliste, Öffnungszeiten, Presse. */
 .gericht {
   break-inside: avoid;
   padding: 0.85rem 0;
+  border-bottom: 1px solid var(--linie);
 }
 .gericht-kopf {
   display: flex; align-items: baseline; gap: 1rem;
@@ -675,7 +761,11 @@ a { color: inherit; }
   max-height: 88vh;
   width: auto; height: auto;
   object-fit: contain;
+  /* Weicher Bildwechsel statt hartem Umspringen; main.js setzt .wechselt
+     für die Dauer des Tauschs. */
+  transition: opacity var(--uebergang-kurz);
 }
+.lightbox img.wechselt { opacity: 0; }
 .lightbox button {
   position: absolute;
   background: none; border: 0; cursor: pointer;
@@ -747,14 +837,37 @@ a { color: inherit; }
 }
 .team-person p:not(.team-rolle) { font-size: 1.05rem; color: var(--tinte-matt); }
 
-.team-foto { margin: 0; }
+/* Die drei Porträts stammen aus drei Situationen: Michael warm im
+   Gastraum, Yuki fast schwarz durch das Küchenregal, René hell und flach
+   vor heller Wand. Verändert wird niemand – nur die Fassung ist für alle
+   drei dieselbe: gleiches Format, gleicher Radius und eine sehr weiche
+   Randabdunklung, wie sie jedes Objektiv ohnehin erzeugt. Das nimmt
+   Renés hellem Hintergrund die Kante und bindet die Reihe zusammen. */
+.team-foto { margin: 0; position: relative; }
 .team-foto img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: var(--radius); }
+.team-foto::after {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: var(--radius);
+  background: radial-gradient(115% 85% at 50% 42%,
+              rgba(44, 37, 34, 0) 58%, rgba(44, 37, 34, 0.2) 100%);
+  pointer-events: none;
+}
 
 /* ---------- Presse / Stadtgespräch: ruhige Editorial-Liste ---------- */
 /* Team und Presse teilen den Elfenbein-Grund – ohne Angleich entsteht
    doppelte Sektionsluft und ein Loch im Scroll-Rhythmus. */
-.presse { padding-top: calc(var(--abschnitt-luft) * 0.5); }
-.presse-innen { max-width: 46rem; margin: 0 auto; }
+.presse {
+  padding-top: calc(var(--abschnitt-luft) * 0.5);
+  scroll-margin-top: calc(var(--kopf-hoehe) + var(--anker-luft) - var(--abschnitt-luft) * 0.5);
+}
+/* Die Presse hatte als einziger Abschnitt eine eigene Achse: ihr 46-rem-
+   Block war im Viewport zentriert und begann 208 px weiter rechts als
+   alles andere. Jetzt steht sie auf derselben linken Kante wie Küche,
+   Karte und Galerie – die schmale Spalte bleibt, die Achse hält. */
+.presse-innen { max-width: var(--inhalt-breite); margin: 0 auto; }
+.presse .abschnitt-kopf,
+.presse-liste { max-width: 46rem; margin-left: 0; margin-right: auto; }
 .presse .abschnitt-kopf { margin-bottom: 2.2rem; }
 .presse-satz {
   max-width: 36rem;
@@ -803,7 +916,10 @@ a { color: inherit; }
    Fenster zum Profil. Bildsprache wie die Galerie – gefasst, --radius,
    randlos gefüllt. Presse und Instagram teilen den Elfenbein-Grund,
    deshalb die verkürzte Sektionsluft (wie Team → Presse). */
-.instagram { padding-top: calc(var(--abschnitt-luft) * 0.5); }
+.instagram {
+  padding-top: calc(var(--abschnitt-luft) * 0.5);
+  scroll-margin-top: calc(var(--kopf-hoehe) + var(--anker-luft) - var(--abschnitt-luft) * 0.5);
+}
 .instagram-innen { max-width: var(--inhalt-breite); margin: 0 auto; }
 .instagram .abschnitt-kopf { margin-bottom: 2.6rem; }
 .instagram-satz {
@@ -1006,6 +1122,9 @@ a { color: inherit; }
   .js .hero > *,
   .js .karte-panel.ist-aktiv,
   .nav-overlay { animation: none; }
+  /* Der Punkt wechselt die Kategorie sofort, statt zu gleiten;
+     das Lightbox-Bild springt ohne Blende um. */
+  .karte-punkt, .lightbox img { transition: none; }
 }
 
 /* ============================================================
@@ -1048,7 +1167,6 @@ a { color: inherit; }
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     gap: 1.6rem;
-    top: 2.9rem;
     scroll-snap-type: x proximity;
     scroll-padding: 0 1.6rem;
   }

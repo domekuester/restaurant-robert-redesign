@@ -18,10 +18,21 @@
   kopfZustand();
 
   /* ---------- Mobiles Menü ---------- */
+  /* Der Rest der Seite wird ausgeblendet, solange das Overlay offen ist:
+     sonst tabbt man nach dem letzten Menüpunkt in die verdeckte Seite
+     weiter und Screenreader lesen sie mit. `inert` erledigt beides in
+     einem; Browser ohne Unterstützung verhalten sich wie bisher. */
+  var hintergrund = [
+    document.getElementById("inhalt"),
+    document.querySelector(".fuss"),
+    aktionsleiste
+  ].filter(Boolean);
+
   function menueSetzen(offen) {
     navKnopf.setAttribute("aria-expanded", offen ? "true" : "false");
     navOverlay.hidden = !offen;
     document.body.style.overflow = offen ? "hidden" : "";
+    hintergrund.forEach(function (el) { el.inert = offen; });
   }
   menueSetzen(false);
 
@@ -72,27 +83,69 @@
   /* ---------- Speisekarte: Kategorien umschalten ---------- */
   var tabs = document.querySelectorAll(".karte-tabs button");
   var panels = document.querySelectorAll(".karte-panel");
+  var tabLeiste = document.querySelector(".karte-tabs");
+  var kartePunkt = document.querySelector(".karte-punkt");
+
+  /* Der klebende Rand der Leiste – derselbe Wert wie im CSS (--kopf-hoehe).
+     Wird ausgelesen statt hartkodiert, damit beide nie auseinanderlaufen. */
+  function klebeRand() {
+    var wurzel = getComputedStyle(document.documentElement);
+    var wert = wurzel.getPropertyValue("--kopf-hoehe").trim();
+    /* Der Kopf ist komplett in rem gebaut und wächst mit der Schriftgröße
+       des Browsers mit – die Umrechnung muss das auch tun, sonst stimmt
+       sie nur bei den voreingestellten 16 px. */
+    var faktor = wert.slice(-3) === "rem" ? parseFloat(wurzel.fontSize) || 16 : 1;
+    return parseFloat(wert) * faktor || 58;
+  }
+
+  /* Der Punkt wandert zur Mitte der aktiven Kategorie. */
+  function punktSetzen(tab) {
+    if (!kartePunkt) return;
+    kartePunkt.style.setProperty("--punkt-x", (tab.offsetLeft + tab.offsetWidth / 2) + "px");
+    kartePunkt.classList.add("gesetzt");
+  }
+
+  /* Gewählte Kategorie in die Mitte der Leiste rücken: zeigt die Nachbarn
+     und damit ganz nebenbei, dass die Leiste schiebbar ist.
+     Bewusst nur die Leiste selbst und nur waagerecht – `scrollIntoView`
+     hat hier früher zusätzlich die ganze Seite senkrecht verschoben und
+     damit die Korrektur unten wieder zunichtegemacht. */
+  function tabZentrieren(tab) {
+    if (!tabLeiste) return;
+    tabLeiste.scrollTo({
+      left: tab.offsetLeft - (tabLeiste.clientWidth - tab.offsetWidth) / 2,
+      behavior: reduzierteBewegung ? "auto" : "smooth"
+    });
+  }
 
   tabs.forEach(function (tab) {
     tab.addEventListener("click", function () {
+      /* Klebte die Leiste beim Klick schon oben? Dann muss sie auch nach
+         dem Wechsel dort stehen. Sonst passiert Folgendes: Man steht tief
+         in einer langen Kategorie, wählt eine kurze – die Seite wird
+         schlagartig kürzer, der Browser klemmt die Scrollposition und man
+         landet unterhalb der Speisekarte, statt die neue Liste zu sehen. */
+      var klebt = tabLeiste && tabLeiste.getBoundingClientRect().top <= klebeRand() + 1;
+
       tabs.forEach(function (t) { t.setAttribute("aria-expanded", "false"); });
       tab.setAttribute("aria-expanded", "true");
       panels.forEach(function (p) {
         p.classList.toggle("ist-aktiv", p.id === "panel-" + tab.dataset.panel);
       });
-      /* Gewählte Kategorie in die Mitte rücken: zeigt die Nachbarn
-         und damit ganz nebenbei, dass die Leiste schiebbar ist. */
-      tab.scrollIntoView({
-        behavior: reduzierteBewegung ? "auto" : "smooth",
-        inline: "center",
-        block: "nearest"
-      });
+      punktSetzen(tab);
+      tabZentrieren(tab);
+
+      if (klebt) {
+        /* Erst nach dem Umschalten messen: der Browser hat die Höhe der
+           Seite da bereits neu berechnet und die Scrollposition geklemmt. */
+        var ziel = window.scrollY + tabLeiste.getBoundingClientRect().top - klebeRand();
+        window.scrollTo({ top: ziel, behavior: reduzierteBewegung ? "auto" : "smooth" });
+      }
     });
   });
 
   /* Wisch-Andeutung der Tab-Leiste: Rand-Verläufe nur dort zeigen,
      wo tatsächlich noch Kategorien verborgen sind. */
-  var tabLeiste = document.querySelector(".karte-tabs");
   if (tabLeiste) {
     var tabRaender = function () {
       var maxScroll = tabLeiste.scrollWidth - tabLeiste.clientWidth;
@@ -102,6 +155,24 @@
     tabLeiste.addEventListener("scroll", tabRaender, { passive: true });
     window.addEventListener("resize", tabRaender);
     tabRaender();
+
+    /* Startposition des Punktes – und nach jedem Umbruch neu, weil die
+       Kategorien dann an anderer Stelle stehen (EN/FR sind länger). */
+    var aktiverTab = document.querySelector('.karte-tabs button[aria-expanded="true"]') || tabs[0];
+    if (aktiverTab) {
+      punktSetzen(aktiverTab);
+      window.addEventListener("resize", function () {
+        var jetzt = document.querySelector('.karte-tabs button[aria-expanded="true"]');
+        if (jetzt) punktSetzen(jetzt);
+      });
+      /* Schriften kommen nachträglich: dann verschieben sich die Knöpfe. */
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () {
+          var jetzt = document.querySelector('.karte-tabs button[aria-expanded="true"]');
+          if (jetzt) punktSetzen(jetzt);
+        });
+      }
+    }
   }
 
   /* ---------- Mobile Aktionsleiste ---------- */
@@ -142,6 +213,24 @@
     untenBeobachter.observe(fuss);
   }
 
+  /* ---------- Kopfleiste über den dunklen Momenten ---------- */
+  /* Zwischenbild, Geschichte und Footer sind die dunklen Momente des
+     Hauses. Lag die helle Leiste darüber, war sie ein fremder Balken.
+     Ein 1 px hoher Messstreifen genau an der Unterkante der Leiste sagt,
+     welcher Abschnitt gerade dort liegt. */
+  var dunkleBloecke = document.querySelectorAll(".zwischenbild, .geschichte, .fuss");
+  if (dunkleBloecke.length && "IntersectionObserver" in window) {
+    var imDunkeln = new Set();
+    var kopfRand = Math.round(klebeRand());
+    var dunkelBeobachter = new IntersectionObserver(function (eintraege) {
+      eintraege.forEach(function (e) {
+        if (e.isIntersecting) imDunkeln.add(e.target); else imDunkeln.delete(e.target);
+      });
+      kopf.classList.toggle("ueber-dunkel", imDunkeln.size > 0);
+    }, { rootMargin: -kopfRand + "px 0px -100% 0px" });
+    dunkleBloecke.forEach(function (el) { dunkelBeobachter.observe(el); });
+  }
+
   /* ---------- Sanftes Erscheinen beim Scrollen ---------- */
   var reveals = document.querySelectorAll("[data-reveal]");
   function allesZeigen() {
@@ -172,14 +261,34 @@
     var lightboxBild = lightbox.querySelector("img");
     var aktuell = 0;
 
+    /* größte verfügbare Stufe aus dem srcset einer Kachel */
+    function grossesBild(index) {
+      var quelle = zoomKnoepfe[(index + zoomKnoepfe.length) % zoomKnoepfe.length].querySelector("img");
+      var srcset = quelle.getAttribute("srcset").split(",");
+      return { src: srcset[srcset.length - 1].trim().split(" ")[0], alt: quelle.alt };
+    }
+
     function zeigeBild(index) {
       aktuell = (index + zoomKnoepfe.length) % zoomKnoepfe.length;
-      var quelle = zoomKnoepfe[aktuell].querySelector("img");
-      /* größte verfügbare Stufe aus dem srcset nehmen */
-      var srcset = quelle.getAttribute("srcset").split(",");
-      var groesste = srcset[srcset.length - 1].trim().split(" ")[0];
-      lightboxBild.src = groesste;
-      lightboxBild.alt = quelle.alt;
+      var bild = grossesBild(aktuell);
+      lightboxBild.src = bild.src;
+      lightboxBild.alt = bild.alt;
+      /* Nachbarbilder still vorladen: der nächste Pfeilklick zeigt dann
+         sofort ein Bild statt einer kurzen Lücke. */
+      [aktuell + 1, aktuell - 1].forEach(function (i) {
+        new Image().src = grossesBild(i).src;
+      });
+    }
+
+    /* Weicher Wechsel: ausblenden, tauschen, wieder einblenden. Bei
+       reduzierter Bewegung bleibt es beim direkten Umschalten. */
+    function wechsleBild(index) {
+      if (reduzierteBewegung) { zeigeBild(index); return; }
+      lightboxBild.classList.add("wechselt");
+      setTimeout(function () {
+        zeigeBild(index);
+        lightboxBild.classList.remove("wechselt");
+      }, 180);
     }
 
     zoomKnoepfe.forEach(function (knopf, i) {
@@ -190,11 +299,11 @@
     });
 
     lightbox.querySelector(".lightbox-schliessen").addEventListener("click", function () { lightbox.close(); });
-    lightbox.querySelector(".lightbox-zurueck").addEventListener("click", function () { zeigeBild(aktuell - 1); });
-    lightbox.querySelector(".lightbox-vor").addEventListener("click", function () { zeigeBild(aktuell + 1); });
+    lightbox.querySelector(".lightbox-zurueck").addEventListener("click", function () { wechsleBild(aktuell - 1); });
+    lightbox.querySelector(".lightbox-vor").addEventListener("click", function () { wechsleBild(aktuell + 1); });
     lightbox.addEventListener("keydown", function (e) {
-      if (e.key === "ArrowLeft") zeigeBild(aktuell - 1);
-      if (e.key === "ArrowRight") zeigeBild(aktuell + 1);
+      if (e.key === "ArrowLeft") wechsleBild(aktuell - 1);
+      if (e.key === "ArrowRight") wechsleBild(aktuell + 1);
     });
     /* Klick auf den dunklen Grund schließt */
     lightbox.addEventListener("click", function (e) {
