@@ -185,27 +185,66 @@ Falls die Kacheln später echte aktuelle Posts zeigen sollen:
 
 ## Vor dem Livegang
 
-- [ ] Speisekarte und Preise gegen die echte Karte prüfen (Stand: Juli 2026,
-      übernommen von restaurantrobert.de) – in allen drei Sprachdateien
-- [ ] Alle drei Sprachseiten (index/en/fr) auf Desktop und Mobile testen;
-      EN/FR-Übersetzungen vom Betreiber gegenlesen lassen
-- [ ] Rechtliche Texte bleiben deutsch; falls EN/FR-Fassungen von
-      Impressum/Datenschutz gewünscht: juristisch erstellen/prüfen lassen,
-      nicht frei übersetzen
-- [ ] Impressum/Datenschutz juristisch final prüfen lassen. Offene Punkte
-      (als TODO-Kommentare im Quelltext markiert): USt-IdNr. (auf der alten
-      Website stand nur „Musterustid.“), Rechtsform („Robert GbR“ vs.
-      „ROBERT.“ – bei GbR alle Gesellschafter nennen), Hosting-Abschnitt
-      mit finalem Hoster + Drittlandübermittlung (aktuell GitHub Pages, USA)
+Die Website ist technisch und gestalterisch fertig (siehe „Bereits
+erledigt" unten). Was noch offen ist, kann nur der Betreiber
+beantworten – nichts davon darf geraten oder erfunden werden.
+
+### 1. Zwingend: Recht und Domain
+
+- [ ] **USt-IdNr. bzw. korrekte Betreiberangaben klären.** Auf der alten
+      Website stand nur der Platzhalter „Musterustid.". Echte Nummer
+      erfragen und im Impressum als eigenen Abschnitt ergänzen
+      („Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: …").
+      Falls keine existiert: Abschnitt weglassen.
+- [ ] **Rechtsform klären.** Die alte Datenschutzerklärung nannte
+      „Robert GbR", das alte Impressum nur „ROBERT." – korrekte
+      Firmierung festlegen. Bei einer GbR alle Gesellschafter nennen.
+- [ ] **Finalen Hosting-Anbieter in die Datenschutzerklärung eintragen.**
+      Aktuell läuft die Seite über GitHub Pages (GitHub, Inc., USA) –
+      also mit Drittlandbezug, der konkret benannt gehört (Anbieter,
+      Rechtsgrundlage der Übermittlung, z. B. EU-US Data Privacy
+      Framework). Liegt die finale Domain bei einem anderen Hoster,
+      stattdessen diesen eintragen.
+- [ ] **Beim Umzug auf die finale Domain:** `og:url` und `og:image` in
+      **allen drei** Sprachdateien umstellen. Sie zeigen bewusst noch auf
+      die GitHub-Pages-URL, damit geteilte Links schon jetzt eine
+      Bildvorschau haben. `canonical` und `hreflang` zeigen bereits auf
+      restaurantrobert.de. Danach die Social-Vorschau testen
+      (z. B. opengraph.xyz).
+
+Die ersten drei Punkte stehen zusätzlich als TODO-Kommentare direkt an
+der betreffenden Stelle in `impressum.html` und `datenschutz.html`.
+Beide Dokumente gehören vor dem Livegang einmal juristisch geprüft.
+
+### 2. Inhaltlich gegenlesen
+
+- [ ] Speisekarte und Preise gegen die echte Karte prüfen (Stand: Juli
+      2026, übernommen von restaurantrobert.de) – in allen drei Sprachdateien
+- [ ] EN/FR-Übersetzungen vom Betreiber gegenlesen lassen
+- [ ] Presse-Formulierungen gegenlesen (Abschnitt „Stadtgespräch" –
+      bewusst vorsichtig gehalten: „laut Medienberichten")
+
+### 3. Material, das noch fehlt
+
 - [ ] Logo-SVG in `assets/logo/` ablegen und den typografischen
       Schriftzug ersetzen
 - [ ] Foto mit Rheinblick/Terrasse nachliefern (siehe
       `docs/foto-wunschliste.md`)
-- [ ] Presse-Formulierungen gegenlesen (Abschnitt „Stadtgespräch" –
-      bewusst vorsichtig gehalten: „laut Medienberichten")
-- [ ] Beim Umzug auf die finale Domain: `og:url` und `og:image` in
-      `index.html` umstellen (zeigen aktuell auf die GitHub-Pages-URL,
-      damit geteilte Links eine Bildvorschau haben; `canonical` zeigt
-      bereits auf restaurantrobert.de)
-- [ ] Nach Livegang: Social-Vorschau testen (z. B. opengraph.xyz) und
-      Lighthouse über das echte Hosting laufen lassen
+
+### Bereits erledigt (Stand August 2026)
+
+- [x] Alle drei Sprachseiten auf Desktop (1440) und Mobile (768/390/360)
+      geprüft: kein horizontaler Overflow, keine Konsolenfehler, keine
+      404, alle externen Links erreichbar
+- [x] Lighthouse über das echte Hosting: Accessibility, Best Practices
+      und SEO je 100
+- [x] Tastaturbedienung, Fokuszustände, Touch-Ziele (min. 44 px) und
+      `prefers-reduced-motion` geprüft
+- [x] Team-Porträts vollständig, einheitlich beschnitten und beschriftet
+- [x] Keine Laufzeit-Abhängigkeiten, kein Build-Schritt, keine Tracker,
+      keine externen Requests – die Seite lädt ausschließlich eigene
+      Dateien
+- [x] Rechtliche Texte bleiben deutsch; EN/FR verlinken sie mit
+      `hreflang="de"`. Falls fremdsprachige Fassungen von Impressum/
+      Datenschutz gewünscht sind: juristisch erstellen bzw. prüfen
+      lassen, nicht frei übersetzen
