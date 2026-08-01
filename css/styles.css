@@ -183,13 +183,19 @@ a { color: inherit; }
 
 /* Schmale Textlinks bekommen eine unsichtbar vergrößerte Trefferfläche
    (~44 px Touch-Ziel), ohne dass sich das Layout bewegt. */
-.textlink, .hero-info a, .besuch-block a, .nav-overlay-info a,
+/* .besuch-tel ist ausgenommen: die Telefonnummer im Besuch-Block ist
+   schon 41 px hoch. Vergrößert man sie zusätzlich, schiebt sich ihre
+   Trefferfläche über die E-Mail-Zeile darunter – ein Tipp knapp unter
+   der Nummer öffnet dann das Mailprogramm statt zu wählen. */
+.textlink, .hero-info a, .besuch-block a:not(.besuch-tel), .nav-overlay-info a,
 .fuss-rechtliches a, .kopf-marke { position: relative; }
-.textlink::after, .hero-info a::after, .besuch-block a::after,
+.textlink::after, .hero-info a::after, .besuch-block a:not(.besuch-tel)::after,
 .nav-overlay-info a::after, .fuss-rechtliches a::after, .kopf-marke::after {
   content: "";
   position: absolute;
-  inset: -0.8rem -0.4rem;
+  /* -0.95rem: die schmalste Zeile (Telefonnummer im Hero, 14 px hoch)
+     kommt damit auf volle 44 px – vorher waren es 39 px. */
+  inset: -0.95rem -0.4rem;
 }
 
 /* ---------- Kopf / Navigation ---------- */
@@ -362,7 +368,10 @@ a { color: inherit; }
   margin: 2.4rem auto 1.4rem;
   max-width: 40rem;
 }
-.hero-satz em { font-style: italic; color: var(--tinte-matt); }
+/* Zwei Sätze, zwei Zeilen – und zwar auf jeder Breite. Sonst bricht
+   der zweite Satz auf großen Schirmen mitten im Satz um und lässt
+   „ohne Getue." als Waise stehen. */
+.hero-satz em { display: block; font-style: italic; color: var(--tinte-matt); }
 .hero-info {
   font-family: var(--grotesk); font-size: 0.78rem; font-weight: 500;
   letter-spacing: 0.2em; text-transform: uppercase;
@@ -874,7 +883,9 @@ a { color: inherit; }
   text-decoration: none;
   border-bottom: 1px solid var(--koralle);
   padding-bottom: 0.1rem;
-  margin-bottom: 0.7rem;
+  /* 1rem statt 0.7rem: hält die E-Mail-Zeile sicher außerhalb der
+     vergrößerten Trefferfläche der Nummer. */
+  margin-bottom: 1rem;
   transition: color var(--uebergang);
 }
 .besuch-tel:hover { color: var(--koralle); }

@@ -64,7 +64,9 @@ MAP = {
     # Originale im Juli 2026 aus dem Bestand genommen.
     "team-michael-geisner": "P1320294.jpg",
     "team-an-der-bar": "P1320322.jpg",
-    "team-rene-lindemann": "Rene.jpg",
+    # Seit 08/2026 das neue Porträt (Rene-new.jpg). Das alte Rene.jpg
+    # (Blick über den Brillenrand am Spülbecken) bleibt im Archiv.
+    "team-rene-lindemann": "Rene-new.jpg",
     "team-yukihiro-takahashi": "yuki.jpg",
     "kueche-flambe-sw": "P1360623.jpg",
     "kueche-fleisch-sw": "P1360609.jpg",
@@ -84,13 +86,24 @@ CROPS = {
     "detail-espresso": (0.0, 0.0, 0.72, 0.55),
     # Gemälde: eng auf Bild + Garderoben-Schild, das Bokeh-Umfeld weg.
     "detail-gemaelde": (0.15, 0.0, 0.78, 0.58),
+    # René: Original ist 2:3, die Teamkarte zeigt 3:4. Statt den Beschnitt
+    # dem Browser zu überlassen (der mittig schneidet und den Kopf oben
+    # anschneidet), schneiden wir hier passgenau: oben bleiben ~8 % Luft
+    # über dem Kopf, unten endet das Bild im Ringelshirt.
+    "team-rene-lindemann": (0.0, 0.024, 1.0, 0.913),
 }
 
 # Sanfte "Entwicklung" einzelner Bilder (nur in den Kopien).
 # Yukis Porträt ist im Original sehr dunkel – fürs Team-Raster
 # heben wir es an, die Abendstimmung bleibt.
+# Renés Porträt hat einen kräftigen Orangestich vom Küchenlicht
+# (die neutrale Wand misst im Original 215/180/140). "weissabgleich"
+# nimmt ihn zur Hälfte zurück: warm bleibt es – das passt zur Seite –,
+# aber die Haut wirkt nicht mehr orange. Kein Retuschieren, nur
+# Weissabgleich und ein Hauch Kontrast.
 ANPASSUNGEN = {
     "team-yukihiro-takahashi": {"brightness": 1.35, "contrast": 1.05},
+    "team-rene-lindemann": {"weissabgleich": (0.97, 1.0, 1.07), "contrast": 1.05},
 }
 
 
@@ -103,6 +116,11 @@ def entwickle(im, name):
     werte = ANPASSUNGEN.get(name)
     if not werte:
         return im
+    if "weissabgleich" in werte:
+        faktoren = werte["weissabgleich"]
+        kanaele = [k.point(lambda v, f=f: min(255, int(v * f)))
+                   for k, f in zip(im.split(), faktoren)]
+        im = Image.merge("RGB", kanaele)
     if "brightness" in werte:
         im = ImageEnhance.Brightness(im).enhance(werte["brightness"])
     if "contrast" in werte:

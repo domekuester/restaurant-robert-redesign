@@ -49,7 +49,7 @@ entfallen. Ein Foto der eigenen Terrasse/Fassade fehlt weiterhin
 |---|---|---|
 | P1320322 | `team-an-der-bar` | Das ganze Team hinter der geschwungenen Bar unterm Stuck – Gruppenbild der Sektion, beschnitten auf 4:3. |
 | P1320294 | `team-michael-geisner` | Michael, entspannt an der Bar, Ringelshirt – Porträt-Slot 1. |
-| Rene.jpg | `team-rene-lindemann` | René in der Küche, Geschirrtuch über der Schulter, Blick über die Brille – seit v6 im Porträt-Slot 2 (Platzhalter ersetzt). |
+| Rene-new.jpg | `team-rene-lindemann` | René, frontales Porträt mit Brille und Ringelshirt – seit 08/2026 im Porträt-Slot 2. Original ist 2:3, die Pipeline schneidet auf 3:4 mit Luft über dem Kopf. Ersetzt das ältere Rene.jpg (Blick über den Brillenrand am Spülbecken), das im Archiv bleibt. |
 | yuki | `team-yukihiro-takahashi` | Yuki durch das Küchenregal, konzentriert. Im Original sehr dunkel; die Pipeline hellt die Kopie um +35 % auf (Original bleibt unangetastet). Porträt-Slot 3. |
 
 ## Details

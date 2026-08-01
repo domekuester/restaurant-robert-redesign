@@ -77,11 +77,19 @@ docs/                 Bildkonzept, Foto-Wunschliste
 2. In `tools/optimize-images.py` in der `MAP` eine Zeile ergänzen:
    `"sprechender-name": "DATEINAME.jpg"`.
 3. Skript laufen lassen: `./tools/optimize-images.sh`
-4. Das Bild in `index.html` referenzieren (Muster von bestehenden
-   `<picture>`-Blöcken übernehmen: WebP-`<source>` + JPEG-`<img>`).
+4. Das Bild in **allen drei Sprachdateien** (`index.html`, `en.html`,
+   `fr.html`) referenzieren – Muster von bestehenden `<picture>`-Blöcken
+   übernehmen: WebP-`<source>` + JPEG-`<img>`. `width`/`height` auf das
+   Seitenverhältnis der erzeugten Datei setzen (verhindert Layout-Sprünge),
+   `alt` pro Sprache formulieren.
 
-Originale werden nie verändert – auch Anpassungen wie Aufhellen passieren
-nur in den optimierten Kopien. Welches Bild wo eingesetzt ist (und warum),
+Ein Foto **austauschen** geht genauso: neue Datei in `original/` legen und
+in der `MAP` denselben sprechenden Namen darauf zeigen lassen – die
+optimierten Dateien werden überschrieben, die HTML-Referenzen bleiben.
+
+Originale werden nie verändert – auch Anpassungen wie Aufhellen, Zuschnitt
+oder Weissabgleich passieren nur in den optimierten Kopien (`CROPS` und
+`ANPASSUNGEN` in `tools/optimize-images.py`). Welches Bild wo eingesetzt ist (und warum),
 steht in `docs/bildkonzept.md`.
 
 ## Texte ändern
