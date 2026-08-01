@@ -962,29 +962,48 @@ a { color: inherit; }
   background: var(--apricot);
   transition: box-shadow var(--uebergang);
 }
+/* 4:5 statt Quadrat. Alle vier Aufnahmen sind Hochformate zwischen 0,67
+   und 0,87 – das Quadrat hat ihnen bis zu 28 % der Höhe genommen und
+   dabei genau die Motive gekappt: vom Espresso blieb der Strahl außen
+   vor, vom Gemälde vor allem leere Wand. Im Hochformat steht außerdem
+   nicht mehr die Kachelreihe eines Social-Widgets da. */
 .instagram-raster img {
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 5;
   object-fit: cover;
   transition: transform 900ms var(--ease);
 }
-/* Ausschnitte je Motiv (Hochformate im Quadrat) */
-.instagram-raster li:nth-child(1) img { object-position: 50% 72%; } /* Espresso-Strahl läuft ein */
-.instagram-raster li:nth-child(2) img { object-position: 50% 32%; } /* Michaels Blick */
-.instagram-raster li:nth-child(3) img { object-position: 50% 28%; } /* Schild-Schriftzug */
-.instagram-raster li:nth-child(4) img { object-position: 50% 100%; } /* Gemälde komplett */
+/* Ausschnitte je Motiv */
+.instagram-raster li:nth-child(1) img { object-position: 50% 50%; }  /* Siebträger, Strahl und Tasse */
+.instagram-raster li:nth-child(2) img { object-position: 50% 30%; }  /* Michaels Blick durch die Durchreiche */
+.instagram-raster li:nth-child(3) img { object-position: 50% 12%; }  /* das ganze Café-de-Flore-Schild */
+.instagram-raster li:nth-child(4) img { object-position: 50% 100%; } /* Gemälde – und darüber das alte Garderobenschild */
+
+/* Die vier erscheinen leicht versetzt, wie in der Galerie – ein
+   Rhythmus, keine Show. Vorher lag data-reveal auf der ganzen Liste,
+   alle vier kamen gleichzeitig. */
+.instagram-raster [data-reveal]:nth-child(2) { transition-delay: 80ms; }
+.instagram-raster [data-reveal]:nth-child(3) { transition-delay: 160ms; }
+.instagram-raster [data-reveal]:nth-child(4) { transition-delay: 240ms; }
 .instagram-raster a:hover img,
 .instagram-raster a:focus-visible img { transform: scale(1.025); }
 .instagram-raster a:hover { box-shadow: 0 6px 24px rgba(44, 37, 34, 0.14); }
 
 .instagram-fuss {
   margin-top: 2.4rem;
-  display: flex; align-items: baseline; gap: 1.6rem;
+  display: flex; align-items: baseline;
+  /* Bricht es auf dem Handy um, soll der Profilname beim Link bleiben –
+     deshalb der kleinere Zeilenabstand. */
+  gap: 0.9rem 1.6rem;
   flex-wrap: wrap;
 }
+/* Der Profilname – kein Satz, sondern eine Marke. Deshalb die stille
+   Grotesk-Stimme des Hauses statt der kursiven Nebenbemerkung. */
 .instagram-hinweis {
-  font-style: italic;
-  font-size: 1rem;
+  font-family: var(--grotesk);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   color: var(--tinte-matt);
 }
 
