@@ -8,3 +8,9 @@ tools/.venv/
 # Backup der Originale separat sichern, sie sind NICHT im Repo!
 assets/photos/original/
 node_modules/
+
+# Claude-Code-Skills: Fremdcode bleibt lokal (2,9 MB).
+# skills-lock.json wird bewusst NICHT ignoriert – damit lässt sich alles
+# mit `npx skills experimental_install` wiederherstellen.
+.agents/
+.claude/skills/
