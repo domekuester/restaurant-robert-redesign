@@ -216,6 +216,11 @@ Die ersten drei Punkte stehen zusätzlich als TODO-Kommentare direkt an
 der betreffenden Stelle in `impressum.html` und `datenschutz.html`.
 Beide Dokumente gehören vor dem Livegang einmal juristisch geprüft.
 
+**Betreiberzeile:** In `impressum.html` und `datenschutz.html` lautet die
+Rollenangabe ausschließlich „Inhaber: Michael Geisner". „Geschäftsführer",
+„Geschäftsführung" oder entsprechende Übersetzungen sind falsch und dürfen
+nicht wieder eingesetzt werden.
+
 ### 2. Inhaltlich gegenlesen
 
 - [ ] Speisekarte und Preise gegen die echte Karte prüfen (Stand: Juli
