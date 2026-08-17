@@ -7,6 +7,7 @@
   var kopf = document.getElementById("kopf");
   var navKnopf = document.querySelector(".nav-knopf");
   var navOverlay = document.getElementById("nav-overlay");
+  var navSchale = document.querySelector(".nav-schale");
   var aktionsleiste = document.getElementById("aktionsleiste");
   var reduzierteBewegung = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -25,14 +26,35 @@
   var hintergrund = [
     document.getElementById("inhalt"),
     document.querySelector(".fuss"),
-    aktionsleiste
+    aktionsleiste,
+    document.querySelector(".kopf-marke")
   ].filter(Boolean);
+
+  function menueFokusziele() {
+    return Array.prototype.slice.call(navOverlay.querySelectorAll("a[href]"))
+      .concat(navKnopf);
+  }
 
   function menueSetzen(offen) {
     navKnopf.setAttribute("aria-expanded", offen ? "true" : "false");
     navOverlay.hidden = !offen;
     document.body.style.overflow = offen ? "hidden" : "";
     hintergrund.forEach(function (el) { el.inert = offen; });
+    if (navSchale) {
+      if (offen) {
+        navSchale.setAttribute("role", "dialog");
+        navSchale.setAttribute("aria-modal", "true");
+        navSchale.setAttribute("aria-label", navSchale.dataset.menueLabel);
+      } else {
+        navSchale.removeAttribute("role");
+        navSchale.removeAttribute("aria-modal");
+        navSchale.removeAttribute("aria-label");
+      }
+    }
+    if (offen) {
+      var erstesZiel = menueFokusziele()[0];
+      if (erstesZiel) requestAnimationFrame(function () { erstesZiel.focus(); });
+    }
   }
   menueSetzen(false);
 
@@ -40,12 +62,40 @@
     menueSetzen(navKnopf.getAttribute("aria-expanded") !== "true");
   });
   navOverlay.querySelectorAll("a").forEach(function (link) {
-    link.addEventListener("click", function () { menueSetzen(false); });
+    link.addEventListener("click", function () {
+      var href = link.getAttribute("href");
+      var ziel = href && href.charAt(0) === "#" ? document.querySelector(href) : null;
+      menueSetzen(false);
+      if (ziel) {
+        var fokusZiel = ziel.querySelector("h2") || ziel;
+        if (!fokusZiel.hasAttribute("tabindex")) fokusZiel.setAttribute("tabindex", "-1");
+        requestAnimationFrame(function () { fokusZiel.focus({ preventScroll: true }); });
+      }
+    });
   });
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && navKnopf.getAttribute("aria-expanded") === "true") {
       menueSetzen(false);
       navKnopf.focus();
+    }
+    if (e.key === "Tab" && navKnopf.getAttribute("aria-expanded") === "true") {
+      var ziele = menueFokusziele();
+      var erstes = ziele[0];
+      var letztes = ziele[ziele.length - 1];
+      var letzterOverlayLink = ziele[ziele.length - 2];
+      if (e.shiftKey && document.activeElement === erstes) {
+        e.preventDefault();
+        letztes.focus();
+      } else if (e.shiftKey && document.activeElement === letztes) {
+        e.preventDefault();
+        letzterOverlayLink.focus();
+      } else if (!e.shiftKey && document.activeElement === letzterOverlayLink) {
+        e.preventDefault();
+        letztes.focus();
+      } else if (!e.shiftKey && document.activeElement === letztes) {
+        e.preventDefault();
+        erstes.focus();
+      }
     }
   });
 
@@ -86,6 +136,20 @@
   var tabLeiste = document.querySelector(".karte-tabs");
   var kartePunkt = document.querySelector(".karte-punkt");
 
+  if (tabLeiste) tabLeiste.setAttribute("role", "tablist");
+  tabs.forEach(function (tab, index) {
+    var aktiv = tab.getAttribute("aria-expanded") === "true";
+    tab.removeAttribute("aria-expanded");
+    tab.setAttribute("role", "tab");
+    tab.setAttribute("aria-selected", aktiv ? "true" : "false");
+    tab.setAttribute("tabindex", aktiv ? "0" : "-1");
+    tab.id = "tab-" + tab.dataset.panel;
+    if (panels[index]) {
+      panels[index].setAttribute("role", "tabpanel");
+      panels[index].setAttribute("aria-labelledby", tab.id);
+    }
+  });
+
   /* Der klebende Rand der Leiste – derselbe Wert wie im CSS (--kopf-hoehe).
      Wird ausgelesen statt hartkodiert, damit beide nie auseinanderlaufen. */
   function klebeRand() {
@@ -118,8 +182,7 @@
     });
   }
 
-  tabs.forEach(function (tab) {
-    tab.addEventListener("click", function () {
+  function tabAktivieren(tab) {
       /* Klebte die Leiste beim Klick schon oben? Dann muss sie auch nach
          dem Wechsel dort stehen. Sonst passiert Folgendes: Man steht tief
          in einer langen Kategorie, wählt eine kurze – die Seite wird
@@ -127,8 +190,11 @@
          landet unterhalb der Speisekarte, statt die neue Liste zu sehen. */
       var klebt = tabLeiste && tabLeiste.getBoundingClientRect().top <= klebeRand() + 1;
 
-      tabs.forEach(function (t) { t.setAttribute("aria-expanded", "false"); });
-      tab.setAttribute("aria-expanded", "true");
+      tabs.forEach(function (t) {
+        var aktiv = t === tab;
+        t.setAttribute("aria-selected", aktiv ? "true" : "false");
+        t.setAttribute("tabindex", aktiv ? "0" : "-1");
+      });
       panels.forEach(function (p) {
         p.classList.toggle("ist-aktiv", p.id === "panel-" + tab.dataset.panel);
       });
@@ -140,6 +206,23 @@
            Seite da bereits neu berechnet und die Scrollposition geklemmt. */
         var ziel = window.scrollY + tabLeiste.getBoundingClientRect().top - klebeRand();
         window.scrollTo({ top: ziel, behavior: reduzierteBewegung ? "auto" : "smooth" });
+      }
+  }
+
+  tabs.forEach(function (tab, index) {
+    tab.addEventListener("click", function () {
+      tabAktivieren(tab);
+    });
+    tab.addEventListener("keydown", function (e) {
+      var zielIndex = null;
+      if (e.key === "ArrowRight") zielIndex = (index + 1) % tabs.length;
+      if (e.key === "ArrowLeft") zielIndex = (index - 1 + tabs.length) % tabs.length;
+      if (e.key === "Home") zielIndex = 0;
+      if (e.key === "End") zielIndex = tabs.length - 1;
+      if (zielIndex !== null) {
+        e.preventDefault();
+        tabs[zielIndex].focus();
+        tabAktivieren(tabs[zielIndex]);
       }
     });
   });
@@ -158,17 +241,17 @@
 
     /* Startposition des Punktes – und nach jedem Umbruch neu, weil die
        Kategorien dann an anderer Stelle stehen (EN/FR sind länger). */
-    var aktiverTab = document.querySelector('.karte-tabs button[aria-expanded="true"]') || tabs[0];
+    var aktiverTab = document.querySelector('.karte-tabs button[aria-selected="true"]') || tabs[0];
     if (aktiverTab) {
       punktSetzen(aktiverTab);
       window.addEventListener("resize", function () {
-        var jetzt = document.querySelector('.karte-tabs button[aria-expanded="true"]');
+        var jetzt = document.querySelector('.karte-tabs button[aria-selected="true"]');
         if (jetzt) punktSetzen(jetzt);
       });
       /* Schriften kommen nachträglich: dann verschieben sich die Knöpfe. */
       if (document.fonts && document.fonts.ready) {
         document.fonts.ready.then(function () {
-          var jetzt = document.querySelector('.karte-tabs button[aria-expanded="true"]');
+          var jetzt = document.querySelector('.karte-tabs button[aria-selected="true"]');
           if (jetzt) punktSetzen(jetzt);
         });
       }

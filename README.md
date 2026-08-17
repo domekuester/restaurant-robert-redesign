@@ -217,7 +217,7 @@ der betreffenden Stelle in `impressum.html` und `datenschutz.html`.
 Beide Dokumente gehören vor dem Livegang einmal juristisch geprüft.
 
 **Betreiberzeile:** In `impressum.html` und `datenschutz.html` lautet die
-Rollenangabe ausschließlich „Inhaber: Michael Geisner". „Geschäftsführer",
+Rollenangabe ausschließlich „Inhaber: Michael Geißner". „Geschäftsführer",
 „Geschäftsführung" oder entsprechende Übersetzungen sind falsch und dürfen
 nicht wieder eingesetzt werden.
 

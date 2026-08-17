@@ -14,3 +14,7 @@ node_modules/
 # mit `npx skills experimental_install` wiederherstellen.
 .agents/
 .claude/skills/
+
+# Browser-QA-Artefakte: Snapshots, Konsolenlogs und Screenshots, die
+# Playwright bei jedem Lauf ablegt. Gehören nie ins Repository.
+.playwright-mcp/

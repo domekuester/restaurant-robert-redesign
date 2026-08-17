@@ -207,9 +207,11 @@ a { color: inherit; }
 .nav-overlay-info a::after, .fuss-rechtliches a::after, .kopf-marke::after {
   content: "";
   position: absolute;
-  /* -0.95rem: die schmalste Zeile (Telefonnummer im Hero, 14 px hoch)
-     kommt damit auf volle 44 px – vorher waren es 39 px. */
-  inset: -0.95rem -0.4rem;
+  /* -1rem: die schmalste Zeile ist die Telefonnummer im Hero. Auf 360 px
+     schrumpft sie mit `.hero-info` auf 0.72rem und kam damit auf 42.9 px
+     – knapp unter der Linie. Ein halber Pixel je Seite mehr schließt die
+     letzte Lücke, ohne dass sich etwas sichtbar bewegt. */
+  inset: -1rem -0.4rem;
 }
 
 /* ---------- Kopf / Navigation ---------- */
@@ -374,7 +376,7 @@ a { color: inherit; }
   display: flex; flex-direction: column; justify-content: center;
   gap: 3rem;
   padding: 6rem var(--rand) 3rem;
-  animation: aufblenden 360ms var(--ease) both;
+  animation: aufblenden var(--uebergang) both;
 }
 .nav-overlay ul { list-style: none; margin: 0; padding: 0; }
 .nav-overlay nav a {
@@ -385,6 +387,13 @@ a { color: inherit; }
   transition: color var(--uebergang-kurz);
 }
 .nav-overlay nav a:hover, .nav-overlay nav a:focus-visible { color: var(--koralle); }
+.nav-overlay nav a:focus-visible {
+  outline: none;
+  text-decoration-line: underline;
+  text-decoration-color: var(--koralle);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.22em;
+}
 .nav-overlay-info {
   font-size: 1rem; color: var(--tinte-matt);
   border-top: 1px solid var(--linie);
@@ -471,12 +480,60 @@ a { color: inherit; }
   from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: none; }
 }
-.js .hero > * { animation: aufblenden 900ms var(--ease) backwards; }
+.js .hero > * { animation: aufblenden var(--zeit-lang) var(--ease) backwards; }
 .js .hero-eyebrow { animation-delay: 100ms; }
 .js .hero-marke   { animation-delay: 220ms; }
 .js .hero-bild    { animation-delay: 360ms; }
 .js .hero-satz    { animation-delay: 540ms; }
 .js .hero-info    { animation-delay: 680ms; }
+
+/* Desktop: dieselbe Titelblatt-Idee, aber 30 px präziser gesetzt. So
+   beginnt die Serviceebene am üblichen Laptop-Fold, ohne das Gemälde zu
+   beschneiden oder seine Dominanz zu schwächen. */
+@media (min-width: 56.01rem) {
+  .hero { padding-top: calc(4rem + var(--rand)); }
+  .hero-marke { margin-bottom: clamp(1.8rem, 3.5vw, 2.3rem); }
+  .hero-satz { margin-top: 1.9rem; margin-bottom: 1rem; }
+}
+
+/* Das verbreitetste Laptopfenster (1440×900) traf die Serviceebene bisher
+   exakt auf der Faltkante: die Zeile begann bei 898 px, sichtbar waren
+   zwei Pixel. Das liest sich nicht als bewusster Anschnitt, sondern als
+   Seitenende. 34 px aus der oberen Luft und den beiden Zwischenräumen –
+   nichts davon aus dem Gemälde – holen Zeiten, Adresse und Telefon
+   vollständig in den Fold. Höhere Fenster behalten die weite Fassung. */
+@media (min-width: 56.01rem) and (min-height: 53.13rem) and (max-height: 60rem) {
+  .hero { padding-top: calc(2.9rem + var(--rand)); }
+  .hero-marke { margin-bottom: 1.9rem; }
+  .hero-satz { margin-top: 1.4rem; }
+  /* Und die feine Küchenzeile bekommt etwas mehr Abstand: sie ist eine
+     andere Stimme als die gesperrten Versalien darüber – und der Fold
+     fällt dadurch in freie Luft statt in ihre Oberlängen. */
+  .hero-info .service-fein { margin-top: 0.85rem; }
+}
+
+/* Kurze Laptop-Fenster brauchen eine eigene Titelblatt-Proportion.
+   Das vollständige Gemälde bleibt erhalten; nur seine gesetzte Breite
+   und die Luft darum werden reduziert, damit der Claim im Fold erscheint. */
+@media (min-width: 56.01rem) and (max-height: 53.125rem) {
+  .hero { padding-top: calc(3.2rem + var(--rand)); }
+  .hero-marke {
+    font-size: 5.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .hero-bild { max-width: 66rem; }
+  .hero-satz { margin-top: 1rem; }
+}
+
+/* 1366×768 ist das zweithäufigste Laptopfenster – und dort schnitt der
+   Fold die zweite Claimzeile mittig durch: „Ohne Reservierung, ohne
+   Getue." endete auf halber Höhe. Dieselbe Antwort wie eine Stufe höher,
+   nur konsequenter: das Gemälde wird schmaler gesetzt, nicht beschnitten
+   oder gestaucht. Der Claim steht damit vollständig im ersten Bild. */
+@media (min-width: 56.01rem) and (max-height: 48rem) {
+  .hero-bild { max-width: 62rem; }
+  .hero-satz { margin-top: 0.8rem; }
+}
 
 /* ---------- Abschnitte, Rhythmus ---------- */
 /* Der Ankersprung zieht den Abschnitt um seine eigene Polsterung höher,
@@ -512,25 +569,18 @@ a { color: inherit; }
 }
 .rhein .spalten-bild { max-width: 26rem; justify-self: end; }
 
-/* Die Bildunterschrift sitzt als mattiertes Schildchen im Bild, unten
-   links. Vorher zog ein negativer Rand sie nur zur Hälfte hinein – die
-   Textzeile hing unter der Bildkante. Jetzt absolut gesetzt: das Schild
-   liegt immer vollständig im Bild, unabhängig von der Textlänge in
-   DE/EN/FR. */
-.team-gruppenbild { position: relative; }
+/* Die Bildunterschrift stand zuletzt als mattiertes Schildchen im Bild.
+   Es war das einzige UI-artige Element des Hauses – und es lag genau auf
+   einem der bemalten Barhocker. Jetzt steht sie, wo Bildunterschriften
+   im Haus stehen: unter dem Bild, in der kursiven Nebenstimme, bündig
+   mit der linken Bildkante. Sie hängt nie mehr über dem Motiv und
+   verträgt jede Textlänge in DE/EN/FR. */
 .team-gruppenbild figcaption {
-  position: absolute;
-  left: 1rem; bottom: 1rem;
-  max-width: calc(100% - 2rem);
+  margin-top: 0.9rem;
   font-style: italic;
-  color: var(--tinte);
+  color: var(--tinte-matt);
   font-size: 1rem;
-  line-height: 1.4;
-  background: rgba(249, 244, 236, 0.82);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  border-radius: calc(var(--radius) - 4px);
-  padding: 0.5rem 1rem;
+  line-height: 1.5;
 }
 
 /* ---------- Küche (sanfte Sand-Tönung) ---------- */
@@ -550,6 +600,21 @@ a { color: inherit; }
 .kueche-bild-gross, .kueche-bild-klein { margin: 0; }
 .kueche-bild-gross img, .kueche-bild-klein img { border-radius: var(--radius); }
 .kueche-bild-klein { transform: translateY(3.5rem); }
+
+/* Auf Desktop beginnen Feuerbild und Text auf derselben Linie. Vorher
+   zentrierte das Raster die deutlich kürzere Bildspalte zwischen 821 px
+   Text: über dem Feuer stand ein leeres Viertel, die Überschrift hing
+   allein rechts. Oben bündig liest sich die Doppelseite als gesetzt –
+   und das Feuer bekommt zugleich die Breite, die diese Sektion braucht. */
+@media (min-width: 56.01rem) {
+  .kueche .spalten { align-items: start; }
+  .kueche .spalten--bild-links { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .kueche-bilder { grid-template-columns: 1fr 34%; }
+  /* Das kleine Schwarzweißbild fällt tiefer aus dem Satzspiegel als der
+     Text reicht – so trägt das Diptychon die ganze Spalte, statt oben zu
+     enden und darunter Luft stehen zu lassen. */
+  .kueche-bild-klein { transform: translateY(6rem); }
+}
 
 .kueche-klassiker {
   list-style: none;
@@ -610,7 +675,7 @@ a { color: inherit; }
   transition: color var(--uebergang-kurz);
 }
 .karte-tabs button:hover { color: var(--tinte); }
-.karte-tabs button[aria-expanded="true"] { color: var(--tinte); }
+.karte-tabs button[aria-selected="true"] { color: var(--tinte); }
 
 /* Der Punkt der Marke markiert die aktive Kategorie – und gleitet zur
    nächsten, statt an einer Stelle zu verschwinden und an der anderen
@@ -638,7 +703,7 @@ a { color: inherit; }
 .js .karte-panel { display: none; }
 .js .karte-panel.ist-aktiv {
   display: block;
-  animation: aufblenden 320ms var(--ease) both;
+  animation: aufblenden var(--uebergang) both;
 }
 .js .karte-panel-titel { position: absolute; left: -9999px; } /* Titel steckt im Tab */
 .no-js .karte-panel { margin-bottom: 3rem; }
@@ -721,7 +786,6 @@ a { color: inherit; }
   margin: 0; overflow: hidden;
   border-radius: var(--radius);
   background: var(--apricot); /* warmer Grund, nie Weiß hinter ladenden Bildern */
-  transition: box-shadow var(--uebergang);
 }
 /* 8 Kacheln auf 12 Zellen: Jakobsmuscheln groß (2×2),
    die Köche als breites Schlussbild (2×1) – Rest ruhig gleich groß */
@@ -741,7 +805,7 @@ a { color: inherit; }
 .galerie-zoom img {
   width: 100%; height: 100%;
   object-fit: cover;
-  transition: transform 900ms var(--ease);
+  transition: transform var(--zeit-lang) var(--ease);
 }
 /* Bildausschnitte je Motiv (alle Originale sind Hochformat) */
 .galerie-bild.g1 img { object-position: 50% 48%; } /* Muschelschale mittig */
@@ -753,7 +817,6 @@ a { color: inherit; }
 .galerie-bild.g7 img { object-position: 50% 55%; } /* Kugellampe + Porträt */
 .galerie-bild.g8 img { object-position: 50% 35%; } /* beide Gesichter im Band */
 .galerie-zoom:hover img, .galerie-zoom:focus-visible img { transform: scale(1.025); }
-.galerie-bild:hover { box-shadow: 0 6px 24px rgba(44, 37, 34, 0.14); }
 
 /* Kacheln erscheinen leicht versetzt – ein Rhythmus, keine Show */
 .galerie-raster [data-reveal]:nth-child(2) { transition-delay: 90ms; }
@@ -792,6 +855,8 @@ a { color: inherit; }
   color: var(--text-hell);
   font-size: 2.4rem; line-height: 1;
   padding: 0.8rem;
+  min-width: 44px;
+  min-height: 44px;
   opacity: 0.75;
   transition: opacity var(--uebergang);
 }
@@ -827,14 +892,18 @@ a { color: inherit; }
 }
 
 /* ---------- Team ---------- */
+/* Das Gruppenbild läuft auf dieselbe Achse wie Überschrift und
+   Porträtreihe. Vorher stand es 128 px eingerückt zwischen beiden –
+   „Die Leute." hing links daneben in der Luft, die Reihe darunter lief
+   breiter. Eine Kante für alle drei: das Bild trägt die Sektion. */
 .team-gruppenbild {
-  max-width: 56rem;
-  margin: 0 auto 4rem;
+  max-width: var(--inhalt-breite);
+  margin: 0 auto 4.5rem;
 }
 .team-gruppenbild img {
   width: 100%;
   border-radius: var(--radius);
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 2;
   object-fit: cover;
   /* Gesichter ins Zentrum, Stuck bleibt als oberer Abschluss im Bild */
   object-position: 50% 58%;
@@ -848,12 +917,20 @@ a { color: inherit; }
   grid-template-columns: repeat(3, 1fr);
   gap: clamp(1.5rem, 4vw, 3.5rem);
 }
-.team-person h3 { font-size: 1.45rem; margin: 1.2rem 0 0.2rem; }
+/* Die Namen standen mit 1.45 rem zurückhaltender da als die Porträts
+   über ihnen – drei große Bilder, darunter drei kleine Zeilen. Etwas
+   mehr Grad, engerer Satz zur Rolle: die Menschen bekommen die Stimme,
+   die ihnen die Sektion verspricht. */
+.team-person h3 {
+  font-size: clamp(1.5rem, 1.35vw + 1.1rem, 1.75rem);
+  letter-spacing: 0.005em;
+  margin: 1.3rem 0 0.15rem;
+}
 .team-rolle {
   font-family: var(--grotesk); font-size: 0.75rem; font-weight: 600;
   letter-spacing: 0.2em; text-transform: uppercase;
   color: var(--koralle);
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.9rem;
 }
 .team-person p:not(.team-rolle) { font-size: 1.05rem; color: var(--tinte-matt); }
 
@@ -923,6 +1000,23 @@ a { color: inherit; }
   color: var(--tinte-matt);
   transition: transform var(--uebergang), color var(--uebergang);
 }
+
+/* Auf Desktop wird aus der kleinen linken Textinsel eine ruhige
+   redaktionelle Doppelseite: Einordnung links, Stimmen der Stadt rechts.
+   Mobile bleibt bewusst die klare lineare Lesefolge. */
+@media (min-width: 56.01rem) {
+  .presse-innen {
+    display: grid;
+    grid-template-columns: minmax(17rem, 0.72fr) minmax(0, 1.28fr);
+    gap: clamp(3.5rem, 7vw, 7rem);
+    align-items: start;
+  }
+  .presse .abschnitt-kopf,
+  .presse-liste {
+    max-width: none;
+    margin: 0;
+  }
+}
 .presse-liste a:hover .presse-titel,
 .presse-liste a:focus-visible .presse-titel { color: var(--koralle); }
 .presse-liste a:hover .presse-pfeil,
@@ -960,7 +1054,6 @@ a { color: inherit; }
   overflow: hidden;
   border-radius: var(--radius);
   background: var(--apricot);
-  transition: box-shadow var(--uebergang);
 }
 /* 4:5 statt Quadrat. Alle vier Aufnahmen sind Hochformate zwischen 0,67
    und 0,87 – das Quadrat hat ihnen bis zu 28 % der Höhe genommen und
@@ -971,7 +1064,7 @@ a { color: inherit; }
   width: 100%;
   aspect-ratio: 4 / 5;
   object-fit: cover;
-  transition: transform 900ms var(--ease);
+  transition: transform var(--zeit-lang) var(--ease);
 }
 /* Ausschnitte je Motiv */
 .instagram-raster li:nth-child(1) img { object-position: 50% 50%; }  /* Siebträger, Strahl und Tasse */
@@ -987,7 +1080,6 @@ a { color: inherit; }
 .instagram-raster [data-reveal]:nth-child(4) { transition-delay: 240ms; }
 .instagram-raster a:hover img,
 .instagram-raster a:focus-visible img { transform: scale(1.025); }
-.instagram-raster a:hover { box-shadow: 0 6px 24px rgba(44, 37, 34, 0.14); }
 
 .instagram-fuss {
   margin-top: 2.4rem;
@@ -1032,7 +1124,9 @@ a { color: inherit; }
 
 /* Das Telefon ist die wichtigste Handlung des Hauses ohne Reservierung */
 .besuch-tel {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   font-size: clamp(1.4rem, 2vw, 1.7rem);
   font-weight: 500;
   text-decoration: none;
@@ -1054,6 +1148,43 @@ a { color: inherit; }
 .zeiten dt { font-weight: 500; }
 .zeiten dd { margin: 0; text-align: right; }
 .zeiten-hinweis { font-style: italic; font-size: 0.9rem; color: var(--tinte-matt); white-space: nowrap; }
+
+/* Die Quellenzeile der Datenschutzerklärung nutzt dieselbe feine Stimme,
+   ist aber Fließtext: anders als die kurzen Öffnungszeit-Hinweise muss sie
+   auf schmalen Geräten umbrechen dürfen. */
+.unterseite .zeiten-hinweis {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+/* „Datenschutzerklärung" ist auf 360–390 px länger als die Zeile. Mit
+   `hyphens: auto` trennte der Browser nach Silben – „Datenschutzerklä-
+   rung" – und zerlegte damit ausgerechnet im Seitentitel ein Wort mitten
+   im Wortstamm. Ein weiches Trennzeichen an der Fugenstelle im HTML gibt
+   die einzig richtige Trennung vor: Datenschutz- / erklärung.
+   `overflow-wrap` bleibt als Notausgang für noch schmalere Geräte. */
+.unterseite h1 {
+  overflow-wrap: anywhere;
+  text-wrap: wrap;
+}
+
+/* Telefon, E-Mail und Impressum-Link im Adressblock der Rechtsseiten
+   standen als eigene Zeilen da, waren aber nur 26–28 px hoch – die
+   einzigen Ziele der Website, die die 44-px-Linie klar verfehlten.
+   Sie stehen nicht im Fließsatz, für sie gilt die Inline-Ausnahme
+   nicht. Eine höhere Zeilenschachtel statt einer unsichtbar
+   vergrößerten Fläche: so überlappen die Ziele einander nicht. */
+.unterseite address a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* Deutsche Rechtstexte auf schmalen Geräten: Komposita wie
+   „Datenschutzgrundverordnung" oder „Verantwortlichkeitsbereich" reißen
+   sonst Löcher in den Flattersatz. Silbentrennung glättet den Rand,
+   ohne ein Wort des Textes zu verändern. */
+.unterseite p,
+.unterseite li { hyphens: auto; }
 
 .besuch-hinweise ul {
   list-style: none; margin: 0; padding: 0;
@@ -1094,16 +1225,22 @@ a { color: inherit; }
 .aktionsleiste a:active { background: rgba(212, 167, 106, 0.12); }
 
 /* ---------- Footer: der Abend als Abschluss ---------- */
+/* Der Schluss beantwortet den Anfang: dieselbe Wortmarke, die oben das
+   Titelblatt trägt, steht unten noch einmal – nur ruhiger. Darunter der
+   Satz des Hauses als Verabschiedung, erst dann die Funktionsebene aus
+   Social und Rechtlichem. Vorher endete die Seite mit der kleinsten
+   Zeile; jetzt endet sie mit einer Haltung. */
 .fuss {
   background: var(--kohle);
   color: var(--text-hell);
   text-align: center;
-  padding: 4rem var(--rand) calc(2.8rem + env(safe-area-inset-bottom));
+  padding: 5.5rem var(--rand) calc(3.2rem + env(safe-area-inset-bottom));
 }
 .fuss-marke {
   font-family: var(--display);
-  font-size: 1.9rem; font-weight: 600; letter-spacing: 0.08em;
-  margin-bottom: 1.8rem;
+  font-size: clamp(2.4rem, 3.4vw, 3.1rem);
+  font-weight: 600; letter-spacing: 0.08em;
+  margin-bottom: 1.1rem;
 }
 .fuss-social, .fuss-rechtliches {
   font-family: var(--grotesk); font-size: 0.8rem;
@@ -1118,28 +1255,38 @@ a { color: inherit; }
 .fuss-rechtliches a:hover { color: var(--text-hell); }
 .fuss-rechtliches span { color: var(--text-hell-matt); margin: 0 0.6rem; }
 
-/* Echte Social-Icons: Marken-SVGs inline, kein Icon-Font.
+/* Social-Icons inline als SVG, kein Icon-Font. Sie zeichnen jetzt in der
+   Stimme des Hauses statt in Instagram-Verlauf und Facebook-Blau: das
+   waren die beiden gesättigtsten Flächen der ganzen Seite – ausgerechnet
+   im ruhigsten, dunkelsten Moment. Die Silhouetten bleiben eindeutig,
+   die Lautstärke gehört wieder dem Haus.
    Der Link ist 44px groß (Touch-Ziel), das Icon selbst bleibt dezent. */
 .fuss-social {
-  display: flex; justify-content: center; gap: 0.5rem;
+  display: flex; justify-content: center; gap: 0.4rem;
   margin-bottom: 0.7rem;
 }
 .social-knopf {
   display: inline-flex; align-items: center; justify-content: center;
   width: 44px; height: 44px;
   border-radius: 50%;
-  transition: transform var(--uebergang), filter var(--uebergang);
+  color: var(--text-hell-matt);
+  transition: color var(--uebergang), transform var(--uebergang);
 }
-.social-knopf svg { width: 27px; height: 27px; display: block; }
+.social-knopf svg { width: 25px; height: 25px; display: block; }
 .social-knopf:hover, .social-knopf:focus-visible {
+  color: var(--text-hell);
   transform: translateY(-2px);
-  filter: brightness(1.12);
 }
 .social-knopf:focus-visible { outline: 2px solid var(--text-hell); outline-offset: 2px; }
+
+/* Der Satz des Hauses ist die Verabschiedung, nicht das Kleingedruckte:
+   er steht direkt unter der Wortmarke, bevor die Funktionsebene folgt. */
 .fuss-zeile {
   font-style: italic;
   color: var(--text-hell-matt);
-  margin-top: 1.8rem;
+  font-size: 1.05rem;
+  max-width: 34rem;
+  margin: 0 auto 2.6rem;
 }
 
 /* ---------- Scroll-Reveal ---------- */
@@ -1182,7 +1329,10 @@ a { color: inherit; }
   .kopf-rechts { gap: 0; }
   .nav-knopf { display: inline-flex; }
 
-  .hero { padding-top: calc(4rem + var(--rand)); }
+  .hero {
+    padding-top: calc(4rem + var(--rand));
+    padding-bottom: 5.5rem;
+  }
   /* Zeiten und Adresse als zwei ruhige Zeilen – kein hängender Punkt */
   .hero-info-trenner { display: none; }
   .hero-info-zeile { display: block; }
@@ -1240,7 +1390,12 @@ a { color: inherit; }
   }
   .karte-tabs.am-anfang::before { opacity: 0; }
   .karte-tabs.am-ende::after { opacity: 0; }
-  .fuss-rechtliches a { display: inline-block; padding: 0.5rem 0.2rem; }
+  .fuss-rechtliches a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.5rem 0.2rem;
+  }
 
   .zwischenbild img { height: clamp(300px, 52vh, 480px); }
 
@@ -1264,22 +1419,34 @@ a { color: inherit; }
   /* Instagram: 2×2 auf Tablet und Handy, Kacheln bleiben Quadrate */
   .instagram-raster { grid-template-columns: 1fr 1fr; }
 
+  /* Auf 1152 px trägt der 3:2-Schnitt die Gesichter groß. Auf 350 px
+     schrumpft dieselbe Proportion sie zu einem schmalen Band – hier
+     bleibt das Bild hochformatiger, damit die Leute Leute bleiben. */
+  .team-gruppenbild img { aspect-ratio: 4 / 3; }
   .team-raster { grid-template-columns: 1fr; max-width: 26rem; }
   .besuch-raster { grid-template-columns: 1fr; }
   .zeiten { max-width: 30rem; }
 
   .aktionsleiste { display: grid; }
 
-  /* Platz für die Aktionsleiste + iOS-Home-Indicator am Seitenende */
-  .fuss { padding-bottom: calc(6.5rem + env(safe-area-inset-bottom)); }
+  /* Die Aktionsleiste blendet sich aus, bevor der Footer überhaupt ins
+     Bild kommt (siehe `naheEnde()` in main.js) – der reservierte Streifen
+     von 6.5rem war deshalb nie belegt, sondern nur leer. Die Seite endete
+     buchstäblich in 104 px Nichts. Es bleibt der Home-Indicator. */
+  .fuss { padding-bottom: calc(3rem + env(safe-area-inset-bottom)); }
+}
+
+/* Die längeren englischen und französischen Ortszeilen bleiben bis zum
+   großen Handy optisch eine Etikettzeile, statt das Bild 20 px nach unten
+   zu drücken. Bei 360 px darf nur die längste FR-Fassung sauber umbrechen. */
+@media (max-width: 27rem) {
+  .hero-eyebrow { font-size: 0.66rem; letter-spacing: 0.26em; }
 }
 
 /* schmale Handys */
 @media (max-width: 24rem) {
   body { font-size: 1.0625rem; }
   .hero-marke { font-size: 3.1rem; }
-  /* Eyebrow bleibt eine Zeile – etwas kleiner statt umgebrochen */
-  .hero-eyebrow { font-size: 0.66rem; letter-spacing: 0.26em; }
   /* Die nowrap-Infozeilen (EN ist die längste) brauchen auf schmalen
      Handys etwas weniger Sperrung, sonst stoßen sie an den Rand */
   .hero-info { font-size: 0.72rem; letter-spacing: 0.15em; }
