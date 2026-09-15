@@ -58,6 +58,18 @@
   }
   menueSetzen(false);
 
+  /* Close the mobile dialog when its trigger disappears at the desktop breakpoint. */
+  var mobilesLayout = window.matchMedia("(max-width: 56rem)");
+  mobilesLayout.addEventListener("change", function (e) {
+    if (!e.matches && navKnopf.getAttribute("aria-expanded") === "true") {
+      var fokusImMenue = navSchale.contains(document.activeElement);
+      menueSetzen(false);
+      if (fokusImMenue) {
+        document.querySelector(".kopf-nav a").focus({ preventScroll: true });
+      }
+    }
+  });
+
   navKnopf.addEventListener("click", function () {
     menueSetzen(navKnopf.getAttribute("aria-expanded") !== "true");
   });
@@ -377,6 +389,9 @@
     zoomKnoepfe.forEach(function (knopf, i) {
       knopf.addEventListener("click", function () {
         zeigeBild(i);
+        /* WebKit does not focus buttons on pointer clicks. Give the dialog
+           an explicit return target so closing keeps the visitor in the gallery. */
+        knopf.focus({ preventScroll: true });
         lightbox.showModal();
       });
     });
@@ -392,5 +407,12 @@
     lightbox.addEventListener("click", function (e) {
       if (e.target === lightbox) lightbox.close();
     });
+  }
+  /* Hide fallback content only after every interaction has initialized. */
+  document.documentElement.classList.replace("no-js", "js");
+  if (tabLeiste) {
+    tabRaender();
+    var startTab = document.querySelector('.karte-tabs button[aria-selected="true"]');
+    if (startTab) punktSetzen(startTab);
   }
 })();

@@ -373,11 +373,18 @@ a { color: inherit; }
 .nav-overlay {
   position: fixed; inset: 0; z-index: 40;
   background: var(--grund);
-  display: flex; flex-direction: column; justify-content: center;
+  display: flex; flex-direction: column; justify-content: flex-start;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-padding-top: calc(var(--kopf-hoehe) + 1rem);
   gap: 3rem;
   padding: 6rem var(--rand) 3rem;
   animation: aufblenden var(--uebergang) both;
 }
+/* Auto margins center a short menu; overflowing menus start below the header. */
+.nav-overlay > * { flex-shrink: 0; }
+.nav-overlay > :first-child { margin-top: auto; }
+.nav-overlay > :last-child { margin-bottom: auto; }
 .nav-overlay ul { list-style: none; margin: 0; padding: 0; }
 .nav-overlay nav a {
   display: block;
@@ -483,7 +490,7 @@ a { color: inherit; }
 .js .hero > * { animation: aufblenden var(--zeit-lang) var(--ease) backwards; }
 .js .hero-eyebrow { animation-delay: 100ms; }
 .js .hero-marke   { animation-delay: 220ms; }
-.js .hero-bild    { animation-delay: 360ms; }
+.js .hero-bild    { animation: none; } /* Show the main image as soon as it loads. */
 .js .hero-satz    { animation-delay: 540ms; }
 .js .hero-info    { animation-delay: 680ms; }
 
@@ -1450,4 +1457,11 @@ a { color: inherit; }
   /* Die nowrap-Infozeilen (EN ist die längste) brauchen auf schmalen
      Handys etwas weniger Sperrung, sonst stoßen sie an den Rand */
   .hero-info { font-size: 0.72rem; letter-spacing: 0.15em; }
+}
+
+/* Progressive enhancement: content and language choice work without JS.
+   Keep the fallback in the fixed header so startup never moves the page. */
+.no-js .nav-knopf, .no-js .karte-tabs { display: none; }
+@media (max-width: 56rem) {
+  .no-js .kopf .sprachen { display: flex; }
 }
