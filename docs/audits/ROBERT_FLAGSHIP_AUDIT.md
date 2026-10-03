@@ -1,5 +1,6 @@
 # ROBERT. — Flagship Audit
 
+> Korrektur vom 03.10.2026: Der Betreibername lautet laut ausdrücklicher Bestätigung des Auftraggebers **Michael Geisner** (ein s). Die historische Änderung zu „Geißner“ in diesem Audit war falsch und wurde zurückgenommen. Maßgeblich ist die bestätigte Schreibweise Geisner.
 **Status:** BEFORE- und AFTER-Audit, 17. August 2026  
 **Branch:** `main` entspricht `origin/main`  
 **Gate:** Produktionsänderungen sind im AFTER dokumentiert. Kein Commit. Kein Push.  
